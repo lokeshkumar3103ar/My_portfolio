@@ -31,10 +31,15 @@ jobs:
         
       - name: Build
         run: npm run build
+        env:
+          NODE_ENV: production
         
       - name: Create .nojekyll file (if not created during build)
         run: node -e "require('fs').writeFileSync('dist/.nojekyll', '')"
-
+        
+      - name: List dist directory content for debugging
+        run: ls -la dist/
+        
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
