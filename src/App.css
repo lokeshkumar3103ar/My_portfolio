@@ -1,0 +1,54 @@
+/* Custom styles for specific components that can't be handled by Tailwind */
+
+/* Remove conflicting styles that interfere with our layout */
+#root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Keep animation keyframes */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation for React logo if needed */
+@media (prefers-reduced-motion: no-preference) {
+  .react-logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Resume button styles */
+.resume-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.resume-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+  z-index: 0;
+}
+
+.resume-btn:hover::before {
+  left: 100%;
+}
+
+.resume-btn .btn-content {
+  position: relative;
+  z-index: 1;
+}
