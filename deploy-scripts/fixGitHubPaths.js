@@ -252,14 +252,49 @@ function fixJSXReference() {
   if (fs.existsSync(indexPath)) {
     let content = fs.readFileSync(indexPath, 'utf8');
     
-    // Replace any direct references to main.jsx with the proper bundled JS file
-    content = content.replace(
-      /<script[^>]*src=["'](?:\.\/)?(?:src\/)?main\.jsx["'][^>]*>/g, 
-      '<script type="module" src="./assets/main.js"></script>'
-    );
+    // Find the actual bundled main JS file in the assets directory
+    const assetsDir = path.join(buildDir, 'assets');
+    let mainJsFile = '';
     
-    fs.writeFileSync(indexPath, content);
-    logDebug('Fixed JSX MIME type issue by updating main.jsx references in index.html');
+    if (fs.existsSync(assetsDir)) {
+      const assetFiles = fs.readdirSync(assetsDir);
+      // Look for files that might be the main bundle (main-*.js)
+      const mainBundle = assetFiles.find(file => 
+        file.startsWith('main-') && file.endsWith('.js')
+      );
+      
+      if (mainBundle) {
+        mainJsFile = mainBundle;
+        logDebug(`Found main bundle file: ${mainBundle}`);
+      } else {
+        // Fallback to any index-*.js file if main-*.js wasn't found
+        const indexBundle = assetFiles.find(file => 
+          file.startsWith('index-') && file.endsWith('.js')
+        );
+        if (indexBundle) {
+          mainJsFile = indexBundle;
+          logDebug(`Found index bundle file: ${indexBundle}`);
+        }
+      }
+    }
+    
+    if (mainJsFile) {
+      // Replace any direct references to main.jsx with the proper bundled file
+      content = content.replace(
+        /<script[^>]*src=["'](?:\.\/)?(?:src\/)?main\.jsx["'][^>]*>/g,
+        `<script type="module" src="./assets/${mainJsFile}"></script>`
+      );
+      fs.writeFileSync(indexPath, content);
+      logDebug(`Fixed JSX MIME type issue by replacing main.jsx reference with ${mainJsFile}`);
+    } else {
+      // If we couldn't find the exact bundle file, use a generic pattern
+      content = content.replace(
+        /<script[^>]*src=["'](?:\.\/)?(?:src\/)?main\.jsx["'][^>]*>/g,
+        '<script type="module" src="./assets/main-z-9BK3RT.js"></script>'
+      );
+      fs.writeFileSync(indexPath, content);
+      logDebug('Fixed JSX MIME type issue using known main bundle name');
+    }
   }
 }
 
