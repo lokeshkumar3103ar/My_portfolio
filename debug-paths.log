@@ -1,4 +1,4 @@
-GitHub Pages Path Fixing Debug Log - 2025-04-11T06:05:50.379Z
+GitHub Pages Path Fixing Debug Log - 2025-04-11T06:22:16.731Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
@@ -10,6 +10,14 @@ Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/assets/main-
     resource: ./images/aigenesis-project.jpeg
     resource: ./images/attendance-system.png
     resource: ./images/prompt-systems.jpg
+Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/assets/vendor-DVYjdY2Z.js
+  JS Resources in vendor-DVYjdY2Z.js:
+    resource: ./textures/px.png
+    resource: ./textures/nx.png
+    resource: ./textures/py.png
+    resource: ./textures/ny.png
+    resource: ./textures/pz.png
+    resource: ./textures/nz.png
 Fixed paths in: /home/runner/work/My_portfolio/My_portfolio/dist/index.html
   Resources in index.html:
     src: ./My_portfolio/assets/main-z-9BK3RT.js
@@ -20,6 +28,7 @@ Fixed paths in: /home/runner/work/My_portfolio/My_portfolio/dist/index.html
     href: ./My_portfolio/assets/animations-23e4F__N.js
     href: ./My_portfolio/assets/main-D8S90uDa.css
     href: ./My_portfolio/manifest.webmanifest
+Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/registerSW.js
 Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/sw.js
   JS Resources in sw.js:
     resource: ./assets/assets/animations-23e4F__N.js
@@ -32,24 +41,12 @@ Copied vite.svg to My_portfolio/ directory
 Copied images/aigenesis-project.jpeg to dist/images/
 Copied images/attendance-system.png to dist/images/
 Copied images/prompt-systems.jpg to dist/images/
-Created basic manifest.webmanifest in dist root
+Copied manifest.webmanifest to dist root
 Updated paths in registerSW.js
 Updated paths in existing 404.html
 
 === POTENTIAL 404 ISSUE SCAN ===
 
-POTENTIAL ISSUE in assets/main-z-9BK3RT.js:
-  Absolute path that might 404: /resume.pdf
-  Absolute path that might 404: /resume.pdf
-POTENTIAL ISSUE in assets/vendor-DVYjdY2Z.js:
-  Absolute path that might 404: /px.png
-  Absolute path that might 404: /nx.png
-  Absolute path that might 404: /py.png
-  Absolute path that might 404: /ny.png
-  Absolute path that might 404: /pz.png
-  Absolute path that might 404: /nz.png
-POTENTIAL ISSUE in registerSW.js:
-  Absolute path that might 404: /My_portfolio/sw.js
 
 === END OF 404 ISSUE SCAN ===
 
