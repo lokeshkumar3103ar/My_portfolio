@@ -13,7 +13,7 @@ export default defineConfig({
     compression({ algorithm: 'gzip' }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['vite.svg', 'robots.txt'],
       manifest: {
         name: 'Lokesh Kumar Portfolio',
         short_name: 'LK Portfolio',
@@ -21,14 +21,14 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'vite.svg',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/svg+xml'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'vite.svg',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/svg+xml'
           }
         ]
       }

@@ -109,7 +109,7 @@ const HeroSection = () => {
                   Contact Me
                 </a>
                 <a 
-                  href="/resume.pdf" 
+                  href="./resume.pdf" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="resume-btn px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium transition-all hover:shadow-lg hover:-translate-y-1"
