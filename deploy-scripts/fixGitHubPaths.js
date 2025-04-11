@@ -110,6 +110,7 @@ function fixPaths(directory) {
           'main-z-9BK3RT.js', 
           'three-DzGSvVpd.js', 
           'main-D8S90uDa.css',
+          'animations-23e4F__N.js',
           'registerSW.js'
         ].forEach(filename => {
           const filenameRegex = new RegExp(`(src|href)="/?${filename.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}"`, 'g');
@@ -194,6 +195,25 @@ function fixPaths(directory) {
         
         // Fix direct asset references not using relative paths
         content = content.replace(/['"](?!\.\/|http|\.\.\/|\/)(assets\/[^'"]*)['"]/g, '"./assets/$1"');
+
+        // Fix resume.pdf path in JS files
+        content = content.replace(/['"]\/resume\.pdf['"]/g, '"./resume.pdf"');
+
+        // Fix texture file paths in vendor JS (likely Three.js)
+        if (file.includes('vendor') && file.endsWith('.js')) {
+          const texturePaths = ['/px.png', '/nx.png', '/py.png', '/ny.png', '/pz.png', '/nz.png'];
+          texturePaths.forEach(texturePath => {
+            content = content.replace(
+              new RegExp(`['"]${texturePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`, 'g'),
+              '"./textures' + texturePath + '"'
+            );
+          });
+        }
+
+        // Fix service worker path
+        if (file.includes('registerSW.js')) {
+          content = content.replace(/['"]\/My_portfolio\/sw\.js['"]/g, '"./sw.js"');
+        }
 
         // Additional fix for service workers and manifest
         content = content.replace(/"\/manifest.webmanifest"/g, '"./manifest.webmanifest"');
