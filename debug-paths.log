@@ -1,8 +1,8 @@
-GitHub Pages Path Fixing Debug Log - 2025-04-11T06:01:04.698Z
+GitHub Pages Path Fixing Debug Log - 2025-04-11T06:05:50.379Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\assets\main-z-9BK3RT.js
+Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/assets/main-z-9BK3RT.js
   JS Resources in main-z-9BK3RT.js:
     resource: ./images/aigenesis-project.jpeg
     resource: ./images/attendance-system.png
@@ -10,7 +10,7 @@ Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\
     resource: ./images/aigenesis-project.jpeg
     resource: ./images/attendance-system.png
     resource: ./images/prompt-systems.jpg
-Fixed paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\index.html
+Fixed paths in: /home/runner/work/My_portfolio/My_portfolio/dist/index.html
   Resources in index.html:
     src: ./My_portfolio/assets/main-z-9BK3RT.js
     src: ./My_portfolio/registerSW.js
@@ -20,7 +20,7 @@ Fixed paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dis
     href: ./My_portfolio/assets/animations-23e4F__N.js
     href: ./My_portfolio/assets/main-D8S90uDa.css
     href: ./My_portfolio/manifest.webmanifest
-Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\sw.js
+Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/sw.js
   JS Resources in sw.js:
     resource: ./assets/assets/animations-23e4F__N.js
     resource: ./assets/assets/main-D8S90uDa.css
@@ -38,10 +38,10 @@ Updated paths in existing 404.html
 
 === POTENTIAL 404 ISSUE SCAN ===
 
-POTENTIAL ISSUE in assets\main-z-9BK3RT.js:
+POTENTIAL ISSUE in assets/main-z-9BK3RT.js:
   Absolute path that might 404: /resume.pdf
   Absolute path that might 404: /resume.pdf
-POTENTIAL ISSUE in assets\vendor-DVYjdY2Z.js:
+POTENTIAL ISSUE in assets/vendor-DVYjdY2Z.js:
   Absolute path that might 404: /px.png
   Absolute path that might 404: /nx.png
   Absolute path that might 404: /py.png
