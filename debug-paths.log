@@ -1,43 +1,9 @@
-GitHub Pages Path Fixing Debug Log - 2025-04-11T06:37:24.421Z
+GitHub Pages Path Fixing Debug Log - 2025-04-11T07:29:17.722Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/assets/main-z-9BK3RT.js
-  JS Resources in main-z-9BK3RT.js:
-    resource: ./images/aigenesis-project.jpeg
-    resource: ./images/attendance-system.png
-    resource: ./images/prompt-systems.jpg
-    resource: ./images/aigenesis-project.jpeg
-    resource: ./images/attendance-system.png
-    resource: ./images/prompt-systems.jpg
-Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/assets/vendor-DVYjdY2Z.js
-  JS Resources in vendor-DVYjdY2Z.js:
-    resource: ./textures/px.png
-    resource: ./textures/nx.png
-    resource: ./textures/py.png
-    resource: ./textures/ny.png
-    resource: ./textures/pz.png
-    resource: ./textures/nz.png
-Fixed paths in: /home/runner/work/My_portfolio/My_portfolio/dist/index.html
-  Resources in index.html:
-    src: ./My_portfolio/assets/main-z-9BK3RT.js
-    src: ./My_portfolio/registerSW.js
-    href: ./vite.svg
-    href: ./My_portfolio/assets/three-DzGSvVpd.js
-    href: ./My_portfolio/assets/vendor-DVYjdY2Z.js
-    href: ./My_portfolio/assets/animations-23e4F__N.js
-    href: ./My_portfolio/assets/main-D8S90uDa.css
-    href: ./My_portfolio/manifest.webmanifest
-Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/registerSW.js
-Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/sw.js
-  JS Resources in sw.js:
-    resource: ./assets/assets/animations-23e4F__N.js
-    resource: ./assets/assets/main-D8S90uDa.css
-    resource: ./assets/assets/main-z-9BK3RT.js
-    resource: ./assets/assets/three-DzGSvVpd.js
-    resource: ./assets/assets/vendor-DVYjdY2Z.js
-Found main bundle file: main-z-9BK3RT.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-z-9BK3RT.js
+Found main bundle file: main-DX4RbL6C.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-DX4RbL6C.js
 Copied vite.svg from public to dist root
 Copied vite.svg to My_portfolio/ directory
 Copied images/aigenesis-project.jpeg to dist/images/

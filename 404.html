@@ -6,18 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
   <script type="text/javascript">
-    // GitHub Pages SPA redirect
+    // GitHub Pages SPA redirect - works with both custom domains and repo pages
     // Based on https://github.com/rafgraph/spa-github-pages
     (function() {
-      var pathSegments = window.location.pathname.slice(1).split('/');
-      var repoName = pathSegments[0];
+      var segments = window.location.pathname.split('/');
       var location = window.location;
-      var pathName = location.pathname.replace('/' + repoName, '') || '/';
+      
+      // Remove empty segments
+      segments = segments.filter(function(segment) {
+        return segment !== '';
+      });
+      
+      // In case this is a repo page and not custom domain
+      var repoName = location.hostname.endsWith('github.io') ? segments[0] || '' : '';
+      
+      // Get pathname for redirection
+      var pathname = location.pathname;
+      if (repoName) {
+        pathname = pathname.replace('/' + repoName, '') || '/';
+      }
+      
+      // Build redirect URL
       var redirect = location.protocol + '//' + location.hostname + 
         (location.port ? ':' + location.port : '') +
-        '/' + repoName + '/#' + pathName +
+        (repoName ? '/' + repoName : '') +
+        '/#' + pathname +
         (location.search ? location.search : '') +
         (location.hash ? location.hash : '');
+        
       console.log('Redirecting to: ' + redirect);
       window.location.replace(redirect);
     })();
@@ -65,7 +81,7 @@
   <div class="container">
     <h1>Redirecting...</h1>
     <div class="spinner"></div>
-    <p>If you are not redirected automatically, <a href="./index.html">click here</a>.</p>
+    <p>If you are not redirected automatically, <a href="./index.html" style="color: #f5f5f5; text-decoration: underline;">click here</a>.</p>
   </div>
 </body>
 </html>
