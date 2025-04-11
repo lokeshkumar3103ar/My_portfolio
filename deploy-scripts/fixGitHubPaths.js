@@ -51,6 +51,12 @@ function fixPaths(directory) {
           'src="./assets/index.js"'
         );
         
+        // Add additional pattern to catch the relative path pattern we're now using
+        content = content.replace(
+          /src="\.\/src\/main\.jsx"/g,
+          'src="./assets/index.js"'
+        );
+        
         // Handle favicon path first - explicitly set it to GitHub Pages path with relative path
         // Changed from absolute path to relative path to fix 404 errors
         content = content.replace(
