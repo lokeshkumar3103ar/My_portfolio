@@ -1,0 +1,53 @@
+GitHub Pages Path Fixing Debug Log - 2025-04-11T05:49:45.903Z
+====================================================
+
+Fixing asset paths for GitHub Pages deployment...
+Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\assets\main-z-9BK3RT.js
+  JS Resources in main-z-9BK3RT.js:
+    resource: ./images/aigenesis-project.jpeg
+    resource: ./images/attendance-system.png
+    resource: ./images/prompt-systems.jpg
+    resource: ./images/aigenesis-project.jpeg
+    resource: ./images/attendance-system.png
+    resource: ./images/prompt-systems.jpg
+Fixed paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\index.html
+  Resources in index.html:
+    src: ./My_portfolio/assets/main-z-9BK3RT.js
+    src: ./My_portfolio/registerSW.js
+    href: ./vite.svg
+    href: ./My_portfolio/assets/three-DzGSvVpd.js
+    href: ./My_portfolio/assets/vendor-DVYjdY2Z.js
+    href: ./My_portfolio/assets/animations-23e4F__N.js
+    href: ./My_portfolio/assets/main-D8S90uDa.css
+    href: ./My_portfolio/manifest.webmanifest
+Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\sw.js
+  JS Resources in sw.js:
+    resource: ./assets/assets/animations-23e4F__N.js
+    resource: ./assets/assets/main-D8S90uDa.css
+    resource: ./assets/assets/main-z-9BK3RT.js
+    resource: ./assets/assets/three-DzGSvVpd.js
+    resource: ./assets/assets/vendor-DVYjdY2Z.js
+Copied vite.svg from public to dist root
+Copied vite.svg to My_portfolio/ directory
+Copied images/aigenesis-project.jpeg to dist/images/
+Copied images/attendance-system.png to dist/images/
+Copied images/prompt-systems.jpg to dist/images/
+Updated paths in existing 404.html
+
+=== POTENTIAL 404 ISSUE SCAN ===
+
+POTENTIAL ISSUE in assets\main-z-9BK3RT.js:
+  Absolute path that might 404: /resume.pdf
+  Absolute path that might 404: /resume.pdf
+POTENTIAL ISSUE in assets\vendor-DVYjdY2Z.js:
+  Absolute path that might 404: /px.png
+  Absolute path that might 404: /nx.png
+  Absolute path that might 404: /py.png
+  Absolute path that might 404: /ny.png
+  Absolute path that might 404: /pz.png
+  Absolute path that might 404: /nz.png
+POTENTIAL ISSUE in registerSW.js:
+  Absolute path that might 404: /My_portfolio/sw.js
+
+=== END OF 404 ISSUE SCAN ===
+
