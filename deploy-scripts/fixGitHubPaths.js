@@ -32,6 +32,12 @@ function fixPaths(directory) {
           'src="./assets/'
         );
         
+        // Fix favicon path
+        content = content.replace(
+          /href="\/vite.svg"/g,
+          'href="./vite.svg"'
+        );
+        
         // Fix all absolute paths for href attributes 
         content = content.replace(
           /href="\//g,
@@ -84,12 +90,12 @@ function fixPaths(directory) {
 
 // Ensure the vite.svg file is correctly copied to the dist root
 function copyViteSvgToRoot() {
-  const sourcePath = path.join(buildDir, 'vite.svg');
-  // If vite.svg isn't in the dist root, try to find it in the public folder
-  if (!fs.existsSync(sourcePath)) {
-    const publicPath = path.resolve('public', 'vite.svg');
-    if (fs.existsSync(publicPath)) {
-      fs.copyFileSync(publicPath, path.join(buildDir, 'vite.svg'));
+  const destPath = path.join(buildDir, 'vite.svg');
+  // If vite.svg isn't already in dist root, copy it there
+  if (!fs.existsSync(destPath)) {
+    const sourcePath = path.join('public', 'vite.svg');
+    if (fs.existsSync(sourcePath)) {
+      fs.copyFileSync(sourcePath, destPath);
       console.log('Copied vite.svg from public to dist root');
     }
   }
