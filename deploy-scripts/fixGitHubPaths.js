@@ -246,6 +246,23 @@ function fixPaths(directory) {
   });
 }
 
+// Fix problematic reference to main.jsx in index.html to use properly built module
+function fixJSXReference() {
+  const indexPath = path.join(buildDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    let content = fs.readFileSync(indexPath, 'utf8');
+    
+    // Replace any direct references to main.jsx with the proper bundled JS file
+    content = content.replace(
+      /<script[^>]*src=["'](?:\.\/)?(?:src\/)?main\.jsx["'][^>]*>/g, 
+      '<script type="module" src="./assets/main.js"></script>'
+    );
+    
+    fs.writeFileSync(indexPath, content);
+    logDebug('Fixed JSX MIME type issue by updating main.jsx references in index.html');
+  }
+}
+
 // Ensure the vite.svg file is correctly copied to the dist root AND to the right location
 function copyViteSvgToRoot() {
   const destPath = path.join(buildDir, 'vite.svg');
@@ -473,6 +490,7 @@ function findFilesByExt(directory, extension) {
 // Main execution
 logDebug('Fixing asset paths for GitHub Pages deployment...');
 fixPaths(buildDir);
+fixJSXReference(); // Add this line to call the new function
 copyViteSvgToRoot();
 copyPublicAssets();
 ensure404Html();
