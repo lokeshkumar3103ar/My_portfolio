@@ -21,6 +21,12 @@ function fixPaths(directory) {
       if (file.endsWith('.html')) {
         let content = fs.readFileSync(filePath, 'utf8');
         
+        // Remove problematic script tag loading main.jsx directly
+        content = content.replace(
+          /<script type="module" src=["']\.?\/src\/main\.jsx["']><\/script>/g,
+          ''
+        );
+        
         // Fix script module paths with more comprehensive patterns
         content = content.replace(
           /src="\/src\/main\.jsx"/g,
@@ -33,7 +39,13 @@ function fixPaths(directory) {
           'src="./assets/index.js"'
         );
         
-        // Fix all absolute paths for assets
+        // Handle favicon path first - explicitly set it to GitHub Pages path
+        content = content.replace(
+          /<link[^>]*rel=["']icon["'][^>]*href=["'][^"']*["'][^>]*>/g,
+          '<link rel="icon" type="image/svg+xml" href="/My_portfolio/vite.svg" />'
+        );
+        
+        // Fix all other absolute paths for assets
         content = content.replace(
           /src="\//g,
           'src="./'
@@ -45,21 +57,15 @@ function fixPaths(directory) {
           'src="./$1"'
         );
         
-        // Fix favicon path
+        // Fix all absolute paths for href attributes, except for the favicon
         content = content.replace(
-          /href="\/vite\.svg"/g,
-          'href="./vite.svg"'
-        );
-        
-        // Fix all absolute paths for href attributes 
-        content = content.replace(
-          /href="\//g,
+          /href="\/(?!My_portfolio\/vite\.svg)/g,
           'href="./'
         );
         
-        // Fix href paths that don't start with ./ or http or #
+        // Fix href paths that don't start with ./, http, # or /My_portfolio/
         content = content.replace(
-          /href="(?!\.\/|http|#)([^"]*)"/g,
+          /href="(?!\.\/|http|#|\/My_portfolio\/)([^"]*)"/g,
           'href="./$1"'
         );
         
@@ -124,16 +130,24 @@ function fixPaths(directory) {
   });
 }
 
-// Ensure the vite.svg file is correctly copied to the dist root
+// Ensure the vite.svg file is correctly copied to the dist root AND to the right location
 function copyViteSvgToRoot() {
   const destPath = path.join(buildDir, 'vite.svg');
-  // If vite.svg isn't already in dist root, copy it there
-  if (!fs.existsSync(destPath)) {
-    const sourcePath = path.join('public', 'vite.svg');
-    if (fs.existsSync(sourcePath)) {
-      fs.copyFileSync(sourcePath, destPath);
-      console.log('Copied vite.svg from public to dist root');
+  // Copy to dist root
+  const sourcePath = path.join('public', 'vite.svg');
+  if (fs.existsSync(sourcePath)) {
+    fs.copyFileSync(sourcePath, destPath);
+    console.log('Copied vite.svg from public to dist root');
+    
+    // Also ensure it exists in the /My_portfolio/ path structure
+    const myPortfolioDir = path.join(buildDir, 'My_portfolio');
+    if (!fs.existsSync(myPortfolioDir)) {
+      fs.mkdirSync(myPortfolioDir, { recursive: true });
     }
+    fs.copyFileSync(sourcePath, path.join(myPortfolioDir, 'vite.svg'));
+    console.log('Copied vite.svg to My_portfolio/ directory');
+  } else {
+    console.warn('WARNING: vite.svg not found in public folder! Please add it there.');
   }
 }
 
@@ -173,6 +187,6 @@ function ensure404Html() {
 console.log('Fixing asset paths for GitHub Pages deployment...');
 fixPaths(buildDir);
 copyViteSvgToRoot();
-copyPublicAssets(); // Added this function call
+copyPublicAssets();
 ensure404Html();
 console.log('Path fixing complete!');

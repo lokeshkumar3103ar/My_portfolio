@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { splitVendorChunkPlugin } from 'vite'
 import { compression } from 'vite-plugin-compression2'
 import { VitePWA } from 'vite-plugin-pwa'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -33,7 +34,7 @@ export default defineConfig({
       }
     })
   ],
-  base: './',
+  base: '/My_portfolio/',
   build: {
     minify: 'terser',
     terserOptions: {
@@ -43,11 +44,20 @@ export default defineConfig({
       },
     },
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          animations: ['framer-motion', 'gsap'],
-          three: ['three']
+        manualChunks: (id) => {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'vendor';
+          }
+          if (id.includes('node_modules/framer-motion') || id.includes('node_modules/gsap')) {
+            return 'animations';
+          }
+          if (id.includes('node_modules/three')) {
+            return 'three';
+          }
         }
       }
     },
