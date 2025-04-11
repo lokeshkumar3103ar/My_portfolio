@@ -39,10 +39,11 @@ function fixPaths(directory) {
           'src="./assets/index.js"'
         );
         
-        // Handle favicon path first - explicitly set it to GitHub Pages path
+        // Handle favicon path first - explicitly set it to GitHub Pages path with relative path
+        // Changed from absolute path to relative path to fix 404 errors
         content = content.replace(
           /<link[^>]*rel=["']icon["'][^>]*href=["'][^"']*["'][^>]*>/g,
-          '<link rel="icon" type="image/svg+xml" href="/My_portfolio/vite.svg" />'
+          '<link rel="icon" type="image/svg+xml" href="./vite.svg" />'
         );
         
         // Fix all other absolute paths for assets
@@ -59,13 +60,13 @@ function fixPaths(directory) {
         
         // Fix all absolute paths for href attributes, except for the favicon
         content = content.replace(
-          /href="\/(?!My_portfolio\/vite\.svg)/g,
+          /href="\/(?!vite\.svg)/g,
           'href="./'
         );
         
-        // Fix href paths that don't start with ./, http, # or /My_portfolio/
+        // Fix href paths that don't start with ./, http, #
         content = content.replace(
-          /href="(?!\.\/|http|#|\/My_portfolio\/)([^"]*)"/g,
+          /href="(?!\.\/|http|#)([^"]*)"/g,
           'href="./$1"'
         );
         
