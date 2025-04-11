@@ -1,26 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Lokesh Kumar Portfolio - Page Not Found</title>
+  <title>Lokesh | AI Architect Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
   <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    var pathSegmentsToKeep = 1;
-
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+    // GitHub Pages SPA redirect
+    // Based on https://github.com/rafgraph/spa-github-pages
+    (function() {
+      var pathSegments = window.location.pathname.slice(1).split('/');
+      var repoName = pathSegments[0];
+      var location = window.location;
+      var pathName = location.pathname.replace('/' + repoName, '') || '/';
+      var redirect = location.protocol + '//' + location.hostname + 
+        (location.port ? ':' + location.port : '') +
+        '/' + repoName + '/#' + pathName +
+        (location.search ? location.search : '') +
+        (location.hash ? location.hash : '');
+      console.log('Redirecting to: ' + redirect);
+      window.location.replace(redirect);
+    })();
   </script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #121212;
+      color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <h1>Page Not Found</h1>
-  <p>Redirecting you to the home page...</p>
+  <div class="container">
+    <h1>Redirecting...</h1>
+    <div class="spinner"></div>
+    <p>If you are not redirected automatically, <a href="./index.html">click here</a>.</p>
+  </div>
 </body>
 </html>
