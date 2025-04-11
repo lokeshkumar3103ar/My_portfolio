@@ -39,9 +39,9 @@ function fixPaths(directory) {
           ''
         );
         
-        // Fix script module paths with more comprehensive patterns
+        // Fix script module paths with more comprehensive patterns - including the relative path pattern
         content = content.replace(
-          /src="\/src\/main\.jsx"/g,
+          /src=["'](?:\/|\.\/)?src\/main\.jsx["']/g,
           'src="./assets/index.js"'
         );
         

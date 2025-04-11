@@ -7,7 +7,7 @@ import path from 'path'
 
 // Determine base path based on environment
 const base = process.env.NODE_ENV === 'production' 
-  ? './' // Use relative paths in production for GitHub Pages
+  ? '/My_portfolio/' // Use repository name for GitHub Pages
   : '/'  // Use root path in development
 
 // https://vite.dev/config/
