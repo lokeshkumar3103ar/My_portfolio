@@ -1,4 +1,4 @@
-GitHub Pages Path Fixing Debug Log - 2025-04-11T06:22:16.731Z
+GitHub Pages Path Fixing Debug Log - 2025-04-11T06:29:30.290Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
@@ -36,6 +36,7 @@ Fixed JS paths in: /home/runner/work/My_portfolio/My_portfolio/dist/sw.js
     resource: ./assets/assets/main-z-9BK3RT.js
     resource: ./assets/assets/three-DzGSvVpd.js
     resource: ./assets/assets/vendor-DVYjdY2Z.js
+Fixed JSX MIME type issue by updating main.jsx references in index.html
 Copied vite.svg from public to dist root
 Copied vite.svg to My_portfolio/ directory
 Copied images/aigenesis-project.jpeg to dist/images/
