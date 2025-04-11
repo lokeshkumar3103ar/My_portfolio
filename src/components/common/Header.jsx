@@ -148,7 +148,7 @@ const Header = () => {
           </motion.button>
           
           <motion.a
-            href="/resume.pdf"
+            href="./resume.pdf"
             className="hidden md:flex py-2 px-5 text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group"
             target="_blank"
             rel="noopener noreferrer"
@@ -256,7 +256,7 @@ const Header = () => {
 
               <div className="mt-auto pt-10">
                 <motion.a
-                  href="/resume.pdf"
+                  href="./resume.pdf"
                   className="inline-block py-3 px-6 text-white font-medium"
                   style={{ 
                     background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})` 

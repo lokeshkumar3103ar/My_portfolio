@@ -38,9 +38,9 @@ function App() {
     const preloadResources = () => {
       // Preload important images
       const imagesToPreload = [
-        { src: '/images/aigenesis-project.jpeg', importance: 'high' },
-        { src: '/images/attendance-system.png', importance: 'medium' },
-        { src: '/images/prompt-systems.jpg', importance: 'medium' }
+        { src: './images/aigenesis-project.jpeg', importance: 'high' },
+        { src: './images/attendance-system.png', importance: 'medium' },
+        { src: './images/prompt-systems.jpg', importance: 'medium' }
       ];
       
       // Use importance attribute for loading priority

@@ -5,6 +5,11 @@ import { compression } from 'vite-plugin-compression2'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 
+// Determine base path based on environment
+const base = process.env.NODE_ENV === 'production' 
+  ? './' // Use relative paths in production for GitHub Pages
+  : '/'  // Use root path in development
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -34,8 +39,11 @@ export default defineConfig({
       }
     })
   ],
-  base: '/My_portfolio/',
+  base: base,
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -65,7 +73,16 @@ export default defineConfig({
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000
   },
+  resolve: {
+    alias: {
+      // Add any path aliases if needed
+    },
+  },
   optimizeDeps: {
     include: ['react', 'react-dom', 'three', 'framer-motion', 'gsap']
-  }
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
 })
