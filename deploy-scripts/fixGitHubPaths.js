@@ -33,38 +33,41 @@ function fixPaths(directory) {
         let content = fs.readFileSync(filePath, 'utf8');
         const originalContent = content; // Store original for comparison
         
+        // Remove any references to My_portfolio
+        content = content.replace(/\.\/My_portfolio\//g, './');
+        content = content.replace(/\/My_portfolio\//g, './');
+        
         // Remove problematic script tag loading main.jsx directly
         content = content.replace(
           /<script type="module" src=["']\.?\/src\/main\.jsx["']><\/script>/g,
           ''
         );
         
-        // Fix script module paths with more comprehensive patterns - including the relative path pattern
+        // Fix script module paths with more comprehensive patterns
         content = content.replace(
           /src=["'](?:\/|\.\/)?src\/main\.jsx["']/g,
-          'src="./assets/index.js"'
+          'src="./assets/main-DX4RbL6C.js"'
         );
         
         // Also catch variations of the main.jsx path that might be causing 404s
         content = content.replace(
           /src="src\/main\.jsx"/g,
-          'src="./assets/index.js"'
+          'src="./assets/main-DX4RbL6C.js"'
         );
         
         // Add additional pattern to catch the relative path pattern we're now using
         content = content.replace(
           /src="\.\/src\/main\.jsx"/g,
-          'src="./assets/index.js"'
+          'src="./assets/main-DX4RbL6C.js"'
         );
         
-        // Handle favicon path first - explicitly set it to GitHub Pages path with relative path
-        // Changed from absolute path to relative path to fix 404 errors
+        // Handle favicon path - explicitly set it to relative path
         content = content.replace(
           /<link[^>]*rel=["']icon["'][^>]*href=["'][^"']*["'][^>]*>/g,
           '<link rel="icon" type="image/svg+xml" href="./vite.svg" />'
         );
         
-        // Fix all other absolute paths for assets
+        // Fix all absolute paths for assets
         content = content.replace(
           /src="\//g,
           'src="./'
@@ -110,25 +113,6 @@ function fixPaths(directory) {
           '<link rel="stylesheet" href="./$1">'
         );
         
-        // Explicitly fix paths for known asset files that are having 404 issues
-        [
-          'vendor-DVYjdY2Z.js', 
-          'main-z-9BK3RT.js', 
-          'three-DzGSvVpd.js', 
-          'main-D8S90uDa.css',
-          'animations-23e4F__N.js',
-          'registerSW.js'
-        ].forEach(filename => {
-          const filenameRegex = new RegExp(`(src|href)="/?${filename.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}"`, 'g');
-          content = content.replace(filenameRegex, `$1="./assets/${filename}"`);
-        });
-        
-        // Fix manifest path
-        content = content.replace(
-          /href="(\/)?manifest\.webmanifest"/g,
-          'href="./manifest.webmanifest"'
-        );
-        
         // Extract all resource paths for debugging
         if (content !== originalContent) {
           logDebug(`Fixed paths in: ${filePath}`);
@@ -155,6 +139,10 @@ function fixPaths(directory) {
       if (file.endsWith('.css')) {
         let content = fs.readFileSync(filePath, 'utf8');
         const originalContent = content; // Store original for comparison
+        
+        // Remove any references to My_portfolio
+        content = content.replace(/\.\/My_portfolio\//g, './');
+        content = content.replace(/\/My_portfolio\//g, './');
         
         // Replace absolute paths with relative paths
         content = content.replace(/url\(\s*\/(?!\/)/g, 'url(../');
@@ -186,6 +174,10 @@ function fixPaths(directory) {
         let content = fs.readFileSync(filePath, 'utf8');
         const originalContent = content; // Store original for comparison
         
+        // Remove any references to My_portfolio
+        content = content.replace(/\.\/My_portfolio\//g, './');
+        content = content.replace(/\/My_portfolio\//g, './');
+        
         // Look for asset imports or fetch calls with absolute paths
         content = content.replace(/from "\//g, 'from "./');
         content = content.replace(/from '\//g, "from './");
@@ -216,10 +208,8 @@ function fixPaths(directory) {
           });
         }
 
-        // Fix service worker path
-        if (file.includes('registerSW.js')) {
-          content = content.replace(/['"]\/My_portfolio\/sw\.js['"]/g, '"./sw.js"');
-        }
+        // Fix service worker path - remove My_portfolio references
+        content = content.replace(/['"]\/My_portfolio\/sw\.js['"]/g, '"./sw.js"');
 
         // Additional fix for service workers and manifest
         content = content.replace(/"\/manifest.webmanifest"/g, '"./manifest.webmanifest"');
@@ -290,21 +280,17 @@ function fixJSXReference() {
         /<script[^>]*src=["'](?:\.\/)?(?:src\/)?main\.jsx["'][^>]*>/g,
         `<script type="module" src="./assets/${mainJsFile}"></script>`
       );
+      
+      // Remove any references to My_portfolio
+      content = content.replace(/\.\/My_portfolio\//g, './');
+      
       fs.writeFileSync(indexPath, content);
       logDebug(`Fixed JSX MIME type issue by replacing main.jsx reference with ${mainJsFile}`);
-    } else {
-      // If we couldn't find the exact bundle file, use a generic pattern
-      content = content.replace(
-        /<script[^>]*src=["'](?:\.\/)?(?:src\/)?main\.jsx["'][^>]*>/g,
-        '<script type="module" src="./assets/main-z-9BK3RT.js"></script>'
-      );
-      fs.writeFileSync(indexPath, content);
-      logDebug('Fixed JSX MIME type issue using known main bundle name');
     }
   }
 }
 
-// Ensure the vite.svg file is correctly copied to the dist root AND to the right location
+// Ensure the vite.svg file is correctly copied to the dist root
 function copyViteSvgToRoot() {
   const destPath = path.join(buildDir, 'vite.svg');
   // Copy to dist root
@@ -312,14 +298,6 @@ function copyViteSvgToRoot() {
   if (fs.existsSync(sourcePath)) {
     fs.copyFileSync(sourcePath, destPath);
     logDebug('Copied vite.svg from public to dist root');
-    
-    // Also ensure it exists in the /My_portfolio/ path structure
-    const myPortfolioDir = path.join(buildDir, 'My_portfolio');
-    if (!fs.existsSync(myPortfolioDir)) {
-      fs.mkdirSync(myPortfolioDir, { recursive: true });
-    }
-    fs.copyFileSync(sourcePath, path.join(myPortfolioDir, 'vite.svg'));
-    logDebug('Copied vite.svg to My_portfolio/ directory');
   } else {
     logDebug('WARNING: vite.svg not found in public folder! Please add it there.');
   }
@@ -329,36 +307,40 @@ function copyViteSvgToRoot() {
 function copyPublicAssets() {
   const publicDir = path.join('public');
   if (fs.existsSync(publicDir)) {
-    const files = fs.readdirSync(publicDir);
-    files.forEach(file => {
-      const sourcePath = path.join(publicDir, file);
-      const destPath = path.join(buildDir, file);
-      
-      if (fs.statSync(sourcePath).isFile() && !fs.existsSync(destPath)) {
-        fs.copyFileSync(sourcePath, destPath);
-        logDebug(`Copied ${file} from public to dist root`);
-      } else if (fs.statSync(sourcePath).isDirectory()) {
-        // Special handling for directories like 'images'
-        const dirName = file;
-        const destDirPath = path.join(buildDir, dirName);
-        
-        // Create directory if it doesn't exist
-        if (!fs.existsSync(destDirPath)) {
-          fs.mkdirSync(destDirPath, { recursive: true });
-          logDebug(`Created directory ${dirName} in dist root`);
+    // Make sure the images directory exists in dist
+    const imagesDir = path.join(buildDir, 'images');
+    if (!fs.existsSync(imagesDir)) {
+      fs.mkdirSync(imagesDir, { recursive: true });
+    }
+    
+    // Create textures directory for Three.js cubemap textures
+    const texturesDir = path.join(buildDir, 'textures');
+    if (!fs.existsSync(texturesDir)) {
+      fs.mkdirSync(texturesDir, { recursive: true });
+    }
+    
+    // Copy image files from public/images to dist/images
+    const publicImagesDir = path.join(publicDir, 'images');
+    if (fs.existsSync(publicImagesDir)) {
+      const imageFiles = fs.readdirSync(publicImagesDir);
+      imageFiles.forEach(file => {
+        if (file.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
+          const src = path.join(publicImagesDir, file);
+          const dest = path.join(imagesDir, file);
+          fs.copyFileSync(src, dest);
+          logDebug(`Copied images/${file} to dist/images/`);
         }
-        
-        // Copy all files from the directory
-        const dirFiles = fs.readdirSync(sourcePath);
-        dirFiles.forEach(dirFile => {
-          const dirFileSrcPath = path.join(sourcePath, dirFile);
-          const dirFileDestPath = path.join(destDirPath, dirFile);
-          
-          if (fs.statSync(dirFileSrcPath).isFile()) {
-            fs.copyFileSync(dirFileSrcPath, dirFileDestPath);
-            logDebug(`Copied ${dirName}/${dirFile} to dist/${dirName}/`);
-          }
-        });
+      });
+    }
+    
+    // Copy other important files from public to dist root
+    const importantFiles = ['manifest.json', 'manifest.webmanifest', 'resume.pdf', '404.html'];
+    importantFiles.forEach(file => {
+      const src = path.join(publicDir, file);
+      if (fs.existsSync(src)) {
+        const dest = path.join(buildDir, file);
+        fs.copyFileSync(src, dest);
+        logDebug(`Copied ${file} to dist root`);
       }
     });
   }
@@ -370,19 +352,6 @@ function copyPublicAssets() {
   if (fs.existsSync(manifestSrc)) {
     fs.copyFileSync(manifestSrc, manifestDest);
     logDebug('Copied manifest.webmanifest to dist root');
-  } else {
-    // Create a basic manifest if it doesn't exist
-    const basicManifest = {
-      "name": "Portfolio",
-      "short_name": "Portfolio",
-      "start_url": "./",
-      "display": "standalone",
-      "background_color": "#ffffff",
-      "theme_color": "#000000",
-      "icons": []
-    };
-    fs.writeFileSync(manifestDest, JSON.stringify(basicManifest, null, 2));
-    logDebug('Created basic manifest.webmanifest in dist root');
   }
   
   // Ensure registerSW.js exists and has correct paths
@@ -393,6 +362,10 @@ function copyPublicAssets() {
       /['"]\/manifest\.webmanifest['"]/g, 
       '"./manifest.webmanifest"'
     );
+    // Remove My_portfolio references
+    swContent = swContent.replace(/\.\/My_portfolio\//g, './');
+    swContent = swContent.replace(/\/My_portfolio\//g, './');
+    
     fs.writeFileSync(swSrc, swContent);
     logDebug('Updated paths in registerSW.js');
   }
@@ -408,7 +381,10 @@ function ensure404Html() {
   } else {
     // Make sure the existing 404.html has proper paths
     let content = fs.readFileSync(notFoundPath, 'utf8');
-    content = content.replace(/src="\/src\/main\.jsx"/g, 'src="./assets/index.js"');
+    content = content.replace(/src="\/src\/main\.jsx"/g, 'src="./assets/main-DX4RbL6C.js"');
+    // Remove My_portfolio references
+    content = content.replace(/\.\/My_portfolio\//g, './');
+    content = content.replace(/\/My_portfolio\//g, './');
     fs.writeFileSync(notFoundPath, content);
     logDebug('Updated paths in existing 404.html');
   }
@@ -471,14 +447,14 @@ function scanForPotential404Issues() {
       });
     }
     
-    // Check for potential imports that might fail
-    const imports = [...content.matchAll(/import\s+.*?from\s+["']([^"']*)["']/g)];
-    imports.forEach(match => {
-      const importPath = match[1];
-      if (!importPath.startsWith('./') && !importPath.startsWith('../') && !importPath.includes(':')) {
-        logDebug(`  Potential problematic import: ${importPath}`);
-      }
-    });
+    // Check specifically for My_portfolio references
+    const portfolioRefs = [...content.matchAll(/["'](\.\/My_portfolio\/[^"']*)["']/gi)];
+    if (portfolioRefs.length > 0) {
+      logDebug(`FOUND MY_PORTFOLIO REFS in ${path.relative(buildDir, jsFile)}:`);
+      portfolioRefs.forEach(match => {
+        logDebug(`  My_portfolio reference that might cause 404: ${match[1]}`);
+      });
+    }
   });
   
   // Check HTML files for potential issues
@@ -486,24 +462,14 @@ function scanForPotential404Issues() {
   htmlFiles.forEach(htmlFile => {
     const content = fs.readFileSync(htmlFile, 'utf8');
     
-    // Check for script or link tags with potential issues
-    const scriptTags = [...content.matchAll(/<script[^>]*src=["']([^"']*)["'][^>]*>/g)];
-    scriptTags.forEach(match => {
-      const src = match[1];
-      if (src.startsWith('/') || (!src.startsWith('./') && !src.startsWith('http') && !src.includes(':') && src !== '')) {
-        logDebug(`POTENTIAL ISSUE in ${path.relative(buildDir, htmlFile)}:`);
-        logDebug(`  Script src might 404: ${src}`);
-      }
-    });
-    
-    const linkTags = [...content.matchAll(/<link[^>]*href=["']([^"']*)["'][^>]*>/g)];
-    linkTags.forEach(match => {
-      const href = match[1];
-      if (href.startsWith('/') || (!href.startsWith('./') && !href.startsWith('http') && !href.includes(':') && !href.startsWith('#'))) {
-        logDebug(`POTENTIAL ISSUE in ${path.relative(buildDir, htmlFile)}:`);
-        logDebug(`  Link href might 404: ${href}`);
-      }
-    });
+    // Check specifically for My_portfolio references in HTML
+    const portfolioRefs = [...content.matchAll(/["'](\.\/My_portfolio\/[^"']*)["']/gi)];
+    if (portfolioRefs.length > 0) {
+      logDebug(`FOUND MY_PORTFOLIO REFS in ${path.relative(buildDir, htmlFile)}:`);
+      portfolioRefs.forEach(match => {
+        logDebug(`  My_portfolio reference that might cause 404: ${match[1]}`);
+      });
+    }
   });
   
   logDebug('\n=== END OF 404 ISSUE SCAN ===\n');
@@ -531,7 +497,7 @@ function findFilesByExt(directory, extension) {
 // Main execution
 logDebug('Fixing asset paths for GitHub Pages deployment...');
 fixPaths(buildDir);
-fixJSXReference(); // Add this line to call the new function
+fixJSXReference();
 copyViteSvgToRoot();
 copyPublicAssets();
 ensure404Html();

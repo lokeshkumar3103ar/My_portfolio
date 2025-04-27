@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { splitVendorChunkPlugin } from 'vite'
 import { compression } from 'vite-plugin-compression2'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
@@ -14,11 +13,16 @@ const base = process.env.NODE_ENV === 'production'
 export default defineConfig({
   plugins: [
     react(),
-    splitVendorChunkPlugin(),
     compression({ algorithm: 'gzip' }),
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['vite.svg', 'robots.txt'],
+      // Changed from injectManifest to generateSW strategy to avoid the manifest injection error
+      strategies: 'generateSW',
+      registerType: 'prompt',
+      includeAssets: ['vite.svg', 'robots.txt', '*.png', 'textures/**/*'],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,ico}'],
+        navigateFallback: 'index.html',
+      },
       manifest: {
         name: 'Lokesh Kumar Portfolio',
         short_name: 'LK Portfolio',
@@ -34,6 +38,11 @@ export default defineConfig({
             src: 'vite.svg',
             sizes: '512x512',
             type: 'image/svg+xml'
+          },
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
           }
         ]
       }
@@ -56,6 +65,7 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html'),
       },
       output: {
+        // Using function form of manualChunks for better compatibility
         manualChunks: (id) => {
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
             return 'vendor';
@@ -66,6 +76,8 @@ export default defineConfig({
           if (id.includes('node_modules/three')) {
             return 'three';
           }
+          // Other dependencies will go in the main chunk
+          return null;
         }
       }
     },
@@ -75,7 +87,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // Add any path aliases if needed
+      // Add path aliases to make imports cleaner
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
   optimizeDeps: {

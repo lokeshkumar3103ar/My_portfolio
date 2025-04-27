@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree, Canvas } from '@react-three/fiber';
-import { useGLTF, Float, Environment, ContactShadows, OrbitControls, Trail } from '@react-three/drei';
+import { useGLTF, Float, ContactShadows, OrbitControls, Trail } from '@react-three/drei';
 import { useMotionValue, useTransform, motion } from 'framer-motion';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useWebGLContextRecovery } from '../../utils/useWebGLContextRecovery';
+import { CustomEnvironment } from '../utils/CustomEnvironment';
 
 // Laminar Flow Particle component for smooth flowing effect
 const LaminarFlowParticle = ({ radius, speed, color, axis, offset, width, trailLength, opacity }) => {
@@ -299,35 +300,36 @@ const HeroModel = ({ scrollYProgress }) => {
       ) : (
         <Canvas 
           ref={canvasRef}
-          camera={{ position: [0, 0, 12], fov: 55 }} // Wider field of view for better perspective
+          camera={{ position: [0, 0, 12], fov: 55 }}
           gl={{ 
             powerPreference: "default", 
-            antialias: true, // Enabled for smoother visuals
+            antialias: true,
             stencil: false,
             depth: true,
             alpha: true
           }}
-          dpr={window.devicePixelRatio > 2 ? 2 : window.devicePixelRatio} // Optimize for high-DPI displays
+          dpr={window.devicePixelRatio > 2 ? 2 : window.devicePixelRatio}
           performance={{ min: 0.5 }}
-          style={{ touchAction: 'none' }} // Improve touch interaction
+          style={{ touchAction: 'none' }}
         >
           <React.Suspense fallback={null}>
             <Model scrollYProgress={scrollYProgress} />
             <ContactShadows
               position={[0, -2.5, 0]}
               opacity={0.5}
-              scale={12} // Larger shadow
-              blur={2.5} // Softer shadow
+              scale={12}
+              blur={2.5}
               far={6}
-              resolution={256} // Higher resolution for better quality
+              resolution={256}
             />
-            <Environment preset="city" />
+            {/* Replace the built-in Environment with our custom one */}
+            <CustomEnvironment path="./textures/cubemap/" />
             <OrbitControls 
               enableZoom={false}
               enablePan={false}
               autoRotate={false}
-              enableDamping={true} // Enabled for smoother interaction
-              dampingFactor={0.05} // Gentle damping
+              enableDamping={true}
+              dampingFactor={0.05}
               minPolarAngle={Math.PI / 3}
               maxPolarAngle={Math.PI / 1.5}
             />

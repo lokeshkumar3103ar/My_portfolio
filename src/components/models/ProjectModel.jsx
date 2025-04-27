@@ -17,6 +17,7 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useWebGLContextRecovery } from '../../utils/useWebGLContextRecovery';
 import { trackEvent } from '../../utils/analytics';
+import { CustomEnvironment } from '../utils/CustomEnvironment';
 
 // Project Card component that will be displayed in 3D space
 const ProjectCard = ({ project, position, rotation, onClick, hovered, setHovered, index }) => {
@@ -546,7 +547,8 @@ const ProjectModel = ({ projects, onProjectSelect }) => {
             </Html>
           }>
             <ProjectsScene projects={projects} onProjectSelect={onProjectSelect} />
-            {isLowPowerMode ? null : <Environment preset="night" background={false} />}
+            {/* Replace the built-in Environment with our custom one */}
+            {isLowPowerMode ? null : <CustomEnvironment path="./textures/cubemap/" />}
             <ContactShadows 
               position={[0, -1.5, 0]} 
               opacity={isLowPowerMode ? 0.3 : 0.7} 
