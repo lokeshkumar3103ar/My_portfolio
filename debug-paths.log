@@ -1,25 +1,7 @@
-GitHub Pages Path Fixing Debug Log - 2025-04-27T14:45:58.028Z
+GitHub Pages Path Fixing Debug Log - 2025-04-27T15:20:58.240Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Fixed paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\index.html
-  Resources in index.html:
-    src: ./assets/main-B0l8xK-L.js
-    src: ./registerSW.js
-    href: ./vite.svg
-    href: ./assets/vendor-Byj2NhZo.js
-    href: ./assets/animations-DxjfSdCF.js
-    href: ./assets/three-DzGSvVpd.js
-    href: ./assets/main-BCGrJFx_.css
-    href: ./manifest.webmanifest
-Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\registerSW.js
-Fixed JS paths in: C:\Users\lokes\Downloads\portfolio\clean-portfolio\portfolio\dist\sw.js
-  JS Resources in sw.js:
-    resource: ./assets/assets/animations-DxjfSdCF.js
-    resource: ./assets/assets/main-B0l8xK-L.js
-    resource: ./assets/assets/main-BCGrJFx_.css
-    resource: ./assets/assets/three-DzGSvVpd.js
-    resource: ./assets/assets/vendor-Byj2NhZo.js
 Found main bundle file: main-B0l8xK-L.js
 Fixed JSX MIME type issue by replacing main.jsx reference with main-B0l8xK-L.js
 Copied vite.svg from public to dist root
@@ -36,7 +18,7 @@ Updated paths in existing 404.html
 
 === POTENTIAL 404 ISSUE SCAN ===
 
-POTENTIAL ISSUE in assets\main-B0l8xK-L.js:
+POTENTIAL ISSUE in assets/main-B0l8xK-L.js:
   Absolute path that might 404: /px.png
   Absolute path that might 404: /nx.png
   Absolute path that might 404: /py.png
