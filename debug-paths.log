@@ -1,23 +1,7 @@
-GitHub Pages Path Fixing Debug Log - 2025-06-17T21:56:37.043Z
+GitHub Pages Path Fixing Debug Log - 2025-06-17T21:59:04.862Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Fixed paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\index.html
-  Resources in index.html:
-    src: ./assets/main-Cbo6uVCv.js
-    src: ./registerSW.js
-    href: ./vite.svg
-    href: ./assets/vendor-DnWGmzca.js
-    href: ./assets/animations-C_-dCIy4.js
-    href: ./assets/main-CCNk0Ey2.css
-    href: ./manifest.webmanifest
-Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\registerSW.js
-Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\sw.js
-  JS Resources in sw.js:
-    resource: ./assets/assets/animations-C_-dCIy4.js
-    resource: ./assets/assets/main-Cbo6uVCv.js
-    resource: ./assets/assets/main-CCNk0Ey2.css
-    resource: ./assets/assets/vendor-DnWGmzca.js
 Found main bundle file: main-Cbo6uVCv.js
 Fixed JSX MIME type issue by replacing main.jsx reference with main-Cbo6uVCv.js
 Copied vite.svg from public to dist root
