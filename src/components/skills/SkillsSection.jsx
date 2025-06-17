@@ -4,24 +4,32 @@ import { motion, useAnimation } from 'framer-motion';
 const skills = [
   { name: 'Prompt Engineering', level: 95, category: 'AI', color: '#6366f1' },
   { name: 'Python', level: 90, category: 'Programming', color: '#8b5cf6' },
+  { name: 'LLM Integration', level: 88, category: 'AI', color: '#6366f1' },
+  { name: 'LLM Optimization', level: 85, category: 'AI', color: '#8b5cf6' },
   { name: 'AI Model Interaction', level: 85, category: 'AI', color: '#6366f1' },
   { name: 'Data Analytics', level: 88, category: 'Data Science', color: '#8b5cf6' },
-  { name: 'Experimentation & Testing', level: 82, category: 'AI', color: '#6366f1' },
-  { name: 'Data Literacy', level: 80, category: 'Data Science', color: '#8b5cf6' },
-  { name: 'Data Processing', level: 85, category: 'Data Science', color: '#6366f1' },
-  { name: 'Research Skills', level: 78, category: 'General', color: '#8b5cf6' },
-  { name: 'Problem Solving', level: 90, category: 'General', color: '#6366f1' },
+  { name: 'FastAPI', level: 82, category: 'Backend', color: '#6366f1' },
+  { name: 'MongoDB', level: 80, category: 'Database', color: '#8b5cf6' },
+  { name: 'AI Pipelines', level: 85, category: 'AI', color: '#6366f1' },
+  { name: 'Docker', level: 78, category: 'DevOps', color: '#8b5cf6' },
+  { name: 'Deployment', level: 82, category: 'DevOps', color: '#6366f1' },
+  { name: 'Experimentation & Testing', level: 82, category: 'AI', color: '#8b5cf6' },
+  { name: 'Data Literacy', level: 80, category: 'Data Science', color: '#6366f1' },
+  { name: 'Data Processing', level: 85, category: 'Data Science', color: '#8b5cf6' },
+  { name: 'Research Skills', level: 78, category: 'General', color: '#6366f1' },
+  { name: 'Problem Solving', level: 90, category: 'General', color: '#8b5cf6' },
+  { name: 'Computer Vision', level: 75, category: 'AI', color: '#6366f1' },
   { name: 'Excel', level: 75, category: 'Tools', color: '#8b5cf6' },
 ];
 
-// Create sparkle particles for the burst effect
+// Create sparkle particles for the burst effect - reduced count
 const BurstParticles = ({ x, y, color }) => {
-  const particles = Array(20).fill(0).map((_, i) => ({
+  const particles = Array(8).fill(0).map((_, i) => ({ // Reduced from 20 to 8
     id: i,
-    angle: (i * 18) % 360,
-    distance: Math.random() * 100 + 30,
-    size: Math.random() * 8 + 2,
-    duration: Math.random() * 1.2 + 0.8,
+    angle: (i * 45) % 360, // Simplified angle calculation
+    distance: Math.random() * 60 + 20, // Reduced distance
+    size: Math.random() * 6 + 2,
+    duration: Math.random() * 0.8 + 0.6, // Shorter duration
   }));
 
   return (
@@ -571,7 +579,7 @@ const BubbleField = () => {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full h-[600px] overflow-hidden mx-auto bg-[#f5f5f7]/80 dark:bg-[#101013]/80 backdrop-blur-sm rounded-sm border border-gray-200 dark:border-gray-800"
+      className="relative w-full h-[600px] overflow-hidden mx-auto bg-gray-50/80 dark:bg-gray-950/80 backdrop-blur-sm rounded-sm border border-gray-200 dark:border-gray-800"
       style={{ position: 'relative' }}
     >
       {/* Subtle grid background */}
@@ -677,7 +685,7 @@ const BubbleField = () => {
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-24 bg-[#f5f5f7] dark:bg-[#101013] relative overflow-hidden">
+    <section id="skills" className="py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute -top-24 left-24 w-64 h-64 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-24 right-24 w-96 h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>

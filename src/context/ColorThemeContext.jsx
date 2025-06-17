@@ -9,33 +9,12 @@ export const colorThemes = {
     name: 'Blue-Purple',
     gradient: 'linear-gradient(135deg, #1D4ED8, #9333EA)'
   },
-  green: {
-    primary: '#059669',
-    secondary: '#0891B2',
-    accent: '#FBBF24',
-    name: 'Green-Teal',
-    gradient: 'linear-gradient(135deg, #059669, #0891B2)'
-  },
-  red: {
-    primary: '#DC2626',
-    secondary: '#DB2777',
-    accent: '#F59E0B',
-    name: 'Red-Pink',
-    gradient: 'linear-gradient(135deg, #DC2626, #DB2777)'
-  },
-  orange: {
-    primary: '#D97706',
-    secondary: '#7C2D12',
-    accent: '#10B981',
-    name: 'Orange-Brown',
-    gradient: 'linear-gradient(135deg, #D97706, #7C2D12)'
-  },
-  indigo: {
-    primary: '#4F46E5',
-    secondary: '#7E22CE',
-    accent: '#F59E0B',
-    name: 'Indigo-Purple',
-    gradient: 'linear-gradient(135deg, #4F46E5, #7E22CE)'
+  yellowgreen: {
+    primary: '#65A30D',
+    secondary: '#EAB308',
+    accent: '#DC2626',
+    name: 'Yellow-Green',
+    gradient: 'linear-gradient(135deg, #65A30D, #EAB308)'
   }
 };
 

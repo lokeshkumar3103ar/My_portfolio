@@ -171,26 +171,7 @@ const PromptEngineeringDeepDive = () => {
         }
       ],
       icon: HiOutlineCog
-    }
-  ];
-  
-  // Business use case data
-  const businessCaseData = {
-    dataset: "Spotify 2024 Global Streaming",
-    impact: [
-      "Identified targeted user clusters for optimized marketing allocation",
-      "Applied log-scale transformations for more intuitive analytics visualization",
-      "Ranked feature importance showing Artist > Genre > Country as key drivers",
-      "Detected outlier influencers that disproportionately affect streaming metrics"
-    ],
-    codeEfficiency: "Packed JPMorgan-level analytics into 80 lines of code with 4x the insight density",
-    visualData: [
-      { category: "User Engagement", value: 87, color: "#6366f1" },
-      { category: "Feature Impact", value: 92, color: "#8b5cf6" },
-      { category: "Anomaly Detection", value: 78, color: "#ec4899" },
-      { category: "Predictive Power", value: 83, color: "#0ea5e9" }
-    ]
-  };
+    }  ];
   
   // Navigation variants
   const navVariants = {
@@ -232,14 +213,7 @@ const PromptEngineeringDeepDive = () => {
         duration: 0.6,
         ease: [0.22, 1, 0.36, 1]
       }
-    }
-  };
-
-  // Chart animation values
-  const chartValues = businessCaseData.visualData.map(item => ({
-    ...item,
-    animatedValue: animateChart ? item.value : 0
-  }));
+    }  };
 
   return (
     <section ref={sectionRef} className="py-24 bg-gradient-to-br from-gray-900 to-gray-950 text-white relative overflow-hidden">
@@ -284,7 +258,7 @@ const PromptEngineeringDeepDive = () => {
             initial="hidden"
             animate="visible"
           >
-            {['overview', 'testing', 'business', 'comparison'].map((section) => (
+            {['overview', 'testing', 'comparison'].map((section) => (
               <motion.button
                 key={section}
                 onClick={() => setActiveSection(section)}
@@ -582,192 +556,7 @@ const PromptEngineeringDeepDive = () => {
                   )
                 ))}
               </AnimatePresence>
-            </motion.div>
-          )}
-          
-          {/* BUSINESS CASE SECTION */}
-          {activeSection === 'business' && (
-            <motion.div
-              key="business"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="max-w-6xl mx-auto"
-            >
-              <motion.h3 
-                variants={itemVariants}
-                className="text-2xl font-bold mb-8 flex items-center"
-              >
-                <IoAnalytics className="text-blue-400 mr-3 text-3xl" /> 
-                Business Impact Case Study
-              </motion.h3>
-              
-              {/* Business case showcase */}
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                {/* Dataset info */}
-                <motion.div 
-                  variants={itemVariants}
-                  className="md:col-span-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden"
-                >
-                  <div className="p-6">
-                    <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-green-500/30 to-blue-500/30 mr-4">
-                        <FaSpotify className="text-green-400 text-2xl" />
-                      </div>
-                      <div>
-                        <h4 className="text-xl font-bold text-white">Case Study</h4>
-                        <p className="text-sm text-blue-100/60">{businessCaseData.dataset}</p>
-                      </div>
-                    </div>
-                    
-                    <p className="text-white/80 mb-6">
-                      Comprehensive analysis of global streaming patterns using Lokesh's prompt frameworks to extract business intelligence.
-                    </p>
-                    
-                    <div className="flex items-center space-x-3 mb-6">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500/30">
-                        <span className="text-blue-400 font-semibold">80</span>
-                      </div>
-                      <div className="text-white/70 text-sm">
-                        Lines of code to produce enterprise-grade insights
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center mt-8">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/20 mr-3">
-                        <FaChartBar className="text-blue-300" />
-                      </div>
-                      <div className="text-white/70 text-sm">
-                        {businessCaseData.codeEfficiency}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-                
-                {/* Business impact */}
-                <motion.div 
-                  variants={itemVariants}
-                  className="md:col-span-8 bg-gradient-to-br from-white/5 to-white/10 border border-white/10 rounded-xl"
-                >
-                  <div className="p-6">
-                    <h4 className="text-xl font-bold mb-6 flex items-center">
-                      <FaChartLine className="mr-3 text-blue-400" /> 
-                      Business Insights & Impact
-                    </h4>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        {businessCaseData.impact.map((impact, idx) => (
-                          <motion.div 
-                            key={idx}
-                            className="mb-4 flex items-start"
-                            initial={{ opacity: 0, x: -10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.2 }}
-                            viewport={{ once: true }}
-                          >
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 shrink-0 mr-3 mt-1">
-                              <span className="text-xs font-medium text-blue-300">{idx + 1}</span>
-                            </div>
-                            <div>
-                              <p className="text-white/90">{impact}</p>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                      
-                      {/* Visualization metrics */}
-                      <div ref={chartRef} className="p-4 bg-white/5 rounded-lg border border-white/10">
-                        <h5 className="text-sm font-medium text-white/60 mb-4">Performance Metrics</h5>
-                        {chartValues.map((item, idx) => (
-                          <div key={idx} className="mb-5 last:mb-0">
-                            <div className="flex justify-between mb-1">
-                              <span className="text-xs text-white/70">{item.category}</span>
-                              <span 
-                                className="text-xs font-medium" 
-                                style={{ color: item.color }}
-                              >
-                                {Math.round(item.animatedValue)}%
-                              </span>
-                            </div>
-                            <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                              <motion.div
-                                className="h-full rounded-full"
-                                style={{ backgroundColor: item.color }}
-                                initial={{ width: '0%' }}
-                                animate={{ width: `${item.animatedValue}%` }}
-                                transition={{ duration: 1, delay: idx * 0.2 }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-                
-                {/* Value proposition */}
-                <motion.div
-                  variants={itemVariants}
-                  className="md:col-span-12 bg-white/5 border border-white/10 rounded-xl p-6"
-                >
-                  <h4 className="text-xl font-bold mb-6">Value to Clients</h4>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    {[
-                      {
-                        title: "Analytical Systems",
-                        description: "Prompts become complete analytical systems, not mere questions",
-                        color: "#6366f1",
-                        icon: FaBrain
-                      },
-                      {
-                        title: "Creative Acceleration",
-                        description: "Constraints transform into creative accelerators",
-                        color: "#8b5cf6",
-                        icon: FaRegLightbulb
-                      },
-                      {
-                        title: "Insight-First Code",
-                        description: "Coding becomes insight-first, not line-first",
-                        color: "#ec4899",
-                        icon: FaCode
-                      },
-                      {
-                        title: "Business Intelligence",
-                        description: "Prompts evolve into business intelligence engines",
-                        color: "#0ea5e9",
-                        icon: FaDatabase
-                      }
-                    ].map((item, idx) => (
-                      <motion.div
-                        key={idx}
-                        className="bg-white/5 p-4 rounded-lg border border-white/10 hover:bg-white/10 transition-colors group"
-                        whileHover={{ y: -5 }}
-                        transition={{ duration: 0.3 }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                      >
-                        <div 
-                          className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-                          style={{ backgroundColor: `${item.color}20` }}
-                        >
-                          <item.icon 
-                            className="text-xl transition-transform duration-300 group-hover:scale-110" 
-                            style={{ color: item.color }}
-                          />
-                        </div>
-                        <h5 className="text-lg font-medium mb-2 group-hover:text-blue-300 transition-colors">{item.title}</h5>
-                        <p className="text-sm text-white/70">{item.description}</p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
+            </motion.div>          )}
           
           {/* COMPARISON SECTION */}
           {activeSection === 'comparison' && (

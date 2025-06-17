@@ -20,9 +20,8 @@ const Header = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           setScrolled(window.scrollY > 20);
-          
-          // Determine which section is currently in view
-          const sections = ['skills', 'expertise', 'prompt-engineering', 'timeline'];
+            // Determine which section is currently in view
+          const sections = ['skills', 'expertise', 'prompt-engineering', 'projects', 'timeline'];
           let currentSection = 'home';
           
           for (const section of sections) {
@@ -47,12 +46,12 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
   // Navigation items array for easy maintenance
   const navItems = [
     { id: 'expertise', label: 'Expertise' },
     { id: 'skills', label: 'Skills' },
     { id: 'prompt-engineering', label: 'Prompt Systems' },
+    { id: 'projects', label: 'Projects' },
     { id: 'timeline', label: 'Timeline' }
   ];
 
@@ -60,7 +59,7 @@ const Header = () => {
     <motion.header 
       className={`fixed w-full z-50 transition-all duration-500 ${
         scrolled 
-          ? 'py-3 bg-[#f5f5f7]/90 dark:bg-[#101013]/90 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
+          ? 'py-3 bg-gray-50/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
           : 'py-5 bg-transparent'
       }`}
       initial={{ y: -100, opacity: 0 }}
@@ -87,13 +86,26 @@ const Header = () => {
           <span className="font-medium tracking-tight">Lokesh</span>
           <span style={{ color: currentColors.primary }} className="ml-1">Kumar</span>
         </motion.a>
-        
-        {/* Desktop Navigation - with theme colors */}
+          {/* Desktop Navigation - with theme colors */}
         <nav className="hidden md:flex items-center space-x-8">
           {navItems.map((item, index) => (
             <motion.a 
               key={item.id}
-              href={`#${item.id}`} 
+              href={`#${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                const element = document.getElementById(item.id);
+                if (element) {
+                  const headerHeight = 80; // Account for fixed header
+                  const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                  const offsetPosition = elementPosition - headerHeight;
+                  
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
               className={`text-sm tracking-wide font-medium transition-all relative ${
                 activeSection === item.id
                   ? '' 
@@ -148,7 +160,7 @@ const Header = () => {
           </motion.button>
           
           <motion.a
-            href="./resume.pdf"
+            href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf"
             className="hidden md:flex py-2 px-5 text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group"
             target="_blank"
             rel="noopener noreferrer"
@@ -212,7 +224,7 @@ const Header = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="md:hidden fixed inset-0 z-40 bg-[#f5f5f7]/95 dark:bg-[#101013]/98 backdrop-blur-md pt-20"
+            className="md:hidden fixed inset-0 z-40 bg-gray-50/95 dark:bg-gray-950/98 backdrop-blur-md pt-20"
             initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
@@ -220,8 +232,7 @@ const Header = () => {
             style={{ willChange: "opacity, clip-path" }} // Performance optimization
           >
             <div className="container mx-auto px-6 py-10 flex flex-col h-full">
-              <div className="space-y-10 flex flex-col items-start">
-                {navItems.map((item, index) => (
+              <div className="space-y-10 flex flex-col items-start">                {navItems.map((item, index) => (
                   <motion.a
                     key={item.id}
                     href={`#${item.id}`}
@@ -229,7 +240,23 @@ const Header = () => {
                     style={activeSection === item.id ? { color: currentColors.primary } : {
                       color: isDarkMode ? '#ccc' : '#333'
                     }}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileMenuOpen(false);
+                      setTimeout(() => {
+                        const element = document.getElementById(item.id);
+                        if (element) {
+                          const headerHeight = 80;
+                          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                          const offsetPosition = elementPosition - headerHeight;
+                          
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                          });
+                        }
+                      }, 300); // Small delay to allow menu to close
+                    }}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ 

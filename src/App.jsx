@@ -7,6 +7,7 @@ import ExpertiseSection from './components/expertise/ExpertiseSection'
 import SkillsSection from './components/skills/SkillsSection'
 import TimelineSection from './components/timeline/TimelineSection'
 import PromptEngineeringShowcase from './components/prompt/PromptEngineeringShowcase'
+import ProjectsSectionNew from './components/projects/ProjectsSectionNew'
 import ColorThemeSelector from './components/ui/ColorThemeSelector'
 import SmoothScroll from './components/transitions/SmoothScroll'
 import { initAnalytics, trackPageView } from './utils/analytics'
@@ -33,35 +34,20 @@ function App() {
     document.querySelectorAll('.ultra-smooth, .hover-lift').forEach(el => {
       el.style.willChange = 'transform';
     });
-    
-    // 2. Preload critical resources
+      // 2. Minimal resource preloading
     const preloadResources = () => {
-      // Preload important images
+      // Preload only critical images
       const imagesToPreload = [
-        { src: './images/aigenesis-project.jpeg', importance: 'high' },
-        { src: './images/attendance-system.png', importance: 'medium' },
-        { src: './images/prompt-systems.jpg', importance: 'medium' }
+        { src: './images/prompt-systems.jpg', importance: 'high' }
       ];
       
-      // Use importance attribute for loading priority
+      // Simplified preloading
       imagesToPreload.forEach(({src, importance}) => {
         const img = new Image();
         if (importance === 'high') {
           img.setAttribute('fetchpriority', 'high');
-          img.setAttribute('loading', 'eager');
-        } else {
-          img.setAttribute('loading', 'lazy');
         }
         img.src = src;
-      });
-      
-      // Add link preconnect for external resources
-      const preconnectUrls = ['https://github.com', 'https://linkedin.com'];
-      preconnectUrls.forEach(url => {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = url;
-        document.head.appendChild(link);
       });
     };
     
@@ -119,11 +105,11 @@ function App() {
       }
     }
   };
-
-  // Modern minimal section divider component
+  // Modern minimal section divider component that respects color theme
   const SectionDivider = ({ invert }) => (
-    <div className={`relative h-24 ${invert ? 'bg-[#f5f5f7] dark:bg-[#101013]' : 'bg-white dark:bg-gray-900'}`}>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-[1px] bg-gray-200 dark:bg-gray-800"></div>
+    <div className={`relative h-24 ${invert ? 'bg-gray-50 dark:bg-gray-950' : 'bg-white dark:bg-gray-900'}`}>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-[1px]" 
+           style={{ backgroundColor: 'var(--color-primary)' }}></div>
     </div>
   );
 
@@ -157,11 +143,10 @@ function App() {
               </motion.section>
               
               <SectionDivider invert />
-              
-              {/* Skills section */}
+                {/* Skills section */}
               <motion.section
                 id="skills"
-                className="relative bg-[#f5f5f7] dark:bg-[#101013] cv-auto"
+                className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
@@ -172,8 +157,7 @@ function App() {
               </motion.section>
               
               <SectionDivider />
-              
-              {/* Prompt Engineering Showcase section */}
+                {/* Prompt Engineering Showcase section */}
               <motion.section
                 id="prompt-engineering"
                 className="relative cv-auto"
@@ -187,6 +171,21 @@ function App() {
               </motion.section>
               
               <SectionDivider invert />
+              
+              {/* Projects section */}
+              <motion.section
+                id="projects"
+                className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={sectionVariants}
+                style={{ position: "relative" }}
+              >
+                <ProjectsSectionNew />
+              </motion.section>
+              
+              <SectionDivider />
               
               {/* Timeline section */}
               <motion.section

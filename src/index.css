@@ -222,7 +222,7 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   min-width: 320px;
-  @apply bg-[#f5f5f7] dark:bg-[#101013] text-gray-900 dark:text-gray-100;
+  @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100;
 }
 
 /* Fix line-clamp utility */
@@ -308,51 +308,7 @@ body {
   .lazy-loaded {
     opacity: 1;
   }
-  
-  /* Hide projects section completely - with more specific selectors */
-  section#projects,
-  div#projects,
-  section[id="projects"],
-  div[id="projects"],
-  section[data-section="projects"],
-  div[data-section="projects"],
-  .projects-section,
-  section:has(> h2:contains("Projects")),
-  section:has(> div > h2:contains("Projects")),
-  section:has(> h2:contains("My Projects")),
-  /* Target specifically the section between skills and timeline */
-  #skills + section,
-  #skills + div + section,
-  section:has(> h2:contains("Skills")) + section,
-  section:has(> h2:contains("Skills")) ~ section:has(> h2:contains("Projects")),
-  section:has(> h2:contains("Skills")) ~ section:not(:has(> h2:contains("Timeline"))),
-  /* Three.js specific elements */
-  canvas.three-js-canvas,
-  canvas[data-engine="three.js"],
-  /* Spline 3D elements */
-  [data-spline-uids],
-  /* Any canvas in projects section */
-  section:has(> h2:contains("Projects")) canvas,
-  /* Three.js specific containers */
-  .three-container,
-  .threejs-container,
-  div:has(> canvas[data-engine="three.js"]),
-  /* 3D scene elements in projects */
-  div[style*="perspective"] {
-    display: none !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-  }
-  
-  /* Additional Three.js cleanup - try to keep skills bubbles */
-  div[style*="matrix3d"] h3:contains("Web-based Attendance"),
-  div[style*="matrix3d"] h3:contains("Prompt Systems"),
-  div[style*="matrix3d"] h3:contains("AI Genesis") {
-    display: none !important;
-  }
+    /* Simplified CSS - removed excessive hiding rules */
 }
 
 /* Customize scrollbar */

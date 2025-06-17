@@ -7,9 +7,37 @@ const SmoothScroll = () => {
   
   useEffect(() => {
     // Cache DOM elements and measurements to improve performance
-    let sections = {};
+    let sections = new Map();
     let scrolling = false;
-    let headerOffset = 80; // Adjust based on your header height
+    let headerOffset = 80;
+    let intersectionObserver = null;
+    
+    // Performance optimization: use Intersection Observer for better section detection
+    const initializeIntersectionObserver = () => {
+      const options = {
+        root: null,
+        rootMargin: '-80px 0px -50% 0px', // Account for header height
+        threshold: 0.1
+      };
+
+      intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const navLink = document.querySelector(`a[href="#${entry.target.id}"]`);
+            if (navLink) {
+              // Update active nav state
+              document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+              navLink.classList.add('active');
+            }
+          }
+        });
+      }, options);
+
+      // Observe all sections
+      document.querySelectorAll('section[id]').forEach(section => {
+        intersectionObserver.observe(section);
+      });
+    };
     
     // Debouncing function to limit the rate of execution
     const debounce = (func, wait) => {
@@ -24,51 +52,72 @@ const SmoothScroll = () => {
       };
     };
     
-    // Update section positions - debounced to improve performance during resize
+    // Update section positions - optimized with Map for faster lookups
     const updateSectionPositions = debounce(() => {
+      sections.clear();
       document.querySelectorAll('section[id]').forEach(section => {
-        sections[section.id] = section.offsetTop;
+        sections.set(section.id, section.offsetTop);
       });
-      headerOffset = document.querySelector('header')?.offsetHeight || 80;
+      const header = document.querySelector('header');
+      headerOffset = header?.offsetHeight || 80;
     }, 100);
     
-    // Initialize section positions
+    // Initialize section positions and intersection observer
     updateSectionPositions();
+    initializeIntersectionObserver();
     
-    // Update on window resize
-    window.addEventListener('resize', updateSectionPositions);
+    // Optimized resize handler
+    const handleResize = debounce(() => {
+      updateSectionPositions();
+    }, 200);
     
-    // Custom easing function for more natural scrolling
-    const easeInOutQuad = t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    window.addEventListener('resize', handleResize, { passive: true });
     
-    // Smooth scrolling animation with improved performance
-    const smoothScrollTo = (targetPosition, duration = 800) => {
+    // Enhanced easing function for more natural scrolling
+    const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    
+    // Detect if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Smooth scrolling animation with improved performance and accessibility
+    const smoothScrollTo = (targetPosition, duration = prefersReducedMotion ? 0 : 800) => {
+      if (prefersReducedMotion) {
+        window.scrollTo({ top: targetPosition, behavior: 'auto' });
+        scrolling = false;
+        return;
+      }
+
       const startPosition = window.pageYOffset;
       const distance = targetPosition - startPosition;
       let startTime = null;
+      
+      // Cancel any existing scroll animation
+      if (window.scrollAnimation) {
+        cancelAnimationFrame(window.scrollAnimation);
+      }
       
       const animation = currentTime => {
         if (startTime === null) startTime = currentTime;
         const timeElapsed = currentTime - startTime;
         const progress = Math.min(timeElapsed / duration, 1);
-        const ease = easeInOutQuad(progress);
+        const ease = easeInOutCubic(progress);
         
         window.scrollTo({
           top: startPosition + distance * ease,
-          behavior: 'auto' // Use 'auto' instead of 'smooth' for custom animation
+          behavior: 'auto'
         });
         
         if (timeElapsed < duration) {
-          requestAnimationFrame(animation);
+          window.scrollAnimation = requestAnimationFrame(animation);
         } else {
           scrolling = false;
+          window.scrollAnimation = null;
         }
       };
       
-      requestAnimationFrame(animation);
-    };
-    
-    // Handle anchor link clicks with improved performance
+      window.scrollAnimation = requestAnimationFrame(animation);
+    };    
+    // Handle anchor link clicks with improved performance and mobile support
     const handleAnchorClick = (e) => {
       const href = e.currentTarget.getAttribute('href');
       
@@ -83,7 +132,7 @@ const SmoothScroll = () => {
         
         if (targetElement) {
           // Calculate target position accounting for header
-          const targetPosition = targetElement.offsetTop - headerOffset;
+          const targetPosition = Math.max(0, targetElement.offsetTop - headerOffset);
           
           // Apply smooth scrolling with custom easing
           smoothScrollTo(targetPosition);
@@ -95,42 +144,93 @@ const SmoothScroll = () => {
             window.location.hash = href; // Fallback
           }
           
-          // Add a subtle scrolling indicator using theme colors
-          const indicator = document.createElement('div');
-          indicator.style.position = 'fixed';
-          indicator.style.bottom = '20px';
-          indicator.style.right = '20px';
-          indicator.style.width = '8px';
-          indicator.style.height = '8px';
-          indicator.style.borderRadius = '50%';
-          indicator.style.backgroundColor = currentColors.primary;
-          indicator.style.opacity = '0.8';
-          indicator.style.zIndex = '9999';
-          indicator.style.transition = 'transform 0.3s, opacity 0.3s';
-          document.body.appendChild(indicator);
-          
-          // Remove indicator after scroll completes
-          setTimeout(() => {
-            indicator.style.opacity = '0';
+          // Improved scroll indicator that's more mobile-friendly
+          if (!prefersReducedMotion) {
+            const indicator = document.createElement('div');
+            indicator.className = 'scroll-indicator';
+            indicator.style.cssText = `
+              position: fixed;
+              bottom: 20px;
+              right: 20px;
+              width: 6px;
+              height: 6px;
+              border-radius: 50%;
+              background-color: ${currentColors.primary};
+              opacity: 0.8;
+              z-index: 9999;
+              transform: scale(0);
+              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              pointer-events: none;
+            `;
+            document.body.appendChild(indicator);
+            
+            // Animate indicator
+            requestAnimationFrame(() => {
+              indicator.style.transform = 'scale(1)';
+            });
+            
+            // Remove indicator after scroll completes
             setTimeout(() => {
-              document.body.removeChild(indicator);
-            }, 300);
-          }, 800);
+              indicator.style.opacity = '0';
+              indicator.style.transform = 'scale(0)';
+              setTimeout(() => {
+                if (document.body.contains(indicator)) {
+                  document.body.removeChild(indicator);
+                }
+              }, 300);
+            }, 800);
+          }
         }
       }
     };
 
-    // Apply to all anchor links on the page
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    anchorLinks.forEach(link => {
-      link.addEventListener('click', handleAnchorClick);
+    // Apply to all anchor links on the page with better event delegation
+    const addAnchorListeners = () => {
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', handleAnchorClick, { passive: false });
+      });
+    };
+
+    // Initial setup
+    addAnchorListeners();
+
+    // Watch for dynamically added anchor links
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) { // Element node
+            const newAnchors = node.querySelectorAll?.('a[href^="#"]') || [];
+            newAnchors.forEach(link => {
+              link.addEventListener('click', handleAnchorClick, { passive: false });
+            });
+          }
+        });
+      });
     });
 
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // Cleanup function
     return () => {
-      anchorLinks.forEach(link => {
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.removeEventListener('click', handleAnchorClick);
       });
-      window.removeEventListener('resize', updateSectionPositions);
+      window.removeEventListener('resize', handleResize);
+      
+      if (intersectionObserver) {
+        intersectionObserver.disconnect();
+      }
+      
+      if (mutationObserver) {
+        mutationObserver.disconnect();
+      }
+      
+      if (window.scrollAnimation) {
+        cancelAnimationFrame(window.scrollAnimation);
+      }
     };
   }, [currentColors]);
 

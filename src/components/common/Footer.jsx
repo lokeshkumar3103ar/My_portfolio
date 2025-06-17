@@ -16,7 +16,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#f5f5f7] dark:bg-[#101013] py-20 relative overflow-hidden">
+    <footer className="bg-gray-50 dark:bg-gray-950 py-20 relative overflow-hidden">
       {/* Subtle decorative elements */}
       <div className="absolute -top-40 left-0 w-64 h-64 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
       <div className="absolute right-0 bottom-0 w-96 h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>

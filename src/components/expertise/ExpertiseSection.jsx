@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaBrain, FaRobot, FaDatabase, FaChartBar, FaCode, FaUserGraduate } from 'react-icons/fa';
-import ExpertiseModel from '../models/ExpertiseModel';
+import { FaBrain, FaRobot, FaDatabase, FaChartBar, FaCode, FaUserGraduate, FaCogs, FaProjectDiagram, FaLink, FaLeaf } from 'react-icons/fa';
 import Parallax from '../utils/Parallax';
 
 const expertiseAreas = [
@@ -12,22 +11,39 @@ const expertiseAreas = [
     color: '#6366f1'
   },
   {
-    title: 'AI Model Interaction',
-    description: 'Deep understanding of how to effectively interact with and extract maximum value from AI models through careful prompt design, context setting, and output refinement.',
-    icon: FaRobot,
+    title: 'LLM Optimization',
+    description: 'Expert in fine-tuning and optimizing large language models for specific use cases, implementing local LLM deployment strategies, and enhancing model performance for production environments.',
+    icon: FaCogs,
     color: '#8b5cf6'
   },
   {
-    title: 'Data Science',
-    description: 'Skilled in Python-based data analytics, processing, and visualization. Currently pursuing BS in Data Science from IIT Madras alongside B.Tech in CSE.',
+    title: 'AI Pipeline Development',
+    description: 'Advanced development of end-to-end AI pipelines, from data preprocessing and model integration to automated evaluation systems and real-time processing workflows.',
+    icon: FaProjectDiagram,
+    color: '#6366f1'
+  },
+  {
+    title: 'LLM Integration',
+    description: 'Seamless integration of large language models into applications, including API development, custom model deployment, and creating robust AI-powered solutions for real-world problems.',
+    icon: FaLink,
+    color: '#8b5cf6'
+  },  {
+    title: 'Data Science & ML',
+    description: 'Skilled in Python-based data analytics, machine learning algorithms, processing, and visualization. Currently pursuing BS in Data Science from IIT Madras alongside B.Tech in CSE.',
     icon: FaChartBar,
+    color: '#6366f1'
+  },
+  {
+    title: 'MongoDB Associate Developer',
+    description: 'Proficient in MongoDB database design, NoSQL data modeling, aggregation pipelines, and building scalable database solutions for modern applications and AI systems.',
+    icon: FaLeaf,
     color: '#8b5cf6'
   },
   {
     title: 'Academic Excellence',
     description: 'Maintaining a CGPA of 9.64, demonstrating strong theoretical understanding and practical application of computer science and data science concepts.',
     icon: FaUserGraduate,
-    color: '#6366f1'
+    color: '#8b5cf6'
   },
   {
     title: 'Python Programming',
@@ -73,19 +89,8 @@ const ExpertiseSection = () => {
       transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
     }
   };
-
   return (
-    <section id="expertise" ref={sectionRef} className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>
-      
-      {/* 3D Model Background with Parallax */}
-      <div className="absolute inset-0 z-0 opacity-30 dark:opacity-40 pointer-events-none">
-        <motion.div style={{ opacity, y }} className="w-full h-full">
-          <ExpertiseModel scrollProgress={scrollYProgress} />
-        </motion.div>
-      </div>
+    <section id="expertise" ref={sectionRef} className="py-24 bg-white dark:bg-gray-900 relative">
       
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -111,10 +116,9 @@ const ExpertiseSection = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {expertiseAreas.map((area, index) => (
-            <Parallax key={area.title} type="element" direction="up" speed={0.1} delay={index * 0.05}>
+          {expertiseAreas.map((area, index) => (            <Parallax key={area.title} type="element" direction="up" speed={0.1} delay={index * 0.05}>
               <motion.div
-                className="bg-white/80 backdrop-blur-sm dark:bg-gray-800/40 border border-gray-100 dark:border-gray-700/50 hover:shadow-lg transition-all duration-300 group"
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-lg transition-all duration-300 group"
                 variants={cardVariants}
                 whileHover={{ y: -5 }}
               >
