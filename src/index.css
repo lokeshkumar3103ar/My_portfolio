@@ -158,9 +158,20 @@
   --color-primary-rgb: 59, 130, 246; /* Blue-500 RGB */
 }
 
-/* Add prefers-reduced-motion support */
+/* Respect user's motion preferences for accessibility and smooth UX */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -309,6 +320,44 @@ body {
     opacity: 1;
   }
     /* Simplified CSS - removed excessive hiding rules */
+}
+
+/* Performance optimizations for ultra-smooth experience */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  /* Improve scroll performance */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeSpeed;
+}
+
+/* Prevent layout shifts with consistent sizing */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Optimize animations */
+.animate-in {
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure smooth transforms */
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Prevent visual glitches */
+.avoid-break {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 /* Customize scrollbar */

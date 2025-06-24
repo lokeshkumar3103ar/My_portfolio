@@ -10,14 +10,26 @@ import PromptEngineeringShowcase from './components/prompt/PromptEngineeringShow
 import ProjectsSectionNew from './components/projects/ProjectsSectionNew'
 import ColorThemeSelector from './components/ui/ColorThemeSelector'
 import SmoothScroll from './components/transitions/SmoothScroll'
+import LoadingScreen from './components/transitions/LoadingScreen'
 import { initAnalytics, trackPageView } from './utils/analytics'
 import './App.css'
-import { useEffect } from 'react'
-import { motion, LazyMotion, domAnimation } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion'
 
 // Performance optimization: wrap sections in LazyMotion
 // and use domAnimation for a smaller bundle size
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [showMainContent, setShowMainContent] = useState(false);
+  
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+    // Delay showing main content for smooth transition
+    setTimeout(() => {
+      setShowMainContent(true);
+    }, 300);
+  };
+
   useEffect(() => {
     // Initialize analytics
     initAnalytics();
@@ -41,12 +53,23 @@ function App() {
         { src: './images/prompt-systems.jpg', importance: 'high' }
       ];
       
-      // Simplified preloading
+      // Simplified preloading with error handling
       imagesToPreload.forEach(({src, importance}) => {
         const img = new Image();
         if (importance === 'high') {
           img.setAttribute('fetchpriority', 'high');
         }
+        
+        // Add error handling to prevent interruptions
+        img.onerror = () => {
+          // Silently handle image loading errors
+          // No console output to keep production clean
+        };
+        
+        img.onload = () => {
+          // Image loaded successfully - silently continue
+        };
+        
         img.src = src;
       });
     };
@@ -86,6 +109,23 @@ function App() {
     
     lazyLoadImages();
     
+    // 5. Global error handling to maintain smooth UX
+    window.addEventListener('unhandledrejection', (event) => {
+      // Silently handle unhandled promise rejections
+      // This prevents console errors from disrupting the user experience
+      event.preventDefault();
+    });
+    
+    window.addEventListener('error', (event) => {
+      // Silently handle uncaught errors
+      // Only log in development mode
+      if (import.meta.env.DEV) {
+        console.warn('Caught error:', event.error);
+      }
+      // Prevent default error handling that might disrupt UX
+      event.preventDefault();
+    });
+    
     // Clean up event listeners when component unmounts
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
@@ -93,7 +133,27 @@ function App() {
     
   }, []);
 
-  // Page section transition variants with improved easing
+  // Main content animation variants
+  const mainContentVariants = {
+    hidden: { 
+      opacity: 0,
+      scale: 0.95,
+      filter: 'blur(20px)',
+      y: 50
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
+      y: 0,
+      transition: {
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1],
+        staggerChildren: 0.1
+      }
+    }
+  };
+
   const sectionVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -113,96 +173,139 @@ function App() {
     </div>
   );
 
+  if (isLoading) {
+    return (
+      <ThemeProvider>
+        <ColorThemeProvider>
+          <LoadingScreen onComplete={handleLoadingComplete} />
+        </ColorThemeProvider>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider>
       <ColorThemeProvider>
         <LazyMotion features={domAnimation}>
-          <div className="min-h-screen relative overflow-hidden" style={{ position: "relative" }}>
-            <Header />
-            <SmoothScroll />
-            
-            <main className="relative">
-              {/* Hero section with grid background */}
-              <section className="relative">
-                <HeroSection />
-              </section>
-              
-              <SectionDivider />
-              
-              {/* Expertise section */}
-              <motion.section
-                id="expertise"
-                className="relative bg-white dark:bg-gray-900 cv-auto"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={sectionVariants}
+          {/* Loading Screen */}
+          <AnimatePresence>
+            {isLoading && (
+              <LoadingScreen onComplete={handleLoadingComplete} />
+            )}
+          </AnimatePresence>
+
+          {/* Main Content with Smooth Entrance */}
+          <AnimatePresence>
+            {showMainContent && (
+              <motion.div
+                className="min-h-screen relative overflow-hidden"
                 style={{ position: "relative" }}
-              >
-                <ExpertiseSection />
-              </motion.section>
-              
-              <SectionDivider invert />
-                {/* Skills section */}
-              <motion.section
-                id="skills"
-                className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
+                variants={mainContentVariants}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={sectionVariants}
-                style={{ position: "relative" }}
+                animate="visible"
+                exit="hidden"
               >
-                <SkillsSection />
-              </motion.section>
-              
-              <SectionDivider />
-                {/* Prompt Engineering Showcase section */}
-              <motion.section
-                id="prompt-engineering"
-                className="relative cv-auto"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={sectionVariants}
-                style={{ position: "relative" }}
-              >
-                <PromptEngineeringShowcase />
-              </motion.section>
-              
-              <SectionDivider invert />
-              
-              {/* Projects section */}
-              <motion.section
-                id="projects"
-                className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={sectionVariants}
-                style={{ position: "relative" }}
-              >
-                <ProjectsSectionNew />
-              </motion.section>
-              
-              <SectionDivider />
-              
-              {/* Timeline section */}
-              <motion.section
-                id="timeline"
-                className="relative bg-white dark:bg-gray-900 cv-auto"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={sectionVariants}
-                style={{ position: "relative" }}
-              >
-                <TimelineSection />
-              </motion.section>
-            </main>
-            <Footer />
-            <ColorThemeSelector />
-          </div>
+                <Header />
+                <SmoothScroll />
+                
+                <motion.main className="relative">
+                  {/* Hero section with smooth entrance */}
+                  <motion.section 
+                    className="relative"
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.98, y: 20 },
+                      visible: { 
+                        opacity: 1, 
+                        scale: 1, 
+                        y: 0,
+                        transition: { 
+                          duration: 1, 
+                          ease: [0.16, 1, 0.3, 1] 
+                        }
+                      }
+                    }}
+                  >
+                    <HeroSection />
+                  </motion.section>
+                  
+                  <SectionDivider />
+                  
+                  {/* Expertise section */}
+                  <motion.section
+                    id="expertise"
+                    className="relative bg-white dark:bg-gray-900 cv-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={sectionVariants}
+                    style={{ position: "relative" }}
+                  >
+                    <ExpertiseSection />
+                  </motion.section>
+                  
+                  <SectionDivider invert />
+                    {/* Skills section */}
+                  <motion.section
+                    id="skills"
+                    className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={sectionVariants}
+                    style={{ position: "relative" }}
+                  >
+                    <SkillsSection />
+                  </motion.section>
+                  
+                  <SectionDivider />
+                    {/* Prompt Engineering Showcase section */}
+                  <motion.section
+                    id="prompt-engineering"
+                    className="relative cv-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={sectionVariants}
+                    style={{ position: "relative" }}
+                  >
+                    <PromptEngineeringShowcase />
+                  </motion.section>
+                  
+                  <SectionDivider invert />
+                  
+                  {/* Projects section */}
+                  <motion.section
+                    id="projects"
+                    className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={sectionVariants}
+                    style={{ position: "relative" }}
+                  >
+                    <ProjectsSectionNew />
+                  </motion.section>
+                  
+                  <SectionDivider />
+                  
+                  {/* Timeline section */}
+                  <motion.section
+                    id="timeline"
+                    className="relative bg-white dark:bg-gray-900 cv-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={sectionVariants}
+                    style={{ position: "relative" }}
+                  >
+                    <TimelineSection />
+                  </motion.section>
+                </motion.main>
+                <Footer />
+                <ColorThemeSelector />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </LazyMotion>
       </ColorThemeProvider>
     </ThemeProvider>

@@ -8,13 +8,6 @@ export const colorThemes = {
     accent: '#F59E0B',
     name: 'Blue-Purple',
     gradient: 'linear-gradient(135deg, #1D4ED8, #9333EA)'
-  },
-  yellowgreen: {
-    primary: '#65A30D',
-    secondary: '#EAB308',
-    accent: '#DC2626',
-    name: 'Yellow-Green',
-    gradient: 'linear-gradient(135deg, #65A30D, #EAB308)'
   }
 };
 

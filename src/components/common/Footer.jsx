@@ -44,8 +44,8 @@ const Footer = () => {
             variants={fadeIn}
           >
             <h3 className="text-2xl font-medium mb-6 tracking-tight flex items-center">
-              <span>Lokesh</span>
-              <span className="text-[#6366f1] dark:text-[#a78bfa] ml-2">Kumar</span>
+              <span>Lokesh Kumar</span>
+              <span className="text-[#6366f1] dark:text-[#a78bfa] ml-2">A R</span>
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-md">
               AI Prompt Engineering Intern specializing in structured approaches like 

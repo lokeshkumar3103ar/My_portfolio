@@ -30,15 +30,24 @@ const ImageLoader = ({
     if (isInView || priority) {
       const img = new Image();
       img.src = src;
+      
       img.onload = () => {
         setImageSrc(src);
         setLoaded(true);
+      };
+      
+      // Add error handling for failed image loads
+      img.onerror = () => {
+        // If main image fails to load, keep placeholder
+        // Silently handle the error to maintain smooth UX
+        setLoaded(true); // Still mark as "loaded" to remove blur
       };
       
       // Set loading attribute based on priority
       if (priority) {
         return () => {
           img.onload = null;
+          img.onerror = null;
         };
       }
     }

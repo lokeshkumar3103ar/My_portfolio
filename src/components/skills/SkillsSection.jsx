@@ -1,728 +1,455 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const skills = [
-  { name: 'Prompt Engineering', level: 95, category: 'AI', color: '#6366f1' },
-  { name: 'Python', level: 90, category: 'Programming', color: '#8b5cf6' },
-  { name: 'LLM Integration', level: 88, category: 'AI', color: '#6366f1' },
-  { name: 'LLM Optimization', level: 85, category: 'AI', color: '#8b5cf6' },
-  { name: 'AI Model Interaction', level: 85, category: 'AI', color: '#6366f1' },
-  { name: 'Data Analytics', level: 88, category: 'Data Science', color: '#8b5cf6' },
-  { name: 'FastAPI', level: 82, category: 'Backend', color: '#6366f1' },
-  { name: 'MongoDB', level: 80, category: 'Database', color: '#8b5cf6' },
-  { name: 'AI Pipelines', level: 85, category: 'AI', color: '#6366f1' },
-  { name: 'Docker', level: 78, category: 'DevOps', color: '#8b5cf6' },
-  { name: 'Deployment', level: 82, category: 'DevOps', color: '#6366f1' },
-  { name: 'Experimentation & Testing', level: 82, category: 'AI', color: '#8b5cf6' },
-  { name: 'Data Literacy', level: 80, category: 'Data Science', color: '#6366f1' },
-  { name: 'Data Processing', level: 85, category: 'Data Science', color: '#8b5cf6' },
-  { name: 'Research Skills', level: 78, category: 'General', color: '#6366f1' },
-  { name: 'Problem Solving', level: 90, category: 'General', color: '#8b5cf6' },
-  { name: 'Computer Vision', level: 75, category: 'AI', color: '#6366f1' },
-  { name: 'Excel', level: 75, category: 'Tools', color: '#8b5cf6' },
+  // Input Layer - Foundation Skills & Tools
+  { name: 'Python', category: 'Programming', color: '#6366f1', layer: 'input' },
+  { name: 'FastAPI', category: 'Backend', color: '#8b5cf6', layer: 'input' },
+  { name: 'MongoDB', category: 'Database', color: '#6366f1', layer: 'input' },
+  { name: 'Docker', category: 'DevOps', color: '#8b5cf6', layer: 'input' },
+  { name: 'AWS/Azure AI', category: 'Cloud AI', color: '#6366f1', layer: 'input' },
+  { name: 'Data Literacy', category: 'Data Science', color: '#8b5cf6', layer: 'input' },
+  { name: 'Research Skills', category: 'General', color: '#6366f1', layer: 'input' },
+  { name: 'Excel', category: 'Tools', color: '#8b5cf6', layer: 'input' },
+
+  // Hidden Layer - Processing & Analysis
+  { name: 'Data Analytics', category: 'Data Science', color: '#6366f1', layer: 'hidden' },
+  { name: 'Data Processing', category: 'Data Science', color: '#8b5cf6', layer: 'hidden' },
+  { name: 'LLM Optimization', category: 'AI', color: '#6366f1', layer: 'hidden' },
+  { name: 'AI Pipelines', category: 'AI', color: '#8b5cf6', layer: 'hidden' },
+  { name: 'Experimentation & Testing', category: 'AI', color: '#6366f1', layer: 'hidden' },
+  { name: 'Problem Solving', category: 'General', color: '#8b5cf6', layer: 'hidden' },
+  { name: 'Model Deployment', category: 'MLOps', color: '#6366f1', layer: 'hidden' },
+  { name: 'Ollama', category: 'Local LLM', color: '#8b5cf6', layer: 'hidden' },
+
+  // Output Layer - Specialized AI Skills
+  { name: 'Prompt Engineering', category: 'AI', color: '#6366f1', layer: 'output' },
+  { name: 'LLM Integration', category: 'AI', color: '#8b5cf6', layer: 'output' },
+  { name: 'AI Model Interaction', category: 'AI', color: '#6366f1', layer: 'output' },
+  { name: 'RAG Systems', category: 'AI Architecture', color: '#8b5cf6', layer: 'output' },
+  { name: 'Multimodal AI', category: 'Advanced AI', color: '#6366f1', layer: 'output' },
+  { name: 'Agent Systems', category: 'AI Architecture', color: '#8b5cf6', layer: 'output' },
 ];
 
-// Create sparkle particles for the burst effect - reduced count
-const BurstParticles = ({ x, y, color }) => {
-  const particles = Array(8).fill(0).map((_, i) => ({ // Reduced from 20 to 8
-    id: i,
-    angle: (i * 45) % 360, // Simplified angle calculation
-    distance: Math.random() * 60 + 20, // Reduced distance
-    size: Math.random() * 6 + 2,
-    duration: Math.random() * 0.8 + 0.6, // Shorter duration
-  }));
-
-  return (
-    <div className="absolute pointer-events-none" style={{ left: x, top: y, zIndex: 30 }}>
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full"
-          style={{
-            width: particle.size,
-            height: particle.size,
-            backgroundColor: color,
-            boxShadow: `0 0 ${particle.size * 3}px ${color}`,
-          }}
-          initial={{ opacity: 1, x: 0, y: 0, scale: 0 }}
-          animate={{
-            opacity: 0,
-            x: Math.cos((particle.angle * Math.PI) / 180) * particle.distance,
-            y: Math.sin((particle.angle * Math.PI) / 180) * particle.distance,
-            scale: 1.5,
-          }}
-          transition={{ 
-            duration: particle.duration,
-            ease: [0.1, 0.5, 0.8, 1] 
-          }}
-        />
-      ))}
-      
-      {/* Central flash */}
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 50,
-          height: 50,
-          backgroundColor: 'white',
-          boxShadow: `0 0 40px ${color}`,
-          top: -25,
-          left: -25,
-        }}
-        initial={{ opacity: 1, scale: 0 }}
-        animate={{ opacity: 0, scale: 3 }}
-        transition={{ duration: 0.8 }}
-      />
-    </div>
-  );
-};
-
-// Interactive bubble field
-const BubbleField = () => {
-  const [bubbles, setBubbles] = useState([]);
-  const containerRef = useRef(null);
-  const [containerSize, setContainerSize] = useState({ width: 800, height: 600 });
-  const [cursorPosition, setCursorPosition] = useState({ x: 9999, y: 9999 });
+// Neural Network Visualization Component
+const NeuralNetworkField = () => {
+  const [hoveredNode, setHoveredNode] = useState(null);
+  const [activePulse, setActivePulse] = useState(null);
+  const [networkData, setNetworkData] = useState({ nodes: [], connections: [] });
   const [isInitialized, setIsInitialized] = useState(false);
-  const firstRenderRef = useRef(true);
-  
-  // Physics constants
-  const friction = 0.998;
-  const cursorInfluence = 0.3;
-  const slowMotionFactor = 0.9;
-  const wallRepulsionRange = 90;
-  const wallRepulsionStrength = 0.35;
-  const velocityDecay = 0.03;
-  const bubbleRepulsionRange = 10;
-  const bubbleRepulsionStrength = 0.5;
-  
-  // Add subtle connecting lines between bubbles
-  const ConnectingLines = ({ bubblePositions, poppedIndices }) => {
-    if (bubblePositions.length === 0) return null;
+  const containerRef = useRef(null);
+  const [containerSize, setContainerSize] = useState({ width: 800, height: 650 });
+
+  // Organize skills by neural network layers
+  const layerConfig = {
+    input: { x: 0.15, color: '#10b981', label: 'Input Layer' },
+    hidden: { x: 0.5, color: '#f59e0b', label: 'Processing Layer' },
+    output: { x: 0.85, color: '#ef4444', label: 'Output Layer' }
+  };
+
+  // Calculate position for nodes in neural network layout
+  const calculateNodePositions = (width, height) => {
+    const layers = { input: [], hidden: [], output: [] };
     
-    return (
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        {bubblePositions.map((bubble, i) => (
-          bubblePositions.slice(i + 1).map((target, j) => {
-            const realJ = j + i + 1;
-            const isPopped = poppedIndices.includes(i) || poppedIndices.includes(realJ);
-            
-            // Calculate distance to make closer bubbles have stronger connections
-            const dx = bubble.x - target.x;
-            const dy = bubble.y - target.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = 180;
-            
-            if (distance > maxDistance) return null;
-            
-            const opacity = (1 - distance/maxDistance) * 0.3;
-            
-            return (
-              <motion.line 
-                key={`${i}-${realJ}`}
-                x1={bubble.x} 
-                y1={bubble.y} 
-                x2={target.x} 
-                y2={target.y}
-                stroke={`${isPopped ? '#ccc' : 'url(#gradient' + i + realJ + ')'}`}
-                strokeWidth="1.5"
-                strokeOpacity={isPopped ? opacity * 0.3 : opacity}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              />
-            );
-          })
-        ))}
+    // Group skills by layer
+    skills.forEach(skill => {
+      layers[skill.layer].push(skill);
+    });
+
+    const nodes = [];
+    const margin = 80;
+    const usableHeight = height - (margin * 2);
+
+    Object.keys(layers).forEach(layerKey => {
+      const layer = layers[layerKey];
+      const layerX = layerConfig[layerKey].x * width;
+      const nodeSpacing = layer.length > 1 ? usableHeight / (layer.length - 1) : 0;
+      const startY = layer.length === 1 ? height / 2 : margin;
+
+      layer.forEach((skill, index) => {
+        const nodeY = layer.length === 1 ? startY : startY + (index * nodeSpacing);
+        // Improved responsive node size based on screen width and skill name length
+        let nodeSize;
+        if (width < 480) {
+          nodeSize = skill.name.length > 8 ? 32 : 36; // Smaller for mobile
+        } else if (width < 768) {
+          nodeSize = skill.name.length > 8 ? 38 : 42; // Tablet
+        } else if (width < 1024) {
+          nodeSize = skill.name.length > 8 ? 44 : 48; // Small desktop
+        } else {
+          nodeSize = skill.name.length > 8 ? 50 : 54; // Large desktop
+        }
+
+        nodes.push({
+          id: skills.indexOf(skill),
+          skill,
+          x: layerX,
+          y: nodeY,
+          layer: layerKey,
+          size: nodeSize,
+          originalX: layerX,
+          originalY: nodeY,
+        });
+      });
+    });
+
+    return nodes;
+  };
+
+  // Generate connections between nodes
+  const generateConnections = (nodes) => {
+    const connections = [];
+    const inputNodes = nodes.filter(n => n.layer === 'input');
+    const hiddenNodes = nodes.filter(n => n.layer === 'hidden');
+    const outputNodes = nodes.filter(n => n.layer === 'output');
+
+    // Connect input to hidden layer
+    inputNodes.forEach(inputNode => {
+      hiddenNodes.forEach(hiddenNode => {
+        const strength = Math.random() * 0.8 + 0.2;
+        connections.push({
+          id: `${inputNode.id}-${hiddenNode.id}`,
+          from: inputNode.id,
+          to: hiddenNode.id,
+          strength,
+          active: false,
+        });
+      });
+    });
+
+    // Connect hidden to output layer
+    hiddenNodes.forEach(hiddenNode => {
+      outputNodes.forEach(outputNode => {
+        const strength = Math.random() * 0.8 + 0.2;
+        connections.push({
+          id: `${hiddenNode.id}-${outputNode.id}`,
+          from: hiddenNode.id,
+          to: outputNode.id,
+          strength,
+          active: false,
+        });
+      });
+    });
+
+    return connections;
+  };
+
+  // Initialize network with proper responsive handling
+  useEffect(() => {
+    const updateNetworkSize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const newSize = { 
+          width: Math.max(rect.width, 320), 
+          height: Math.max(rect.height, 400) 
+        };
         
-        {/* Define gradients for each connection */}
+        setContainerSize(newSize);
+        
+        const nodes = calculateNodePositions(newSize.width, newSize.height);
+        const connections = generateConnections(nodes);
+        
+        setNetworkData({ nodes, connections });
+        setIsInitialized(true);
+      }
+    };
+
+    // Multiple initialization attempts for reliability
+    const timer1 = setTimeout(updateNetworkSize, 100);
+    const timer2 = setTimeout(updateNetworkSize, 500);
+    const timer3 = setTimeout(updateNetworkSize, 1000);
+    
+    window.addEventListener('resize', updateNetworkSize);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      window.removeEventListener('resize', updateNetworkSize);
+    };
+  }, []);
+
+  // Pulse animation effect
+  useEffect(() => {
+    if (!isInitialized || networkData.connections.length === 0) return;
+
+    const pulseInterval = setInterval(() => {
+      const randomConnection = networkData.connections[Math.floor(Math.random() * networkData.connections.length)];
+      setActivePulse(randomConnection?.id);
+      
+      setTimeout(() => setActivePulse(null), 1500);
+    }, 2000);
+
+    return () => clearInterval(pulseInterval);
+  }, [networkData.connections, isInitialized]);
+
+  // Handle node interaction
+  const handleNodeHover = (nodeId) => {
+    setHoveredNode(nodeId);
+    
+    setNetworkData(prev => ({
+      ...prev,
+      connections: prev.connections.map(conn => ({
+        ...conn,
+        active: conn.from === nodeId || conn.to === nodeId
+      }))
+    }));
+  };
+
+  const handleNodeLeave = () => {
+    setHoveredNode(null);
+    setNetworkData(prev => ({
+      ...prev,
+      connections: prev.connections.map(conn => ({
+        ...conn,
+        active: false
+      }))
+    }));
+  };
+
+  // Render neural network connections
+  const renderConnections = () => {
+    if (!networkData.nodes.length) return null;
+
+    return (
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
         <defs>
-          {bubblePositions.map((bubble, i) => (
-            bubblePositions.slice(i + 1).map((target, j) => {
-              const realJ = j + i + 1;
-              return (
-                <linearGradient id={`gradient${i}${realJ}`} key={`grad-${i}-${realJ}`} 
-                  x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor={skills[i].color} />
-                  <stop offset="100%" stopColor={skills[realJ].color} />
-                </linearGradient>
-              );
-            })
-          ))}
+          <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="30%" stopColor="#60a5fa" stopOpacity="0.8" />
+            <stop offset="70%" stopColor="#3b82f6" stopOpacity="1" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
         </defs>
+        
+        {networkData.connections.map((connection) => {
+          const fromNode = networkData.nodes.find(n => n.id === connection.from);
+          const toNode = networkData.nodes.find(n => n.id === connection.to);
+          
+          if (!fromNode || !toNode) return null;
+
+          const isActive = connection.active || hoveredNode === connection.from || hoveredNode === connection.to;
+          const isPulsing = activePulse === connection.id;
+
+          return (
+            <g key={connection.id}>
+              <motion.line
+                x1={fromNode.x}
+                y1={fromNode.y}
+                x2={toNode.x}
+                y2={toNode.y}
+                stroke={isActive ? '#3b82f6' : '#d1d5db'}
+                strokeWidth={isActive ? 2 : 1}
+                strokeOpacity={isActive ? 0.8 : 0.3}
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 1, delay: Math.random() * 0.5 }}
+              />
+              
+              {isPulsing && (
+                <motion.line
+                  x1={fromNode.x}
+                  y1={fromNode.y}
+                  x2={toNode.x}
+                  y2={toNode.y}
+                  stroke="url(#pulseGradient)"
+                  strokeWidth="4"
+                  initial={{ pathLength: 0, pathOffset: 0 }}
+                  animate={{ pathLength: 1, pathOffset: 1 }}
+                  transition={{ duration: 1.5, ease: "easeInOut" }}
+                />
+              )}
+            </g>
+          );
+        })}
       </svg>
     );
   };
-  
-  // Calculate bubble size based on skill level
-  const getBubbleSize = (level) => {
-    return 75 + ((level / 100) * 75);
+
+  // Responsive container height with better breakpoint handling
+  const getContainerHeight = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      // Adaptive heights based on device and screen size
+      if (width < 480) return 'h-[400px] sm:h-[450px]'; // Mobile
+      if (width < 768) return 'h-[500px]'; // Large mobile/small tablet
+      if (width < 1024) return 'h-[550px]'; // Tablet
+      if (width < 1440) return 'h-[600px]'; // Small desktop
+      return 'h-[650px]'; // Large desktop
+    }
+    return 'h-[650px]';
   };
 
-  // Track container size for responsive positioning
-  useEffect(() => {
-    const updateContainerSize = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setContainerSize({ width: rect.width, height: rect.height });
-        
-        if (!isInitialized) {
-          // Initial scatter of bubbles
-          initializeBubblePositions(rect.width, rect.height);
-          setIsInitialized(true);
-        } else {
-          // If already initialized, just update positions proportionally
-          updateBubblePositions(rect.width, rect.height);
-        }
-      }
-    };
-    
-    // Update on mount and window resize
-    updateContainerSize();
-    window.addEventListener('resize', updateContainerSize);
-    return () => window.removeEventListener('resize', updateContainerSize);
-  }, [isInitialized]);
-  
-  // Initial random position generation with collision avoidance
-  const initializeBubblePositions = (width, height) => {
-    const positions = [];
-    
-    for (let i = 0; i < skills.length; i++) {
-      let attempts = 0;
-      let validPosition = false;
-      let position;
-      
-      while (!validPosition && attempts < 50) {
-        const bubbleSize = getBubbleSize(skills[i].level);
-        const radius = bubbleSize / 2;
-        
-        const x = radius + 20 + Math.random() * (width - radius * 2 - 40);
-        const y = radius + 20 + Math.random() * (height - radius * 2 - 40);
-        
-        let hasCollision = false;
-        for (let j = 0; j < positions.length; j++) {
-          const dx = x - positions[j].x;
-          const dy = y - positions[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const minDistance = (radius + positions[j].radius) * 0.9;
-          
-          if (distance < minDistance) {
-            hasCollision = true;
-            break;
-          }
-        }
-        
-        if (!hasCollision || attempts > 40) {
-          validPosition = true;
-          position = {
-            x,
-            y,
-            initialX: x,
-            initialY: y,
-            rotation: Math.random() * 20 - 10,
-            velocity: { 
-              x: (Math.random() * 2 - 1) * 1,
-              y: (Math.random() * 2 - 1) * 1
-            },
-            mass: 1 + (skills[i].level / 100),
-            level: skills[i].level,
-            radius: radius,
-            bounciness: 0.7 + Math.random() * 0.2,
-          };
-        }
-        
-        attempts++;
-      }
-      
-      if (position) {
-        positions.push(position);
-      }
-    }
-    
-    setBubbles(positions);
-    
-    if (firstRenderRef.current) {
-      setTimeout(() => {
-        setBubbles(prev => prev.map(bubble => ({
-          ...bubble,
-          velocity: {
-            x: (Math.random() * 2 - 1) * 3,
-            y: (Math.random() * 2 - 1) * 3
-          }
-        })));
-        firstRenderRef.current = false;
-      }, 700);
-    }
-  };
-  
-  // Resize handler
-  const updateBubblePositions = (width, height) => {
-    setBubbles(prev => prev.map(bubble => {
-      const ratioX = width / containerSize.width;
-      const ratioY = height / containerSize.height;
-      
-      return {
-        ...bubble,
-        x: bubble.x * ratioX,
-        y: bubble.y * ratioY,
-        initialX: bubble.initialX * ratioX,
-        initialY: bubble.initialY * ratioY,
-      };
-    }));
-  };
-  
-  // Track cursor position for bubble movement
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const newX = e.clientX - rect.left;
-      const newY = e.clientY - rect.top;
-      
-      // Only update if position changed significantly to prevent infinite renders
-      if (Math.abs(cursorPosition.x - newX) > 2 || Math.abs(cursorPosition.y - newY) > 2) {
-        setCursorPosition({ x: newX, y: newY });
-      }
-    };
-    
-    const handleMouseLeave = () => {
-      setCursorPosition({ x: 9999, y: 9999 });
-    };
-
-    const currentContainer = containerRef.current;
-    if (currentContainer) {
-      currentContainer.addEventListener("mousemove", handleMouseMove);
-      currentContainer.addEventListener("mouseleave", handleMouseLeave);
-    }
-    
-    return () => {
-      if (currentContainer) {
-        currentContainer.removeEventListener("mousemove", handleMouseMove);
-        currentContainer.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
-  }, [containerRef, cursorPosition]); // Add proper dependencies
-  
-  const [poppedBubbles, setPoppedBubbles] = useState([]);
-  const [burstEffects, setBurstEffects] = useState([]);
-  
-  // Handle bubble bursting
-  const burstBubble = (index, event) => {
-    setBurstEffects(prev => [...prev, {
-      id: Date.now(),
-      x: bubbles[index].x,
-      y: bubbles[index].y,
-      color: skills[index].color,
-    }]);
-    
-    setPoppedBubbles(prev => [...prev, index]);
-    
-    setBubbles(prev => prev.map((bubble, i) => {
-      if (i !== index && !poppedBubbles.includes(i)) {
-        const dx = bubble.x - bubbles[index].x;
-        const dy = bubble.y - bubbles[index].y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 200) {
-          const pushForce = 8 * (1 - distance / 200);
-          const angle = Math.atan2(dy, dx);
-          return {
-            ...bubble,
-            velocity: {
-              x: bubble.velocity.x + Math.cos(angle) * pushForce,
-              y: bubble.velocity.y + Math.sin(angle) * pushForce
-            }
-          };
-        }
-      }
-      return bubble;
-    }));
-    
-    setTimeout(() => {
-      setPoppedBubbles(prev => prev.filter(i => i !== index));
-      
-      setBubbles(prev => prev.map((bubble, i) => {
-        if (i === index) {
-          return {
-            ...bubble,
-            velocity: {
-              x: (Math.random() * 2 - 1) * 5,
-              y: (Math.random() * 2 - 1) * 5
-            }
-          };
-        }
-        return bubble;
-      }));
-    }, 1800);
-  };
-  
-  // Physics simulation
-  useEffect(() => {
-    if (bubbles.length === 0) return;
-    
-    const updateBubblesWithIceBallPhysics = () => {
-      setBubbles(prev => {
-        if (prev.length === 0) return prev;
-        
-        const newBubbles = prev.map((bubble, index) => {
-          if (poppedBubbles.includes(index)) {
-            return {
-              ...bubble,
-              velocity: {
-                x: 0,
-                y: -2,
-              }
-            };
-          }
-          
-          let vx = bubble.velocity.x;
-          let vy = bubble.velocity.y;
-          
-          const dx = cursorPosition.x - bubble.x;
-          const dy = cursorPosition.y - bubble.y;
-          const distanceSq = dx * dx + dy * dy;
-          const distance = Math.sqrt(distanceSq);
-          
-          if (distance < 180) {
-            const force = Math.pow(1 - distance / 180, 1.5) * cursorInfluence;
-            const angle = Math.atan2(dy, dx);
-            const speedMultiplier = distance < 60 ? 25 : 18;
-            
-            vx -= Math.cos(angle) * force * speedMultiplier;
-            vy -= Math.sin(angle) * force * speedMultiplier;
-          }
-          
-          const currentSpeed = Math.sqrt(vx * vx + vy * vy);
-          if (currentSpeed > 0.2) {
-            const decayFactor = Math.max(0, 1 - (velocityDecay * (currentSpeed > 5 ? 2 : 1)));
-            vx *= decayFactor;
-            vy *= decayFactor;
-          } else if (currentSpeed < 0.2 && currentSpeed > 0.01) {
-            vx *= 0.95;
-            vy *= 0.95;
-          } else if (currentSpeed <= 0.01) {
-            vx = 0;
-            vy = 0;
-          }
-          
-          const radius = bubble.radius;
-          
-          if (bubble.x - radius < wallRepulsionRange) {
-            const distFromWall = bubble.x - radius;
-            const repulsionForce = (1 - Math.max(0, distFromWall) / wallRepulsionRange) * wallRepulsionStrength;
-            vx += Math.pow(repulsionForce, 0.8) * 4;
-          }
-          
-          if (containerSize.width - (bubble.x + radius) < wallRepulsionRange) {
-            const distFromWall = containerSize.width - (bubble.x + radius);
-            const repulsionForce = (1 - Math.max(0, distFromWall) / wallRepulsionRange) * wallRepulsionStrength;
-            vx -= Math.pow(repulsionForce, 0.8) * 4;
-          }
-          
-          if (bubble.y - radius < wallRepulsionRange) {
-            const distFromWall = bubble.y - radius;
-            const repulsionForce = (1 - Math.max(0, distFromWall) / wallRepulsionRange) * wallRepulsionStrength;
-            vy += Math.pow(repulsionForce, 0.8) * 4;
-          }
-          
-          if (containerSize.height - (bubble.y + radius) < wallRepulsionRange) {
-            const distFromWall = containerSize.height - (bubble.y + radius);
-            const repulsionForce = (1 - Math.max(0, distFromWall) / wallRepulsionRange) * wallRepulsionStrength;
-            vy -= Math.pow(repulsionForce, 0.8) * 4;
-          }
-          
-          vx *= friction;
-          vy *= friction;
-          
-          vx *= slowMotionFactor;
-          vy *= slowMotionFactor;
-          
-          const newX = bubble.x + vx;
-          const newY = bubble.y + vy;
-          
-          let finalX = newX;
-          let finalY = newY;
-          let finalVx = vx;
-          let finalVy = vy;
-          
-          const bufferZone = 5;
-          if (newX - radius < 0) {
-            finalX = radius + bufferZone;
-            finalVx = Math.abs(vx) * bubble.bounciness * 0.6;
-          } else if (newX + radius > containerSize.width) {
-            finalX = containerSize.width - radius - bufferZone;
-            finalVx = -Math.abs(vx) * bubble.bounciness * 0.6;
-          }
-          
-          if (newY - radius < 0) {
-            finalY = radius + bufferZone;
-            finalVy = Math.abs(vy) * bubble.bounciness * 0.6;
-          } else if (newY + radius > containerSize.height) {
-            finalY = containerSize.height - radius - bufferZone;
-            finalVy = -Math.abs(vy) * bubble.bounciness * 0.6;
-          }
-          
-          return {
-            ...bubble,
-            x: finalX,
-            y: finalY,
-            velocity: { x: finalVx, y: finalVy },
-            newPosition: { x: finalX, y: finalY }
-          };
-        });
-        
-        for (let i = 0; i < newBubbles.length; i++) {
-          if (poppedBubbles.includes(i)) continue;
-          
-          for (let j = i + 1; j < newBubbles.length; j++) {
-            if (poppedBubbles.includes(j)) continue;
-            
-            const bubbleA = newBubbles[i];
-            const bubbleB = newBubbles[j];
-            
-            const dx = bubbleB.x - bubbleA.x;
-            const dy = bubbleB.y - bubbleA.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            const minDistance = bubbleA.radius + bubbleB.radius;
-            const extendedDistance = minDistance + bubbleRepulsionRange;
-            
-            if (distance < extendedDistance) {
-              const nx = dx / distance;
-              const ny = dy / distance;
-              
-              const repulsionFactor = Math.min(1.5, (extendedDistance - distance) / bubbleRepulsionRange);
-              const repulsionStrength = bubbleRepulsionStrength * repulsionFactor;
-              
-              const massFactorA = 1 / bubbleA.mass;
-              const massFactorB = 1 / bubbleB.mass;
-              const totalMassFactor = massFactorA + massFactorB;
-              
-              newBubbles[i].velocity.x -= nx * repulsionStrength * (massFactorA / totalMassFactor) * 2;
-              newBubbles[i].velocity.y -= ny * repulsionStrength * (massFactorA / totalMassFactor) * 2;
-              newBubbles[j].velocity.x += nx * repulsionStrength * (massFactorB / totalMassFactor) * 2;
-              newBubbles[j].velocity.y += ny * repulsionStrength * (massFactorB / totalMassFactor) * 2;
-              
-              if (distance < minDistance) {
-                const vx = bubbleB.velocity.x - bubbleA.velocity.x;
-                const vy = bubbleB.velocity.y - bubbleA.velocity.y;
-                
-                const velocityAlongNormal = vx * nx + vy * ny;
-                
-                if (velocityAlongNormal > 0) continue;
-                
-                const restitution = Math.min(bubbleA.bounciness, bubbleB.bounciness) * 0.65;
-                
-                const impulseScalar = -(1 + restitution) * velocityAlongNormal;
-                const totalMass = bubbleA.mass + bubbleB.mass;
-                
-                const impulseX = impulseScalar * nx;
-                const impulseY = impulseScalar * ny;
-                
-                newBubbles[i].velocity.x -= (impulseX * bubbleB.mass) / totalMass * 0.8;
-                newBubbles[i].velocity.y -= (impulseY * bubbleB.mass) / totalMass * 0.8;
-                newBubbles[j].velocity.x += (impulseX * bubbleA.mass) / totalMass * 0.8;
-                newBubbles[j].velocity.y += (impulseY * bubbleA.mass) / totalMass * 0.8;
-                
-                const percent = 0.5;
-                const slop = 0.01;
-                
-                const penetration = minDistance - distance;
-                
-                if (penetration > slop) {
-                  const correctionMagnitude = penetration * percent * 1.5;
-                  const correctionX = nx * correctionMagnitude;
-                  const correctionY = ny * correctionMagnitude;
-                  
-                  newBubbles[i].x -= correctionX * bubbleB.mass / totalMass;
-                  newBubbles[i].y -= correctionY * bubbleB.mass / totalMass;
-                  newBubbles[j].x += correctionX * bubbleA.mass / totalMass;
-                  newBubbles[j].y += correctionY * bubbleA.mass / totalMass;
-                }
-              }
-            }
-          }
-        }
-        
-        return newBubbles;
-      });
-    };
-    
-    const animationRef = { current: null };
-    
-    const runAnimation = () => {
-      updateBubblesWithIceBallPhysics();
-      animationRef.current = requestAnimationFrame(runAnimation);
-    };
-    
-    runAnimation();
-    
-    return () => {
-      if (animationRef.current !== null) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [bubbles.length, containerSize, poppedBubbles, cursorPosition]);
-
-  useEffect(() => {
-    if (burstEffects.length > 0) {
-      const timer = setTimeout(() => {
-        setBurstEffects(prev => {
-          const [_, ...rest] = prev;
-          return rest;
-        });
-      }, 1000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [burstEffects]);
-  
   return (
     <div 
-      ref={containerRef} 
-      className="relative w-full h-[600px] overflow-hidden mx-auto bg-gray-50/80 dark:bg-gray-950/80 backdrop-blur-sm rounded-sm border border-gray-200 dark:border-gray-800"
-      style={{ position: 'relative' }}
+      ref={containerRef}
+      className={`relative w-full ${getContainerHeight()} overflow-hidden mx-auto bg-gradient-to-br from-gray-50/90 to-gray-100/90 dark:from-gray-950/90 dark:to-gray-900/90 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-800/50 shadow-xl`}
     >
-      {/* Subtle grid background */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
-      
-      {/* Connecting lines between bubbles */}
-      {bubbles.length > 0 && (
-        <ConnectingLines bubblePositions={bubbles} poppedIndices={poppedBubbles} />
-      )}
-      
-      {/* Skill bubbles */}
-      {bubbles.map((bubble, index) => (
-        <motion.div
-          key={index}
-          className="absolute transform -translate-x-1/2 -translate-y-1/2" 
-          style={{
-            left: bubble.x,
-            top: bubble.y,
-            zIndex: poppedBubbles.includes(index) ? 0 : 10,
-          }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: poppedBubbles.includes(index) ? 0 : 1,
-            scale: poppedBubbles.includes(index) ? 0 : 1,
-            rotate: bubble.rotation,
-          }}
-          transition={{
-            opacity: { duration: 0.5 },
-            scale: { type: "spring", stiffness: 200, damping: 20 },
-          }}
-        >
-          <motion.div
-            className="cursor-pointer relative"
-            onClick={(e) => burstBubble(index, e)}
-            whileHover={{ 
-              scale: 1.12, 
-              transition: { duration: 0.4 }
-            }}
-            style={{ transformStyle: "preserve-3d" }}
-          >
-            {/* Bubble Design */}
-            <div className="relative">
-              {/* Inner shadow for depth */}
-              <div 
-                className="absolute rounded-full blur-sm"
-                style={{ 
-                  width: `${getBubbleSize(skills[index].level) - 6}px`, 
-                  height: `${getBubbleSize(skills[index].level) - 6}px`,
-                  backgroundColor: skills[index].color,
-                  opacity: 0.15,
-                  top: 3,
-                  left: 3
-                }}
-              />
-              
-              {/* Main bubble */}
-              <div 
-                className="rounded-full flex items-center justify-center text-white text-center p-3"
-                style={{ 
-                  width: `${getBubbleSize(skills[index].level)}px`, 
-                  height: `${getBubbleSize(skills[index].level)}px`,
-                  background: `radial-gradient(circle at 30% 30%, 
-                    ${skills[index].color}99 0%, 
-                    ${skills[index].color}BB 70%, 
-                    ${skills[index].color} 100%)`,
-                  boxShadow: `0 5px 20px ${skills[index].color}50`,
-                  transform: `translateZ(10px)`,
-                }}
-              >
-                <div className="text-sm md:text-base font-medium tracking-tight">{skills[index].name}</div>
-              </div>
-              
-              {/* Highlight reflection */}
-              <div 
-                className="absolute rounded-full overflow-hidden"
-                style={{
-                  width: "60%",
-                  height: "30%",
-                  top: "10%",
-                  left: "20%",
-                  background: "linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)",
-                  transform: "rotate(-30deg) translateZ(20px)",
-                  opacity: 0.6
-                }}
-              />
+      {/* Layer labels - responsive positioning */}
+      <div className="absolute top-4 left-2 right-2 md:left-4 md:right-4 flex justify-between z-20">
+        {Object.entries(layerConfig).map(([key, config]) => (
+          <div key={key} className="text-center">
+            <div 
+              className="inline-block w-2 h-2 md:w-3 md:h-3 rounded-full mb-1"
+              style={{ backgroundColor: config.color }}
+            ></div>
+            <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-medium">
+              {config.label}
             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Render connections */}
+      {renderConnections()}
+
+      {/* Render nodes */}
+      {networkData.nodes.length > 0 ? (
+        networkData.nodes.map((node) => (
+          <motion.div
+            key={node.id}
+            className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-20"
+            style={{
+              left: node.x,
+              top: node.y,
+            }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ 
+              scale: hoveredNode === node.id ? 1.2 : 1, 
+              opacity: 1 
+            }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 200, 
+              damping: 20,
+              opacity: { delay: node.id * 0.03 }
+            }}
+            onMouseEnter={() => handleNodeHover(node.id)}
+            onMouseLeave={handleNodeLeave}
+          >
+            {/* Node glow effect */}
+            <div
+              className="absolute inset-0 rounded-full blur-md opacity-40"
+              style={{
+                width: node.size + 10,
+                height: node.size + 10,
+                backgroundColor: node.skill.color,
+                top: -5,
+                left: -5,
+              }}
+            />
+            
+            {/* Main node */}
+            <div
+              className="relative rounded-full flex items-center justify-center text-white text-center border-2 border-white/20"
+              style={{
+                width: node.size,
+                height: node.size,
+                background: `radial-gradient(circle at 30% 30%, ${node.skill.color}99, ${node.skill.color})`,
+                boxShadow: `0 4px 20px ${node.skill.color}40`,
+              }}
+            >
+              <div className="text-xs font-medium text-center leading-tight px-1">
+                {node.skill.name.split(' ').map((word, i) => (
+                  <div key={i} className={`${
+                    node.size < 40 ? 'text-[0.45rem]' : 
+                    node.size < 45 ? 'text-[0.55rem]' : 
+                    'text-xs'
+                  } leading-tight font-semibold`}>
+                    {word}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Pulse ring for active nodes */}
+            {hoveredNode === node.id && (
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 opacity-60"
+                style={{
+                  borderColor: node.skill.color,
+                  width: node.size + 16,
+                  height: node.size + 16,
+                  top: -8,
+                  left: -8,
+                }}
+                initial={{ scale: 1, opacity: 0.6 }}
+                animate={{ scale: 1.4, opacity: 0 }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+            )}
           </motion.div>
+        ))
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-gray-500 text-center">
+            <div className="text-lg mb-2">🧠</div>
+            <div>Loading Neural Network...</div>
+          </div>
+        </div>
+      )}
+
+      {/* Hover tooltip - responsive positioning */}
+      {hoveredNode !== null && networkData.nodes[hoveredNode] && (
+        <motion.div
+          className="absolute z-30 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 pointer-events-none max-w-xs"
+          style={{
+            left: Math.min(networkData.nodes[hoveredNode]?.x + 30, containerSize.width - 150),
+            top: Math.max(networkData.nodes[hoveredNode]?.y - 40, 10),
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="text-sm font-medium text-gray-900 dark:text-white">
+            {networkData.nodes[hoveredNode]?.skill.name}
+          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            {networkData.nodes[hoveredNode]?.skill.category}
+          </div>
         </motion.div>
-      ))}
-      
-      {/* Render burst effects */}
-      {burstEffects.map(effect => (
-        <BurstParticles 
-          key={effect.id} 
-          x={effect.x}
-          y={effect.y}
-          color={effect.color} 
-        />
-      ))}
+      )}
     </div>
   );
 };
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute -top-24 left-24 w-64 h-64 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-24 right-24 w-96 h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>
+    <section id="skills" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
+      {/* Background decorative elements - responsive */}
+      <div className="absolute -top-12 md:-top-24 left-12 md:left-24 w-32 h-32 md:w-64 md:h-64 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
+      <div className="absolute -bottom-12 md:-bottom-24 right-12 md:right-24 w-48 h-48 md:w-96 md:h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="max-w-3xl mx-auto text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-            Interactive Skills
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
+            My Skills
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            My expertise spans AI prompt engineering, data science, and Python programming.
-            <span className="block mt-4 text-sm text-gray-500 dark:text-gray-400">
-              Move your cursor over the bubbles and click to interact with them
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
+            My expertise visualized as an interactive neural network. Each node represents a skill, 
+            with connections showing how they work together to solve complex problems.
+            <span className="block mt-2 md:mt-4 text-sm text-gray-500 dark:text-gray-400">
+              Hover over nodes to see connections and watch data flow through the network
             </span>
           </p>
         </motion.div>
 
-        <BubbleField />
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-12 max-w-xl mx-auto"
-        >
-          <p className="text-sm text-center text-gray-500 dark:text-gray-400 italic">
-            Each bubble represents a skill with its size reflecting my proficiency level.
-            The interactive nature demonstrates my approach to creating engaging user experiences.
-          </p>
-        </motion.div>
+        <NeuralNetworkField />
       </div>
     </section>
   );

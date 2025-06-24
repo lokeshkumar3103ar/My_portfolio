@@ -16,18 +16,6 @@ const ColorThemeSelector = () => {
         setIsOpen(prev => !prev);
         e.preventDefault();
       }
-      
-      // Alt + 1-5 to select themes
-      if (e.altKey && /^[1-5]$/.test(e.key)) {
-        const themeKeys = Object.keys(colorThemes);
-        const index = parseInt(e.key) - 1;
-        if (index >= 0 && index < themeKeys.length) {
-          setActiveTheme(themeKeys[index]);
-          setShowTooltip(true);
-          setTimeout(() => setShowTooltip(false), 2000);
-        }
-        e.preventDefault();
-      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -77,6 +65,11 @@ const ColorThemeSelector = () => {
     visible: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 10 }
   };
+
+  // Since we only have one theme, don't show the selector
+  if (Object.keys(colorThemes).length <= 1) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-6 right-6 z-50">

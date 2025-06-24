@@ -46,21 +46,23 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  // Navigation items array for easy maintenance
+  // Navigation items array for easy maintenance - with shorter labels for mobile
   const navItems = [
-    { id: 'expertise', label: 'Expertise' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'prompt-engineering', label: 'Prompt Systems' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'timeline', label: 'Timeline' }
+    { id: 'expertise', label: 'Expertise', mobileLabel: 'Expertise' },
+    { id: 'skills', label: 'Skills', mobileLabel: 'Skills' },
+    { id: 'prompt-engineering', label: 'Prompt Systems', mobileLabel: 'Prompts' },
+    { id: 'projects', label: 'Projects', mobileLabel: 'Projects' },
+    { id: 'timeline', label: 'Timeline', mobileLabel: 'Timeline' }
   ];
 
   return (
     <motion.header 
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled 
-          ? 'py-3 bg-gray-50/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
-          : 'py-5 bg-transparent'
+      className={`fixed w-full transition-all duration-500 ${
+        mobileMenuOpen 
+          ? 'z-50 py-3 sm:py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700'
+          : scrolled 
+            ? 'z-50 py-2 sm:py-3 bg-gray-50/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
+            : 'z-50 py-3 sm:py-4 lg:py-5 bg-transparent'
       }`}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -69,25 +71,34 @@ const Header = () => {
         willChange: "transform, opacity",
       }}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* Logo/Name with theme color */}
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+        {/* Logo/Name with theme color - Responsive sizing */}
         <motion.a 
           href="#"
-          className="text-lg md:text-xl font-medium text-gray-900 dark:text-white flex items-center"
+          className="text-base sm:text-lg md:text-xl font-medium text-gray-900 dark:text-white flex items-center flex-shrink-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          {/* Line accent with theme color */}
+          {/* Aesthetic icon accent with theme color - hide on very small screens */}
           <span 
-            className="hidden md:block w-6 h-px mr-3"
-            style={{ backgroundColor: currentColors.primary }}
-          ></span>
-          <span className="font-medium tracking-tight">Lokesh</span>
-          <span style={{ color: currentColors.primary }} className="ml-1">Kumar</span>
+            className="hidden sm:flex w-5 md:w-6 h-5 md:h-6 mr-2 md:mr-3 items-center justify-center rounded-full border-2 opacity-80"
+            style={{ 
+              borderColor: currentColors.primary,
+              background: `linear-gradient(135deg, ${currentColors.primary}20, ${currentColors.secondary}20)`
+            }}
+          >
+            <span 
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: currentColors.primary }}
+            ></span>
+          </span>
+          <span className="font-medium tracking-tight">Lokesh Kumar</span>
+          <span style={{ color: currentColors.primary }} className="ml-1">A R</span>
         </motion.a>
-          {/* Desktop Navigation - with theme colors */}
-        <nav className="hidden md:flex items-center space-x-8">
+
+        {/* Desktop Navigation - with theme colors and better spacing */}
+        <nav className="hidden lg:flex items-center space-x-4 xl:space-x-8">
           {navItems.map((item, index) => (
             <motion.a 
               key={item.id}
@@ -106,7 +117,7 @@ const Header = () => {
                   });
                 }
               }}
-              className={`text-sm tracking-wide font-medium transition-all relative ${
+              className={`text-xs lg:text-sm xl:text-sm tracking-wide font-medium transition-all relative ${
                 activeSection === item.id
                   ? '' 
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -135,33 +146,27 @@ const Header = () => {
           ))}
         </nav>
         
-        {/* Right section with theme toggle and resume button */}
-        <div className="flex items-center space-x-6">
+        {/* Right section with theme toggle and resume button - improved spacing */}
+        <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-6">
           <motion.button
             onClick={toggleTheme}
-            className="p-1.5 focus:outline-none relative"
+            className="p-2 focus:outline-none relative flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
             aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            whileTap={{ scale: 0.92 }}
+            whileTap={{ scale: 0.95 }}
             transition={{ delay: 0.5 }}
           >
-            <motion.div
-              className="absolute inset-0 bg-gray-100 dark:bg-gray-800 rounded-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-            />
             {isDarkMode ? (
-              <FaSun className="w-4 h-4 relative z-10" style={{ color: currentColors.secondary }} />
+              <FaSun className="w-4 h-4" style={{ color: currentColors.secondary }} />
             ) : (
-              <FaMoon className="w-4 h-4 relative z-10" style={{ color: currentColors.primary }} />
+              <FaMoon className="w-4 h-4" style={{ color: currentColors.primary }} />
             )}
           </motion.button>
           
           <motion.a
             href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf"
-            className="hidden md:flex py-2 px-5 text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group"
+            className="hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group flex-shrink-0"
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0 }}
@@ -179,10 +184,10 @@ const Header = () => {
             ></span>
           </motion.a>
           
-          {/* Mobile menu button with theme colors */}
+          {/* Mobile menu button with theme colors - show on lg and below */}
           <motion.button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden bg-transparent border-none"
+            className="lg:hidden bg-transparent border-none flex-shrink-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             whileTap={{ scale: 0.92 }}
@@ -220,71 +225,108 @@ const Header = () => {
         </div>
       </div>
       
-      {/* Mobile menu - Enhanced with theme colors */}
+      {/* Mobile menu - Full screen height coverage */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="md:hidden fixed inset-0 z-40 bg-gray-50/95 dark:bg-gray-950/98 backdrop-blur-md pt-20"
-            initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-            animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
-            exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-            style={{ willChange: "opacity, clip-path" }} // Performance optimization
+            className="lg:hidden fixed top-0 left-0 right-0 bottom-0 z-[9999] bg-white dark:bg-gray-900"
+            style={{ height: '100vh', width: '100vw' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
-            <div className="container mx-auto px-6 py-10 flex flex-col h-full">
-              <div className="space-y-10 flex flex-col items-start">                {navItems.map((item, index) => (
-                  <motion.a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    className={`text-3xl font-medium relative overflow-hidden group`}
-                    style={activeSection === item.id ? { color: currentColors.primary } : {
-                      color: isDarkMode ? '#ccc' : '#333'
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setMobileMenuOpen(false);
-                      setTimeout(() => {
-                        const element = document.getElementById(item.id);
-                        if (element) {
-                          const headerHeight = 80;
-                          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-                          const offsetPosition = elementPosition - headerHeight;
-                          
-                          window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                          });
-                        }
-                      }, 300); // Small delay to allow menu to close
-                    }}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ 
-                      delay: 0.1 * index,
-                      duration: 0.6,
-                      ease: [0.25, 1, 0.5, 1]
-                    }}
-                  >
-                    <span className="block">
-                      {item.label}
-                    </span>
-                    <motion.span 
-                      className="absolute bottom-0 left-0 w-full h-px"
-                      style={{ 
-                        backgroundColor: `${currentColors.primary}30`
-                      }}
-                      initial={{ scaleX: 0, transformOrigin: "left" }}
-                      whileInView={{ scaleX: 1 }}
-                      transition={{ duration: 0.5, delay: 0.3 + (0.1 * index) }}
-                    />
-                  </motion.a>
-                ))}
+            {/* Menu content - Full screen layout */}
+            <div className="h-screen w-full flex flex-col">
+              {/* Header area */}
+              <div className="flex justify-between items-center px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex-shrink-0">
+                <div className="flex items-center">
+                  <span 
+                    className="w-4 h-px mr-3"
+                    style={{ backgroundColor: currentColors.primary }}
+                  />
+                  <span className="text-lg font-medium text-gray-900 dark:text-white">
+                    Lokesh Kumar <span style={{ color: currentColors.primary }}>A R</span>
+                  </span>
+                </div>
+                
+                {/* Close button */}
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                  aria-label="Close menu"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
 
-              <div className="mt-auto pt-10">
+              {/* Navigation - Fill remaining space */}
+              <div className="flex-1 bg-white dark:bg-gray-900 px-6 py-8 overflow-y-auto">
+                <nav className="h-full">
+                  <div className="space-y-4">
+                    {navItems.map((item, index) => (
+                      <motion.a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className={`block text-xl font-medium py-6 px-4 rounded-lg transition-all duration-200 ${
+                          activeSection === item.id 
+                            ? 'bg-gray-100 dark:bg-gray-800' 
+                            : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                        }`}
+                        style={activeSection === item.id ? { color: currentColors.primary } : {
+                          color: isDarkMode ? '#e5e7eb' : '#374151'
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMobileMenuOpen(false);
+                          setTimeout(() => {
+                            const element = document.getElementById(item.id);
+                            if (element) {
+                              const headerHeight = 80;
+                              const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                              const offsetPosition = elementPosition - headerHeight;
+                              
+                              window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                              });
+                            }
+                          }, 200);
+                        }}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ 
+                          delay: 0.05 * index,
+                          duration: 0.3,
+                          ease: "easeOut"
+                        }}
+                      >
+                        <div className="flex items-center">
+                          {activeSection === item.id && (
+                            <motion.div 
+                              className="w-1 h-6 rounded-full mr-3"
+                              style={{ backgroundColor: currentColors.primary }}
+                              layoutId="mobileActiveIndicator"
+                              initial={{ scaleY: 0 }}
+                              animate={{ scaleY: 1 }}
+                              transition={{ duration: 0.2 }}
+                            />
+                          )}
+                          {item.label}
+                        </div>
+                      </motion.a>
+                    ))}
+                  </div>
+                </nav>
+              </div>
+
+              {/* Footer with resume button */}
+              <div className="px-6 py-6 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex-shrink-0">
                 <motion.a
-                  href="./resume.pdf"
-                  className="inline-block py-3 px-6 text-white font-medium"
+                  href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf"
+                  className="block w-full py-4 px-6 text-center text-white text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl"
                   style={{ 
                     background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})` 
                   }}
@@ -294,12 +336,12 @@ const Header = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ 
-                    delay: 0.5,
-                    duration: 0.6,
-                    ease: [0.25, 1, 0.5, 1]
+                    delay: 0.2,
+                    duration: 0.3,
+                    ease: "easeOut"
                   }}
                 >
-                  Resume
+                  Download Resume
                 </motion.a>
               </div>
             </div>

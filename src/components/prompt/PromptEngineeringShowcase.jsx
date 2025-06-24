@@ -222,27 +222,27 @@ const PromptEngineeringShowcase = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center mb-16"
+            className="max-w-3xl mx-auto text-center mb-12 sm:mb-16"
           >
             <Parallax type="element" direction="up" speed={0.3}>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight flex items-center justify-center">
-                <span className="mr-3">🧠</span> 
-                Prompt Engineering Systems
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-tight flex items-center justify-center flex-wrap">
+                <span className="mr-2 sm:mr-3 text-2xl sm:text-3xl">🧠</span> 
+                <span className="text-center">Prompt Engineering Systems</span>
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4 sm:px-0">
                 Original frameworks developed to optimize interactions with large language models
                 and extract maximum value from AI systems.
               </p>
             </Parallax>
           </motion.div>
 
-          {/* Tab navigation */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {/* Tab navigation - Improved mobile layout */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
             {promptSystems.map((system) => (
               <motion.button
                 key={system.id}
                 onClick={() => handleTabChange(system.id)}
-                className={`px-6 py-3 rounded-lg text-white transition-all font-medium flex items-center space-x-2 ${selectedTab === system.id ? 'shadow-lg' : ''}`}
+                className={`px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-white transition-all font-medium flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base ${selectedTab === system.id ? 'shadow-lg' : ''}`}
                 style={{ 
                   backgroundColor: selectedTab === system.id ? system.color : `${system.color}90`,
                   boxShadow: selectedTab === system.id ? `0 10px 25px -5px ${system.color}30` : 'none'
@@ -252,8 +252,9 @@ const PromptEngineeringShowcase = () => {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <system.icon className="text-lg" />
-                <span>{system.title}</span>
+                <system.icon className="text-base sm:text-lg" />
+                <span className="hidden sm:inline">{system.title}</span>
+                <span className="sm:hidden">{system.title.split(' ')[0]}</span>
               </motion.button>
             ))}
           </div>
@@ -268,52 +269,52 @@ const PromptEngineeringShowcase = () => {
               exit="exit"
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700"
             >
-              <div className="p-2 md:p-8">
-                <div className="flex flex-col md:flex-row gap-6 md:gap-12">
+              <div className="p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-12">
                   {/* Left column - System details */}
                   <div className="flex-1">
                     <div 
-                      className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 relative"
+                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-4 sm:mb-6 relative"
                       style={{ backgroundColor: `${activeSystem.color}20` }}
                     >
                       <activeSystem.icon 
-                        className="text-3xl" 
+                        className="text-2xl sm:text-3xl" 
                         style={{ color: activeSystem.color }}
                       />
                       <motion.div
-                        className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full"
+                        className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full"
                         style={{ backgroundColor: activeSystem.color }}
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ repeat: Infinity, duration: 2 }}
                       />
                     </div>
 
-                    <h3 className="text-3xl font-bold mb-2" style={{ color: activeSystem.color }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: activeSystem.color }}>
                       {activeSystem.title}
                     </h3>
-                    <p className="text-lg text-gray-500 dark:text-gray-400 mb-3">
+                    <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 mb-3">
                       {activeSystem.tagline}
                     </p>
 
-                    <div className="mb-6">
-                      <span className="inline-block px-3 py-1 text-sm rounded-full text-white mb-4"
+                    <div className="mb-4 sm:mb-6">
+                      <span className="inline-block px-3 py-1 text-sm rounded-full text-white mb-3 sm:mb-4"
                             style={{ backgroundColor: activeSystem.color }}>
                         {activeSystem.type}
                       </span>
-                      <p className="text-gray-700 dark:text-gray-300 mb-4">
+                      <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-4">
                         {activeSystem.description}
                       </p>
-                      <div className="mb-6">
-                        <h4 className="text-lg font-medium mb-2 text-gray-800 dark:text-gray-200">Goal</h4>
-                        <p className="text-gray-600 dark:text-gray-300 italic">
+                      <div className="mb-4 sm:mb-6">
+                        <h4 className="text-base sm:text-lg font-medium mb-2 text-gray-800 dark:text-gray-200">Goal</h4>
+                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 italic">
                           "{activeSystem.goal}"
                         </p>
                       </div>
                     </div>
 
                     {/* System Structure */}
-                    <div className="mb-6">
-                      <h4 className="text-lg font-medium mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                    <div className="mb-4 sm:mb-6">
+                      <h4 className="text-base sm:text-lg font-medium mb-3 flex items-center text-gray-800 dark:text-gray-200">
                         <FaCog className="mr-2" /> System Structure
                       </h4>
                       <div className="space-y-2">
@@ -326,26 +327,26 @@ const PromptEngineeringShowcase = () => {
                             transition={{ delay: idx * 0.1 }}
                           >
                             <div 
-                              className="w-6 h-6 rounded-full flex items-center justify-center mr-3 shrink-0 mt-0.5"
+                              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mr-3 shrink-0 mt-0.5"
                               style={{ backgroundColor: `${activeSystem.color}40` }}
                             >
                               <span className="text-xs font-medium" style={{ color: activeSystem.color }}>{idx + 1}</span>
                             </div>
-                            <p className="text-gray-700 dark:text-gray-300">{step}</p>
+                            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{step}</p>
                           </motion.div>
                         ))}
                       </div>
                     </div>
 
-                    {/* Best For */}
-                    <div className="flex gap-8 mb-6">
+                    {/* Best For - Improved mobile layout */}
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-4 sm:mb-6">
                       <div>
                         <h4 className="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Style</h4>
-                        <p className="text-gray-800 dark:text-gray-200">{activeSystem.style}</p>
+                        <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200">{activeSystem.style}</p>
                       </div>
                       <div>
                         <h4 className="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Best For</h4>
-                        <p className="text-gray-800 dark:text-gray-200">{activeSystem.bestFor}</p>
+                        <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200">{activeSystem.bestFor}</p>
                       </div>
                     </div>
                   </div>

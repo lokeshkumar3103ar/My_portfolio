@@ -12,7 +12,7 @@ export const trackPageView = (url) => {
     // Here you would add actual analytics service code
     // Example: gtag('config', 'GA_MEASUREMENT_ID', { 'page_path': url });
   } catch (e) {
-    console.error('Analytics error:', e);
+    // Silently handle analytics errors - don't interrupt user experience
   }
 };
 
@@ -22,7 +22,7 @@ export const trackEvent = (category, action, label, value) => {
     console.log(`Event: ${category} - ${action} - ${label} - ${value}`);
     // Example: gtag('event', action, { event_category: category, event_label: label, value: value });
   } catch (e) {
-    console.error('Analytics error:', e);
+    // Silently handle analytics errors - don't interrupt user experience
   }
 };
 
@@ -100,7 +100,7 @@ export const trackPerformance = () => {
       
       clsObserver.observe({ type: 'layout-shift', buffered: true });
     } catch (e) {
-      console.error('Performance observer error:', e);
+      // Silently handle performance observer errors - don't interrupt user experience
     }
   }
 };
