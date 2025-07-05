@@ -48,9 +48,7 @@ const Footer = () => {
               <span className="text-[#6366f1] dark:text-[#a78bfa] ml-2">A R</span>
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-md">
-              AI Prompt Engineering Intern specializing in structured approaches like 
-              TINE & IT DOC frameworks, creating intelligent solutions through 
-              strategic AI interactions and data-driven methodologies.
+              Explore my journey as an AI/ML Engineer and creator of QritiQ—where I build, orchestrate, and deliver real-world AI solutions. Passionate about structured prompt engineering, product thinking, and hands-on innovation across the AI stack.
             </p>
             <div className="flex space-x-6">
               <a 

@@ -275,9 +275,19 @@ Step 4: Implement and measure
                 <span className="inline-block overflow-hidden text-indigo-600 dark:text-indigo-500">Lokesh Kumar A R</span>
               </h1>
               
-              <p className="hero-subtitle text-lg sm:text-xl md:text-2xl mb-6 text-gray-700 dark:text-gray-300">
-                AI Prompt Engineer | Data Science Enthusiast
+              <p className="hero-subtitle text-lg sm:text-xl md:text-2xl mb-4 text-gray-700 dark:text-gray-300">
+                <span className="highlighted-role font-semibold">AI/ML Engineer</span> |
+                <span className="highlighted-role font-semibold"> Creator of QritiQ</span>
               </p>
+              
+              <motion.p 
+                className="philosophy-caption text-base sm:text-lg mb-6 text-gray-600 dark:text-gray-400 italic"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                I don't just use AI — I design, guide, and deploy with it. From concept to product, I build what others wait to learn.
+              </motion.p>
               
               <div className="hero-cta flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4">
                 <button 
@@ -287,7 +297,7 @@ Step 4: Implement and measure
                   Contact Me
                 </button>
                 <a 
-                  href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf" 
+                  href="./Lokesh_Kumar_AR_Resume_2025.pdf" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="resume-btn px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium transition-all hover:shadow-lg hover:-translate-y-1 text-center"

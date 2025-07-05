@@ -8,6 +8,7 @@ import SkillsSection from './components/skills/SkillsSection'
 import TimelineSection from './components/timeline/TimelineSection'
 import PromptEngineeringShowcase from './components/prompt/PromptEngineeringShowcase'
 import ProjectsSectionNew from './components/projects/ProjectsSectionNew'
+import BuildPhilosophySection from './components/philosophy/BuildPhilosophySection'
 import ColorThemeSelector from './components/ui/ColorThemeSelector'
 import SmoothScroll from './components/transitions/SmoothScroll'
 import LoadingScreen from './components/transitions/LoadingScreen'
@@ -273,10 +274,25 @@ function App() {
                   
                   <SectionDivider invert />
                   
+                  {/* Build Philosophy section */}
+                  <motion.section
+                    id="build-philosophy"
+                    className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    variants={sectionVariants}
+                    style={{ position: "relative" }}
+                  >
+                    <BuildPhilosophySection />
+                  </motion.section>
+                  
+                  <SectionDivider />
+                  
                   {/* Projects section */}
                   <motion.section
                     id="projects"
-                    className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
+                    className="relative bg-white dark:bg-gray-900 cv-auto"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
@@ -286,12 +302,12 @@ function App() {
                     <ProjectsSectionNew />
                   </motion.section>
                   
-                  <SectionDivider />
+                  <SectionDivider invert />
                   
                   {/* Timeline section */}
                   <motion.section
                     id="timeline"
-                    className="relative bg-white dark:bg-gray-900 cv-auto"
+                    className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}

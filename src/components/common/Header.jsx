@@ -10,6 +10,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [showAIPortfolioOverlay, setShowAIPortfolioOverlay] = useState(false);
 
   // Handle scroll effect with improved performance
   useEffect(() => {
@@ -163,9 +164,21 @@ const Header = () => {
               <FaMoon className="w-4 h-4" style={{ color: currentColors.primary }} />
             )}
           </motion.button>
-          
+          {/* AI Generalist Portfolio Button & Description (Desktop) */}
+          <div className="hidden lg:flex flex-col items-end mr-2">
+            <button
+              onClick={() => setShowAIPortfolioOverlay(true)}
+              className="py-2 px-4 rounded-lg font-semibold text-white shadow-md transition-all duration-200 text-xs xl:text-sm"
+              style={{
+                background: `linear-gradient(90deg, ${currentColors.primary}, ${currentColors.secondary})`,
+                boxShadow: `0 2px 8px 0 ${currentColors.primary}40`
+              }}
+            >
+              My AI Generalist Portfolio
+            </button>
+          </div>
           <motion.a
-            href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf"
+            href="./Lokesh_Kumar_AR_Resume_2025.pdf"
             className="hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group flex-shrink-0"
             target="_blank"
             rel="noopener noreferrer"
@@ -324,6 +337,24 @@ const Header = () => {
 
               {/* Footer with resume button */}
               <div className="px-6 py-6 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex-shrink-0">
+                {/* AI Generalist Portfolio Button & Description (Mobile) */}
+                <div className="mb-4">
+                  <span className="block text-xs text-gray-600 dark:text-gray-300 mb-2">
+                    Explore my advanced AI Generalist portfolio—a dedicated site showcasing my real-world AI collaboration, live project dashboards, and unique 30-Day Challenge. This site demonstrates my ability to orchestrate, build, and deliver complex solutions with AI, beyond the standard portfolio.
+                  </span>
+                  <a
+                    href="https://lokeshkumar3103ar.github.io/Ai_portfolio/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full py-3 px-6 text-center text-white text-base font-semibold rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl mb-2"
+                    style={{
+                      background: `linear-gradient(90deg, ${currentColors.primary}, ${currentColors.secondary})`,
+                      boxShadow: `0 2px 8px 0 ${currentColors.primary}40`
+                    }}
+                  >
+                    My AI Generalist Portfolio
+                  </a>
+                </div>
                 <motion.a
                   href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf"
                   className="block w-full py-4 px-6 text-center text-white text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl"
@@ -344,6 +375,42 @@ const Header = () => {
                   Download Resume
                 </motion.a>
               </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* AI Generalist Portfolio Overlay */}
+      <AnimatePresence>
+        {showAIPortfolioOverlay && (
+          <motion.div
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70"
+            style={{ top: 0, left: 0, width: '100vw', height: '100vh', position: 'fixed' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center flex flex-col items-center">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">You are about to enter my other portfolio</h2>
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
+                Explore my advanced AI Generalist portfolio—a dedicated site showcasing my real-world AI collaboration, live project dashboards, and unique 30-Day Challenge. This site demonstrates my ability to orchestrate, build, and deliver complex solutions with AI, beyond the standard portfolio.
+              </p>
+              <button
+                className="mt-2 px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
+                onClick={() => {
+                  setShowAIPortfolioOverlay(false);
+                  window.location.href = 'https://lokeshkumar3103ar.github.io/Ai_portfolio/';
+                }}
+              >
+                Click to continue...
+              </button>
+              <button
+                className="mt-4 text-sm text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 underline"
+                onClick={() => setShowAIPortfolioOverlay(false)}
+              >
+                Cancel
+              </button>
             </div>
           </motion.div>
         )}
