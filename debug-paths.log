@@ -1,15 +1,10 @@
-GitHub Pages Path Fixing Debug Log - 2025-07-06T09:40:00.429Z
+GitHub Pages Path Fixing Debug Log - 2025-07-06T10:03:20.026Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
 Found main bundle file: main-CcpLRqza.js
 Fixed JSX MIME type issue by replacing main.jsx reference with main-CcpLRqza.js
-Copied vite.svg from public to dist root
-Copied images/prompt-systems.jpg to dist/images/
-Copied manifest.json to dist root
-Copied manifest.webmanifest to dist root
-Copied 404.html to dist root
-Copied manifest.webmanifest to dist root
+WARNING: vite.svg not found in public folder! Please add it there.
 Updated paths in registerSW.js
 Updated paths in existing 404.html
 
