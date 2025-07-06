@@ -7,10 +7,33 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Recursively ignore common build, cache, and environment folders/files
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.DS_Store
+**/Thumbs.db
+**/.env
+**/.env.*
+**/.vite
+**/.tailwindcache
+**/.idea/
+**/.vscode/
+**/.next/
+**/.cache/
+**/.turbo/
+
+# Ignore all public folders except for static assets
+public/
+!public/*.png
+!public/*.jpg
+!public/*.svg
+!public/*.webmanifest
+!public/*.json
+!public/*.pdf
+
+# Ignore npm package lock (optional, if you use yarn or pnpm)
+# package-lock.json
 
 # Editor directories and files
 .vscode/*
