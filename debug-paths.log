@@ -1,30 +1,9 @@
-GitHub Pages Path Fixing Debug Log - 2025-07-06T06:55:16.362Z
+GitHub Pages Path Fixing Debug Log - 2025-07-06T09:40:00.429Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Fixed paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\index.html
-  Resources in index.html:
-    src: ./assets/main-M-KzOEP2.js
-    src: ./registerSW.js
-    href: ./vite.svg
-    href: https://fonts.googleapis.com
-    href: https://fonts.gstatic.com
-    href: https://fonts.googleapis.com
-    href: https://fonts.gstatic.com
-    href: ./images/prompt-systems.jpg
-    href: ./assets/vendor-C2aUz8YA.js
-    href: ./assets/animations-x-jJProh.js
-    href: ./assets/main-BKDVet6x.css
-    href: ./manifest.webmanifest
-Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\registerSW.js
-Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\sw.js
-  JS Resources in sw.js:
-    resource: ./assets/assets/animations-x-jJProh.js
-    resource: ./assets/assets/main-BKDVet6x.css
-    resource: ./assets/assets/main-M-KzOEP2.js
-    resource: ./assets/assets/vendor-C2aUz8YA.js
-Found main bundle file: main-M-KzOEP2.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-M-KzOEP2.js
+Found main bundle file: main-CcpLRqza.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-CcpLRqza.js
 Copied vite.svg from public to dist root
 Copied images/prompt-systems.jpg to dist/images/
 Copied manifest.json to dist root
