@@ -1,10 +1,14 @@
-GitHub Pages Path Fixing Debug Log - 2025-07-06T12:04:25.218Z
+GitHub Pages Path Fixing Debug Log - 2025-07-06T12:12:36.862Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
+Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\assets\main-B1ZDHl7C.js
+  JS Resources in main-B1ZDHl7C.js:
+    resource: ./images/prompt-systems.jpg
+    resource: ./images/prompt-systems.jpg
 Fixed paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\index.html
   Resources in index.html:
-    src: ./assets/main-CqBc_Qxx.js
+    src: ./assets/main-B1ZDHl7C.js
     src: ./registerSW.js
     href: ./vite.svg
     href: https://fonts.googleapis.com
@@ -20,11 +24,11 @@ Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\cle
 Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\sw.js
   JS Resources in sw.js:
     resource: ./assets/assets/animations-x-jJProh.js
-    resource: ./assets/assets/main-CqBc_Qxx.js
+    resource: ./assets/assets/main-B1ZDHl7C.js
     resource: ./assets/assets/main-DsXY_jIG.css
     resource: ./assets/assets/vendor-C2aUz8YA.js
-Found main bundle file: main-CqBc_Qxx.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-CqBc_Qxx.js
+Found main bundle file: main-B1ZDHl7C.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-B1ZDHl7C.js
 Copied vite.svg from public to dist root
 Copied images/prompt-systems.jpg to dist/images/
 Copied manifest.json to dist root
