@@ -288,7 +288,7 @@ Step 4: Implement and measure
                   Contact Me
                 </button>
                 <a 
-                  href="./Lokesh_Kumar_AR_Resume_2025.pdf" 
+                  href="/Lokesh_Kumar_AR_Resume_2025.pdf" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="resume-btn px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium transition-all hover:shadow-lg hover:-translate-y-1 text-center"
