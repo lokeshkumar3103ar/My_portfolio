@@ -1,10 +1,40 @@
-GitHub Pages Path Fixing Debug Log - 2025-07-06T12:52:05.218Z
+GitHub Pages Path Fixing Debug Log - 2025-07-06T12:52:32.437Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Found main bundle file: main-BoNUEQPg.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-BoNUEQPg.js
-WARNING: vite.svg not found in public folder! Please add it there.
+Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\assets\main-VUJNi-GZ.js
+  JS Resources in main-VUJNi-GZ.js:
+    resource: ./images/prompt-systems.jpg
+    resource: ./images/prompt-systems.jpg
+Fixed paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\index.html
+  Resources in index.html:
+    src: ./assets/main-VUJNi-GZ.js
+    src: ./registerSW.js
+    href: ./vite.svg
+    href: https://fonts.googleapis.com
+    href: https://fonts.gstatic.com
+    href: https://fonts.googleapis.com
+    href: https://fonts.gstatic.com
+    href: ./images/prompt-systems.jpg
+    href: ./assets/vendor-C2aUz8YA.js
+    href: ./assets/animations-x-jJProh.js
+    href: ./assets/main-DsXY_jIG.css
+    href: ./manifest.webmanifest
+Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\registerSW.js
+Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\sw.js
+  JS Resources in sw.js:
+    resource: ./assets/assets/animations-x-jJProh.js
+    resource: ./assets/assets/main-DsXY_jIG.css
+    resource: ./assets/assets/main-VUJNi-GZ.js
+    resource: ./assets/assets/vendor-C2aUz8YA.js
+Found main bundle file: main-VUJNi-GZ.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-VUJNi-GZ.js
+Copied vite.svg from public to dist root
+Copied images/prompt-systems.jpg to dist/images/
+Copied manifest.json to dist root
+Copied manifest.webmanifest to dist root
+Copied 404.html to dist root
+Copied manifest.webmanifest to dist root
 Updated paths in registerSW.js
 Updated paths in existing 404.html
 
