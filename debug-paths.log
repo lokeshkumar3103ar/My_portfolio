@@ -1,10 +1,10 @@
-GitHub Pages Path Fixing Debug Log - 2025-07-06T11:50:24.958Z
+GitHub Pages Path Fixing Debug Log - 2025-07-06T11:57:25.355Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
 Fixed paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\index.html
   Resources in index.html:
-    src: ./assets/main-BFT3fY0A.js
+    src: ./assets/main-Dlqt5d0Y.js
     src: ./registerSW.js
     href: ./vite.svg
     href: https://fonts.googleapis.com
@@ -20,11 +20,11 @@ Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\cle
 Fixed JS paths in: C:\Users\lokes\Downloads\KAMPYUTER\Own Projects\portfolio\clean-portfolio\portfolio\dist\sw.js
   JS Resources in sw.js:
     resource: ./assets/assets/animations-x-jJProh.js
-    resource: ./assets/assets/main-BFT3fY0A.js
+    resource: ./assets/assets/main-Dlqt5d0Y.js
     resource: ./assets/assets/main-DsXY_jIG.css
     resource: ./assets/assets/vendor-C2aUz8YA.js
-Found main bundle file: main-BFT3fY0A.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-BFT3fY0A.js
+Found main bundle file: main-Dlqt5d0Y.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-Dlqt5d0Y.js
 Copied vite.svg from public to dist root
 Copied images/prompt-systems.jpg to dist/images/
 Copied manifest.json to dist root
@@ -36,9 +36,6 @@ Updated paths in existing 404.html
 
 === POTENTIAL 404 ISSUE SCAN ===
 
-POTENTIAL ISSUE in assets\main-BFT3fY0A.js:
-  Absolute path that might 404: /Lokesh_Kumar_AR_Resume_2025.pdf
-  Absolute path that might 404: /Lokesh_Kumar_AR_Resume_2025.pdf
 
 === END OF 404 ISSUE SCAN ===
 
