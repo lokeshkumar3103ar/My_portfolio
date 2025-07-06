@@ -6,24 +6,30 @@ import { ColorThemeContext } from '../../context/ColorThemeContext';
 const timelineData = {
   experience: [
     {
-      title: "AI Prompt Engineering Intern",
+      title: "AI Research and Development Intern",
+      company: "Hindustan Institute of Technology and Science",
+      period: "05/2025 – Present",
+      description: `• Designed and developed QritiQ, an AI-powered Self-Intro Evaluation platform analyzing communication effectiveness\n• Achieved 66% reduction in manual evaluation time while maintaining assessment depth and precision\n• Integrated Whisper ASR models with LLM systems for automated speech and presentation evaluation\n• Implemented local LLM deployment using Ollama and Mistral models achieving 80% cost reduction vs cloud APIs\n• Secured university financial investment for commercialization and multi-institutional deployment`
+    },
+    {
+      title: "Artificial Intelligence with Python Intern",
       company: "Cothon Solutions",
-      period: "10/2024 - 11/2024",
-      description: "Gained hands-on experience with Artificial Intelligence and Python, working on real-world projects and enhancing knowledge through practical applications."
+      period: "10/2024 – 11/2024",
+      description: `• Gained hands-on experience in Machine Learning and Deep Learning algorithms, including CNN and MTCNN\n• Implemented image recognition and facial detection projects, enhancing practical ML application skills\n• Developed comprehensive understanding of model training, evaluation metrics, and deployment challenges\n• Adapted quickly to new concepts, independently researching unfamiliar algorithms and tools`
     }
   ],
   education: [
     {
-      degree: "B.Tech in Computer Science and Engineering",
-      institution: "Hindustan Institute of Technology and Science",
-      period: "08/2023 - 07/2027",
-      description: "Currently pursuing with a CGPA of 9.64. Strong focus on theoretical concepts and practical application in computer science."
+      degree: "Bachelor of Science - Data Science and Applications (Dual Degree)",
+      institution: "Indian Institute of Technology (IIT) Madras",
+      period: "01/2025 – 01/2028",
+      description: `• Specialization: Machine Learning, Deep Learning, Reinforcement Learning, Computer Vision, LLMs, AI Full Stack Dev`
     },
     {
-      degree: "BS in Data Science & Applications",
-      institution: "Indian Institute of Technology, Madras",
-      period: "01/2025 - Present",
-      description: "Pursuing advanced education in data science to complement B.Tech studies and build specialized expertise in this field."
+      degree: "Bachelor of Technology - Computer Science Engineering",
+      institution: "Hindustan Institute of Technology and Science",
+      period: "07/2023 – 05/2027",
+      description: `• CGPA: 9.63/10 (Current) | Academic Rank: 2nd in Program | Certificate of Proficiency\n• Core Focus: AI & Expert Systems, Machine Learning, Advanced Data Structures, Algorithms, DBMS, Software Testing`
     }
   ],
   certifications: [
