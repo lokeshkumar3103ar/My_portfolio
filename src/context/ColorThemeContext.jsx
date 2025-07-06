@@ -45,6 +45,12 @@ export const ColorThemeProvider = ({ children }) => {
         document.documentElement.style.setProperty('--gradient-primary', theme.gradient);
       }
       
+      // Set background and text color variables for both modes
+      document.documentElement.style.setProperty('--color-background', '#F9FAFB'); // Light background
+      document.documentElement.style.setProperty('--color-background-dark', '#1F2937'); // Dark background
+      document.documentElement.style.setProperty('--color-text', '#111827'); // Light text
+      document.documentElement.style.setProperty('--color-text-dark', '#E5E7EB'); // Dark text
+      
       // Save to localStorage
       localStorage.setItem('colorTheme', activeTheme);
       

@@ -167,6 +167,7 @@ const Header = () => {
           {/* AI Generalist Portfolio Button & Description (Desktop) */}
           <div className="hidden lg:flex flex-col items-end mr-2">
             <button
+              data-ai-portfolio-btn
               onClick={() => setShowAIPortfolioOverlay(true)}
               className="py-2 px-4 rounded-lg font-semibold text-white shadow-md transition-all duration-200 text-xs xl:text-sm"
               style={{
@@ -343,6 +344,7 @@ const Header = () => {
                     Explore my advanced AI Generalist portfolio—a dedicated site showcasing my real-world AI collaboration, live project dashboards, and unique 30-Day Challenge. This site demonstrates my ability to orchestrate, build, and deliver complex solutions with AI, beyond the standard portfolio.
                   </span>
                   <a
+                    data-ai-portfolio-btn
                     href="https://lokeshkumar3103ar.github.io/Ai_portfolio/"
                     target="_blank"
                     rel="noopener noreferrer"

@@ -68,7 +68,7 @@ const NeuralNetworkField = () => {
 
       layer.forEach((skill, index) => {
         const nodeY = layer.length === 1 ? startY : startY + (index * nodeSpacing);
-        // Improved responsive node size based on screen width and skill name length
+        // Improved responsive node size based on screen width and skill name's length
         let nodeSize;
         if (width < 480) {
           nodeSize = skill.name.length > 8 ? 32 : 36; // Smaller for mobile
@@ -207,9 +207,20 @@ const NeuralNetworkField = () => {
     }));
   };
 
+  // Utility to detect dark mode
+  const isDarkMode = () => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  };
+
   // Render neural network connections
   const renderConnections = () => {
     if (!networkData.nodes.length) return null;
+
+    // Choose a more legible line color for light mode
+    const inactiveLineColor = isDarkMode() ? '#d1d5db' : '#9ca3af';
 
     return (
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
@@ -228,16 +239,12 @@ const NeuralNetworkField = () => {
             </feMerge>
           </filter>
         </defs>
-        
         {networkData.connections.map((connection) => {
           const fromNode = networkData.nodes.find(n => n.id === connection.from);
           const toNode = networkData.nodes.find(n => n.id === connection.to);
-          
           if (!fromNode || !toNode) return null;
-
           const isActive = connection.active || hoveredNode === connection.from || hoveredNode === connection.to;
           const isPulsing = activePulse === connection.id;
-
           return (
             <g key={connection.id}>
               <motion.line
@@ -245,14 +252,13 @@ const NeuralNetworkField = () => {
                 y1={fromNode.y}
                 x2={toNode.x}
                 y2={toNode.y}
-                stroke={isActive ? '#3b82f6' : '#d1d5db'}
+                stroke={isActive ? '#3b82f6' : inactiveLineColor}
                 strokeWidth={isActive ? 2 : 1}
-                strokeOpacity={isActive ? 0.8 : 0.3}
+                strokeOpacity={isActive ? 0.8 : 0.7}
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 1, delay: Math.random() * 0.5 }}
               />
-              
               {isPulsing && (
                 <motion.line
                   x1={fromNode.x}
@@ -424,7 +430,10 @@ const NeuralNetworkField = () => {
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
+    <section id="skills" className="py-24 bg-gray-50 dark:bg-gray-950 relative">
+      {/* Section divider matching footer */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
+
       {/* Background decorative elements - responsive */}
       <div className="absolute -top-12 md:-top-24 left-12 md:left-24 w-32 h-32 md:w-64 md:h-64 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-12 md:-bottom-24 right-12 md:right-24 w-48 h-48 md:w-96 md:h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>

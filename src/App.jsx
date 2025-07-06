@@ -8,7 +8,6 @@ import SkillsSection from './components/skills/SkillsSection'
 import TimelineSection from './components/timeline/TimelineSection'
 import PromptEngineeringShowcase from './components/prompt/PromptEngineeringShowcase'
 import ProjectsSectionNew from './components/projects/ProjectsSectionNew'
-import BuildPhilosophySection from './components/philosophy/BuildPhilosophySection'
 import ColorThemeSelector from './components/ui/ColorThemeSelector'
 import SmoothScroll from './components/transitions/SmoothScroll'
 import LoadingScreen from './components/transitions/LoadingScreen'
@@ -22,7 +21,8 @@ import { motion, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showMainContent, setShowMainContent] = useState(false);
-  
+  const [showDemoOverlay, setShowDemoOverlay] = useState(false);
+
   const handleLoadingComplete = () => {
     setIsLoading(false);
     // Delay showing main content for smooth transition
@@ -134,6 +134,26 @@ function App() {
     
   }, []);
 
+  // Show demo overlay after main content appears
+  useEffect(() => {
+    if (showMainContent) {
+      setShowDemoOverlay(true);
+    }
+  }, [showMainContent]);
+
+  // Handler to close overlay and highlight button
+  const handleCloseDemoOverlay = () => {
+    setShowDemoOverlay(false);
+    // Highlight the AI Generalist Portfolio button for 3 seconds
+    const aiBtn = document.querySelector('[data-ai-portfolio-btn]');
+    if (aiBtn) {
+      aiBtn.classList.add('highlight-ai-btn');
+      setTimeout(() => {
+        aiBtn.classList.remove('highlight-ai-btn');
+      }, 3000);
+    }
+  };
+
   // Main content animation variants
   const mainContentVariants = {
     hidden: { 
@@ -208,7 +228,7 @@ function App() {
               >
                 <Header />
                 <SmoothScroll />
-                
+
                 <motion.main className="relative">
                   {/* Hero section with smooth entrance */}
                   <motion.section 
@@ -226,6 +246,33 @@ function App() {
                       }
                     }}
                   >
+                    {/* DEMO OVERLAY INSTRUCTIONS (now only on Hero section) */}
+                    <AnimatePresence>
+                      {showDemoOverlay && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className="absolute inset-0 z-[9999] flex items-center justify-center pointer-events-auto"
+                          style={{
+                            backdropFilter: 'blur(10px)',
+                            WebkitBackdropFilter: 'blur(10px)',
+                            background: 'rgba(30, 41, 59, 0.45)'
+                          }}
+                          onClick={handleCloseDemoOverlay}
+                        >
+                          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-2xl rounded-2xl px-10 py-8 flex flex-col items-center gap-5 max-w-lg mx-auto" onClick={e => e.stopPropagation()}>
+                            <span className="text-2xl font-bold text-gray-900 dark:text-white text-center">Welcome to my professional portfolio!</span>
+                            <span className="text-lg font-medium text-gray-800 dark:text-gray-100 text-center">
+                              This site showcases my <b>professional-specific journey</b>.<br />
+                              For my <b>AI Generalist Portfolio</b>, please visit the link in the header above after exploring this site.
+                            </span>
+                            <span className="mt-4 text-xs text-gray-500 dark:text-gray-400 text-center">Click anywhere to continue</span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                     <HeroSection />
                   </motion.section>
                   
@@ -244,7 +291,7 @@ function App() {
                     <ExpertiseSection />
                   </motion.section>
                   
-                  <SectionDivider invert />
+                  <SectionDivider />
                     {/* Skills section */}
                   <motion.section
                     id="skills"
@@ -272,21 +319,6 @@ function App() {
                     <PromptEngineeringShowcase />
                   </motion.section>
                   
-                  <SectionDivider invert />
-                  
-                  {/* Build Philosophy section */}
-                  <motion.section
-                    id="build-philosophy"
-                    className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={sectionVariants}
-                    style={{ position: "relative" }}
-                  >
-                    <BuildPhilosophySection />
-                  </motion.section>
-                  
                   <SectionDivider />
                   
                   {/* Projects section */}
@@ -302,7 +334,7 @@ function App() {
                     <ProjectsSectionNew />
                   </motion.section>
                   
-                  <SectionDivider invert />
+                  <SectionDivider />
                   
                   {/* Timeline section */}
                   <motion.section

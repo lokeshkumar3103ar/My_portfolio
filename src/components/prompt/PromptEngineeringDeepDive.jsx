@@ -4,6 +4,7 @@ import { FaBrain, FaCode, FaCog, FaRegLightbulb, FaChartLine, FaRobot, FaRegClip
 import { HiOutlineTemplate, HiOutlineDocumentDuplicate, HiOutlineLightBulb, HiOutlineChartBar, HiOutlineCode, HiOutlineCog } from 'react-icons/hi';
 import { IoAnalytics, IoFlashOutline, IoRocketOutline } from 'react-icons/io5';
 import Parallax from '../utils/Parallax';
+import ContactOverlay from '../common/ContactOverlay';
 
 const PromptEngineeringDeepDive = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -216,19 +217,22 @@ const PromptEngineeringDeepDive = () => {
     }  };
 
   return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-br from-gray-900 to-gray-950 text-white relative overflow-hidden">
+    <section ref={sectionRef} className="py-24 bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white relative overflow-hidden">
+      {/* Section divider matching footer */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gray-200 dark:bg-gray-800"></div>
+      
       {/* Decorative backgrounds */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute w-full h-full opacity-10">
-          <div className="absolute top-0 -right-40 w-80 h-80 bg-blue-500/30 rounded-full mix-blend-screen filter blur-3xl"></div>
-          <div className="absolute top-40 -left-20 w-80 h-80 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl"></div>
-          <div className="absolute bottom-0 right-20 w-80 h-80 bg-pink-500/30 rounded-full mix-blend-screen filter blur-3xl"></div>
+          <div className="absolute top-0 -right-40 w-80 h-80 bg-blue-100/30 dark:bg-blue-500/30 rounded-full mix-blend-screen filter blur-3xl"></div>
+          <div className="absolute top-40 -left-20 w-80 h-80 bg-purple-100/20 dark:bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl"></div>
+          <div className="absolute bottom-0 right-20 w-80 h-80 bg-pink-100/30 dark:bg-pink-500/30 rounded-full mix-blend-screen filter blur-3xl"></div>
         </div>
         
         {/* Abstract code pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-full h-full" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a3a3a3' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
             backgroundSize: '60px 60px'
           }}></div>
         </div>
@@ -243,10 +247,22 @@ const PromptEngineeringDeepDive = () => {
           className="text-center mb-16"
         >
           <Parallax type="element" direction="up" speed={0.2}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-6 px-4 py-2 rounded-xl shadow-md inline-block
+                bg-white text-gray-900 dark:bg-gradient-to-r dark:from-white dark:via-blue-400 dark:to-white dark:bg-clip-text dark:text-transparent dark:shadow-none"
+              style={{
+                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.04)',
+                lineHeight: 1.2
+              }}
+            >
               The Science Behind The Systems
             </h2>
-            <p className="text-lg text-blue-100/80 max-w-3xl mx-auto">
+            <p
+              className="text-lg max-w-3xl mx-auto px-4 py-2 rounded-xl shadow-sm bg-white text-gray-800 dark:bg-white/10 dark:text-white/90"
+              style={{
+                boxShadow: '0 1px 8px 0 rgba(0,0,0,0.03)'
+              }}
+            >
               An in-depth look at how Lokesh's prompt engineering frameworks transform AI interactions through 
               structured methodologies, demonstrating their real-world impact through comprehensive testing.
             </p>
@@ -262,11 +278,11 @@ const PromptEngineeringDeepDive = () => {
               <motion.button
                 key={section}
                 onClick={() => setActiveSection(section)}
-                className={`px-5 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  activeSection === section
-                    ? 'bg-white/10 shadow-lg shadow-white/5 border border-white/20'
-                    : 'bg-white/5 hover:bg-white/10 border border-white/10'
-                }`}
+                className={`px-5 py-3 rounded-lg text-sm font-medium transition-all duration-300 border shadow-sm
+                  ${activeSection === section
+                    ? 'bg-gray-200 dark:bg-white/10 border-gray-400 dark:border-white/20 text-gray-900 dark:text-white shadow-md'
+                    : 'bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/10 text-gray-700 dark:text-white/80 hover:bg-gray-200 dark:hover:bg-white/10'}
+                `}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -301,7 +317,7 @@ const PromptEngineeringDeepDive = () => {
                   <motion.div
                     key={framework.id}
                     variants={itemVariants}
-                    className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-300 group"
+                    className="bg-white dark:bg-white/5 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden hover:border-gray-300 dark:hover:border-white/20 transition-all duration-300 group"
                   >
                     <div className="p-6">
                       <div className="flex items-center mb-4">
@@ -316,14 +332,14 @@ const PromptEngineeringDeepDive = () => {
                         </div>
                         
                         <div>
-                          <h4 className="text-xl font-bold" style={{ color: framework.color }}>
+                          <h4 className="text-xl font-bold" style={{ color: framework.title }}>
                             {framework.title}
                           </h4>
-                          <p className="text-sm text-blue-100/60">{framework.fullName}</p>
+                          <p className="text-sm text-gray-500 dark:text-white/70">{framework.fullName}</p>
                         </div>
                       </div>
                       
-                      <p className="text-white/80 mb-6">{framework.description}</p>
+                      <p className="text-gray-700 dark:text-white/80 mb-6">{framework.description}</p>
                       
                       {/* Capability bars */}
                       <div className="space-y-3 mt-6">
@@ -332,9 +348,9 @@ const PromptEngineeringDeepDive = () => {
                           return (
                             <div key={index} className="group/cap">
                               <div className="flex justify-between mb-1 text-xs">
-                                <span className="text-white/60">{capabilityParts[0]}</span>
+                                <span className="text-gray-500 dark:text-white/60">{capabilityParts[0]}</span>
                               </div>
-                              <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                              <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
                                 <motion.div
                                   className="h-full rounded-full"
                                   style={{ backgroundColor: framework.color }}
@@ -345,7 +361,7 @@ const PromptEngineeringDeepDive = () => {
                                 />
                               </div>
                               <div className="mt-1 opacity-0 group-hover/cap:opacity-100 transition-opacity duration-300">
-                                <p className="text-xs text-white/50 italic">{capabilityParts[1]}</p>
+                                <p className="text-xs text-gray-500 dark:text-white/50 italic">{capabilityParts[1]}</p>
                               </div>
                             </div>
                           );
@@ -354,8 +370,8 @@ const PromptEngineeringDeepDive = () => {
                       
                       {/* Strengths section */}
                       <div className="mt-8 pt-6 border-t border-white/10">
-                        <h5 className="text-sm uppercase tracking-wider text-white/60 mb-2">Key Strength</h5>
-                        <p className="text-sm text-white/80">
+                        <h5 className="text-sm uppercase tracking-wider text-gray-500 dark:text-white/60 mb-2">Key Strength</h5>
+                        <p className="text-sm text-gray-700 dark:text-white/80">
                           {framework.strengths}
                         </p>
                       </div>
@@ -367,7 +383,7 @@ const PromptEngineeringDeepDive = () => {
               {/* Differentiating factors */}
               <motion.div 
                 variants={itemVariants}
-                className="mt-20 bg-gradient-to-br from-white/5 to-white/10 p-6 border border-white/10 rounded-xl"
+                className="mt-20 bg-gradient-to-br from-gray-100/80 to-gray-200/80 dark:from-white/5 dark:to-white/10 p-6 border border-gray-200 dark:border-white/10 rounded-xl"
               >
                 <h3 className="text-2xl font-bold mb-6 flex items-center">
                   <IoRocketOutline className="text-pink-400 mr-3 text-2xl" /> 
@@ -418,10 +434,10 @@ const PromptEngineeringDeepDive = () => {
                         <item.icon style={{ color: item.color }} className="text-lg" />
                       </div>
                       <div className="pt-5">
-                        <h4 className="text-lg font-semibold mb-2 text-white group-hover:text-blue-200 transition-colors">
+                        <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-200 transition-colors">
                           {item.title}
                         </h4>
-                        <p className="text-sm text-white/70">{item.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-white/70">{item.description}</p>
                       </div>
                     </div>
                   ))}
@@ -451,17 +467,17 @@ const PromptEngineeringDeepDive = () => {
               {/* Test type navigation */}
               <motion.div 
                 variants={itemVariants}
-                className="flex flex-wrap space-x-4 mb-8"
+                className="flex flex-wrap gap-4 mb-8 justify-center"
               >
                 {testScenarios.map((scenario) => (
                   <button
                     key={scenario.id}
                     onClick={() => setActiveTest(scenario.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 ${
-                      activeTest === scenario.id
-                        ? 'bg-white/10 shadow-lg shadow-white/5 border border-white/20'
-                        : 'bg-transparent hover:bg-white/5'
-                    }`}
+                    className={`px-5 py-3 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 border shadow-sm
+                      ${activeTest === scenario.id
+                        ? 'bg-gray-200 dark:bg-white/10 border-gray-400 dark:border-white/20 text-gray-900 dark:text-white shadow-md'
+                        : 'bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/10 text-gray-700 dark:text-white/80 hover:bg-gray-200 dark:hover:bg-white/10'}
+                    `}
                   >
                     <scenario.icon className="mr-2" />
                     <span>{scenario.title}</span>
@@ -480,14 +496,14 @@ const PromptEngineeringDeepDive = () => {
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="bg-white/5 border border-white/10 p-6 rounded-xl mb-8">
+                      <div className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 p-6 rounded-xl mb-8">
                         <h4 className="text-xl font-semibold mb-4">Test Question:</h4>
-                        <p className="text-lg font-light text-blue-200 italic mb-4">"{scenario.question}"</p>
+                        <p className="text-lg font-light text-blue-700 dark:text-blue-200 italic mb-4">"{scenario.question}"</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                           {scenario.results.map((result, idx) => (
                             <motion.div 
                               key={idx}
-                              className="bg-white/5 rounded-lg p-5 border border-white/10 relative overflow-hidden group"
+                              className="bg-gray-100 dark:bg-white/5 rounded-lg p-5 border border-gray-200 dark:border-white/10 relative overflow-hidden group"
                               whileHover={{ y: -5 }}
                               transition={{ duration: 0.3 }}
                             >
@@ -504,7 +520,7 @@ const PromptEngineeringDeepDive = () => {
                               
                               {/* Response content */}
                               <div className="pt-6">
-                                <p className="text-white/90 text-sm leading-relaxed">
+                                <p className="text-gray-900 dark:text-white/90 text-sm leading-relaxed">
                                   {result.response}
                                 </p>
                               </div>
@@ -525,7 +541,7 @@ const PromptEngineeringDeepDive = () => {
                       </div>
                       
                       {/* Key insights from this test */}
-                      <div className="bg-gradient-to-br from-white/5 to-white/10 rounded-lg p-6 border border-white/10">
+                      <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-white/5 dark:to-white/10 rounded-lg p-6 border border-gray-200 dark:border-white/10">
                         <h4 className="text-lg font-semibold mb-4 flex items-center">
                           <FaRegLightbulb className="mr-2 text-yellow-300" /> 
                           Key Insights
@@ -546,8 +562,8 @@ const PromptEngineeringDeepDive = () => {
                               transition={{ delay: idx * 0.1 }}
                               viewport={{ once: true }}
                             >
-                              <span className="text-blue-400 mr-2 mt-1">→</span>
-                              <span className="text-white/80">{insight}</span>
+                              <span className="text-blue-700 dark:text-blue-400 mr-2 mt-1">→</span>
+                              <span className="text-gray-700 dark:text-white/80">{insight}</span>
                             </motion.li>
                           ))}
                         </ul>
@@ -581,11 +597,11 @@ const PromptEngineeringDeepDive = () => {
                 variants={itemVariants}
                 className="overflow-x-auto rounded-xl border border-white/10"
               >
-                <table className="min-w-full bg-white/5 backdrop-blur-lg">
+                <table className="min-w-full bg-white dark:bg-white/5 backdrop-blur-lg">
                   <thead>
                     <tr className="border-b border-white/10">
-                      <th className="py-4 px-6 text-left text-sm font-semibold text-white/80">Feature</th>
-                      <th className="py-4 px-6 text-center text-sm font-semibold text-white/80">
+                      <th className="py-4 px-6 text-left text-sm font-semibold text-gray-900 dark:text-white/80">Feature</th>
+                      <th className="py-4 px-6 text-center text-sm font-semibold text-gray-700 dark:text-white/80">
                         <div className="flex items-center justify-center space-x-2 opacity-70">
                           <FaRegLightbulb className="text-gray-400" />
                           <span>Normal GPT</span>
@@ -655,7 +671,7 @@ const PromptEngineeringDeepDive = () => {
                         whileHover={{ backgroundColor: "rgba(255,255,255,0.07)" }}
                         className="border-b border-white/5 last:border-none"
                       >
-                        <td className="py-4 px-6 text-sm font-medium text-white">{row.feature}</td>
+                        <td className="py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">{row.feature}</td>
                         <Cell value={row.normal} color="#94a3b8" />
                         <Cell value={row.tine} color="#6366f1" highlight={row.tine === "Advanced" || row.tine === "High"} />
                         <Cell value={row.itdoc} color="#8b5cf6" highlight={row.itdoc === "High"} />
@@ -669,7 +685,7 @@ const PromptEngineeringDeepDive = () => {
               {/* Methodology explainer */}
               <motion.div 
                 variants={itemVariants}
-                className="mt-16 bg-white/5 rounded-xl border border-white/10 p-6"
+                className="mt-16 bg-white dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 p-6"
               >
                 <h4 className="text-xl font-bold mb-6">Framework Selection Methodology</h4>
                 
@@ -680,14 +696,14 @@ const PromptEngineeringDeepDive = () => {
                     </h5>
                     
                     <div className="space-y-4">
-                      <div className="bg-white/5 p-4 rounded-lg border border-[#6366f1]/20">
+                      <div className="bg-white dark:bg-white/5 p-4 rounded-lg border border-gray-200 dark:border-[#6366f1]/20">
                         <div className="flex items-center">
                           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#6366f1]/20 mr-3">
                             <FaBrain className="text-[#6366f1]" />
                           </div>
                           <h6 className="font-medium text-[#6366f1]">TINE Framework</h6>
                         </div>
-                        <ul className="mt-3 ml-11 space-y-1 text-white/80 text-sm">
+                        <ul className="mt-3 ml-11 space-y-1 text-gray-700 dark:text-white/80 text-sm">
                           <li className="flex items-center">
                             <span className="mr-2">→</span>
                             <span>Deep research and complex analysis</span>
@@ -703,14 +719,14 @@ const PromptEngineeringDeepDive = () => {
                         </ul>
                       </div>
                       
-                      <div className="bg-white/5 p-4 rounded-lg border border-[#8b5cf6]/20">
+                      <div className="bg-white dark:bg-white/5 p-4 rounded-lg border border-gray-200 dark:border-[#8b5cf6]/20">
                         <div className="flex items-center">
                           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#8b5cf6]/20 mr-3">
                             <HiOutlineDocumentDuplicate className="text-[#8b5cf6]" />
                           </div>
                           <h6 className="font-medium text-[#8b5cf6]">IT DOC Framework</h6>
                         </div>
-                        <ul className="mt-3 ml-11 space-y-1 text-white/80 text-sm">
+                        <ul className="mt-3 ml-11 space-y-1 text-gray-700 dark:text-white/80 text-sm">
                           <li className="flex items-center">
                             <span className="mr-2">→</span>
                             <span>Software development tasks</span>
@@ -726,14 +742,14 @@ const PromptEngineeringDeepDive = () => {
                         </ul>
                       </div>
                       
-                      <div className="bg-white/5 p-4 rounded-lg border border-[#ec4899]/20">
+                      <div className="bg-white dark:bg-white/5 p-4 rounded-lg border border-gray-200 dark:border-[#ec4899]/20">
                         <div className="flex items-center">
                           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#ec4899]/20 mr-3">
                             <FaCode className="text-[#ec4899]" />
                           </div>
                           <h6 className="font-medium text-[#ec4899]">Supreme Code Framework</h6>
                         </div>
-                        <ul className="mt-3 ml-11 space-y-1 text-white/80 text-sm">
+                        <ul className="mt-3 ml-11 space-y-1 text-gray-700 dark:text-white/80 text-sm">
                           <li className="flex items-center">
                             <span className="mr-2">→</span>
                             <span>System architecture and design</span>
@@ -751,12 +767,12 @@ const PromptEngineeringDeepDive = () => {
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-black/50 to-white/5 p-6 rounded-xl border border-white/10 relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-black/50 dark:to-white/5 p-6 rounded-xl border border-gray-200 dark:border-white/10 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 rounded-full filter blur-3xl"></div>
                     <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-500/10 rounded-full filter blur-3xl"></div>
                     
                     <h5 className="text-lg font-medium mb-4">Framework Integration</h5>
-                    <p className="text-white/80 mb-6">
+                    <p className="text-gray-900 dark:text-white/90 mb-6">
                       The true power emerges when frameworks are used in combination, creating a comprehensive prompt ecosystem:
                     </p>
                     
@@ -765,8 +781,8 @@ const PromptEngineeringDeepDive = () => {
                         <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-[#6366f1]/30 to-[#8b5cf6]/30 text-white">
                           1
                         </div>
-                        <div className="flex-1 bg-white/10 p-3 rounded-lg">
-                          <p className="text-white/90 text-sm">Use <span className="text-[#ec4899] font-medium">Supreme Code</span> to architect prompt strategy</p>
+                        <div className="flex-1 bg-gray-200 dark:bg-white/10 p-3 rounded-lg">
+                          <p className="text-gray-900 dark:text-white/90 text-sm">Use <span className="text-[#ec4899] font-medium">Supreme Code</span> to architect prompt strategy</p>
                         </div>
                       </div>
                       
@@ -778,8 +794,8 @@ const PromptEngineeringDeepDive = () => {
                         <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-[#8b5cf6]/30 to-[#ec4899]/30 text-white">
                           2
                         </div>
-                        <div className="flex-1 bg-white/10 p-3 rounded-lg">
-                          <p className="text-white/90 text-sm">Implement with <span className="text-[#8b5cf6] font-medium">IT DOC</span> format for structure</p>
+                        <div className="flex-1 bg-gray-200 dark:bg-white/10 p-3 rounded-lg">
+                          <p className="text-gray-900 dark:text-white/90 text-sm">Implement with <span className="text-[#8b5cf6] font-medium">IT DOC</span> format for structure</p>
                         </div>
                       </div>
                       
@@ -791,29 +807,13 @@ const PromptEngineeringDeepDive = () => {
                         <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-[#ec4899]/30 to-[#6366f1]/30 text-white">
                           3
                         </div>
-                        <div className="flex-1 bg-white/10 p-3 rounded-lg">
-                          <p className="text-white/90 text-sm">Optimize with <span className="text-[#6366f1] font-medium">TINE</span> for depth and insight</p>
+                        <div className="flex-1 bg-gray-200 dark:bg-white/10 p-3 rounded-lg">
+                          <p className="text-gray-900 dark:text-white/90 text-sm">Optimize with <span className="text-[#6366f1] font-medium">TINE</span> for depth and insight</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-              
-              {/* Call to Action */}
-              <motion.div
-                variants={itemVariants}
-                className="mt-12 text-center"
-              >
-                <motion.a
-                  href="#contact"
-                  className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <span className="text-lg font-medium">Connect For Custom Solutions</span>
-                  <FaArrowRight className="ml-2" />
-                </motion.a>
               </motion.div>
             </motion.div>
           )}
@@ -826,11 +826,11 @@ const PromptEngineeringDeepDive = () => {
 // Helper component for table cells
 const Cell = ({ value, color, highlight = false }) => {
   return (
-    <td className="py-4 px-6 text-center">
+    <td className="py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
       <div className="flex items-center justify-center">
         <motion.span
           className={`text-sm font-medium px-3 py-1 rounded-full ${
-            highlight ? 'bg-white/10' : ''
+            highlight ? 'bg-gray-200 dark:bg-white/10' : ''
           }`}
           style={{ color }}
           whileHover={{ scale: 1.05 }}

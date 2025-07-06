@@ -169,7 +169,11 @@ const ProjectsSectionNew = () => {
       id="projects" 
       ref={sectionRef} 
       className="py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden"
-    >      {/* Background decorative elements */}
+    >
+      {/* Section divider matching footer */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
+
+      {/* Background decorative elements */}
       <motion.div 
         style={{ 
           y, 

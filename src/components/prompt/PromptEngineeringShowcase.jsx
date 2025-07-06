@@ -202,7 +202,10 @@ const PromptEngineeringShowcase = () => {
 
   return (
     <>
-      <section id="prompt-engineering" ref={sectionRef} className="py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+      <section id="prompt-engineering" ref={sectionRef} className="py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
+        {/* Section divider matching footer */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
+        
         {/* Background decorative elements */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#6366f1]/5 dark:bg-[#6366f1]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8b5cf6]/5 dark:bg-[#8b5cf6]/10 rounded-full blur-3xl"></div>
@@ -562,8 +565,8 @@ const PromptEngineeringShowcase = () => {
       {showDeepDive && (
         <div ref={deepDiveRef}>
           <PromptEngineeringDeepDive />
-          
-          <div className="bg-gray-900 py-8 text-center">
+          {/* Back to Overview button - theme-adaptive for light/dark */}
+          <div className="bg-gray-100 dark:bg-gray-900 py-8 text-center border-t border-gray-200 dark:border-gray-800">
             <motion.button
               onClick={toggleDeepDive}
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all"

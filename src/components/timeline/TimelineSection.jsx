@@ -28,6 +28,27 @@ const timelineData = {
   ],
   certifications: [
     {
+      name: "Data Literacy Certification",
+      institution: "DataCamp",
+      period: "January 2024",
+      description: "Certification in understanding, interpreting, and communicating with data effectively.",
+      url: "https://www.datacamp.com/skill-verification/DL0038438163443"
+    },
+    {
+      name: "GitHub Foundations Certification",
+      institution: "GitHub",
+      period: "January 2024",
+      description: "Core skills in version control, collaboration, and project management using GitHub.",
+      url: "https://www.credly.com/badges/36fa4d5c-c3ee-4a6c-963c-711dad64c17f/linked_in_profile"
+    },
+    {
+      name: "Docker Foundations Professional Certificate",
+      institution: "Docker",
+      period: "July 2025",
+      description: "Professional certificate covering Docker fundamentals, containerization, and best practices for modern DevOps workflows.",
+      url: "https://www.linkedin.com/learning/certificates/1ebee18ee9fbadd14b0921a3f89f74ac07ffa98bacbc4ccc16d13d24b916f660"
+    },
+    {
       name: "BCG - GenAI Job Simulation",
       institution: "Forage",
       period: "October 2024",
@@ -70,18 +91,18 @@ const timelineData = {
       url: "https://www.datacamp.com/completed/statement-of-accomplishment/course/387a0167be3743617edaa62ffa10481b080a130a"
     },
     {
-      name: "Data Literacy Certification",
-      institution: "DataCamp",
-      period: "January 2024",
-      description: "Certification in understanding, interpreting, and communicating with data effectively.",
-      url: "https://www.datacamp.com/skill-verification/DL0038438163443"
+      name: "Getting started with Git and GitHub",
+      institution: "IBM",
+      period: "September 2024",
+      description: "Credential ID CASBZT5XICCQ. Introductory certification in Git and GitHub version control, covering repository management, collaboration, and workflow basics.",
+      url: "https://www.coursera.org/account/accomplishments/records/CASBZT5XICCQ"
     },
     {
-      name: "GitHub Foundations Certification",
-      institution: "GitHub",
-      period: "January 2024",
-      description: "Core skills in version control, collaboration, and project management using GitHub.",
-      url: "https://www.credly.com/badges/36fa4d5c-c3ee-4a6c-963c-711dad64c17f/linked_in_profile"
+      name: "MATLAB Certified: Deep Learning Onramp",
+      institution: "MathWorks",
+      period: "October 2024",
+      description: "Certification in MATLAB and Deep Learning fundamentals. Skills: Deep Learning, MATLAB.",
+      url: "https://matlabacademy.mathworks.com/progress/share/certificate.html?id=a14c6c7e-8785-40b3-84e5-288b724296c9&"
     }
   ]
 };
@@ -341,15 +362,10 @@ const TimelineSection = () => {
   );
 
   return (
-    <section 
-      id="timeline" 
-      className="py-32 relative overflow-hidden"
-      ref={containerRef}
-      style={{
-        background: 'var(--background)',
-        minHeight: '100vh'
-      }}
-    >
+    <section id="timeline" ref={containerRef} className="py-24 bg-gray-50 dark:bg-gray-950 relative">
+      {/* Section divider matching footer */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
+
       <div className="absolute inset-0 opacity-10 dark:opacity-20">
         <div className="absolute inset-0 pattern-grid" />
       </div>
