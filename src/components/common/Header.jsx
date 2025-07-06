@@ -168,7 +168,8 @@ const Header = () => {
           <div className="hidden lg:flex flex-col items-end mr-2">
             <button
               data-ai-portfolio-btn
-              onClick={() => setShowAIPortfolioOverlay(true)}
+              onClick={() => setShowAIPortfolioOverlay(true)
+}
               className="py-2 px-4 rounded-lg font-semibold text-white shadow-md transition-all duration-200 text-xs xl:text-sm"
               style={{
                 background: `linear-gradient(90deg, ${currentColors.primary}, ${currentColors.secondary})`,
@@ -179,13 +180,14 @@ const Header = () => {
             </button>
           </div>
           <motion.a
-            href="/Lokesh_Kumar_AR_Resume_2025.pdf"
+            href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
             className="hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group flex-shrink-0"
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
+            onClick={e => { e.stopPropagation(); }}
           >
             <span className="relative z-10">Resume</span>
             <span 
@@ -343,11 +345,10 @@ const Header = () => {
                   <span className="block text-xs text-gray-600 dark:text-gray-300 mb-2">
                     Explore my advanced AI Generalist portfolio—a dedicated site showcasing my real-world AI collaboration, live project dashboards, and unique 30-Day Challenge. This site demonstrates my ability to orchestrate, build, and deliver complex solutions with AI, beyond the standard portfolio.
                   </span>
-                  <a
+                  <button
                     data-ai-portfolio-btn
-                    href="https://lokeshkumar3103ar.github.io/Ai_portfolio/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    type="button"
+                    onClick={() => setShowAIPortfolioOverlay(true)}
                     className="block w-full py-3 px-6 text-center text-white text-base font-semibold rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl mb-2"
                     style={{
                       background: `linear-gradient(90deg, ${currentColors.primary}, ${currentColors.secondary})`,
@@ -355,17 +356,17 @@ const Header = () => {
                     }}
                   >
                     My AI Generalist Portfolio
-                  </a>
+                  </button>
                 </div>
                 <motion.a
-                  href="./Lokesh_Kumar_A_R_Prompt_Engineer_CV.pdf"
+                  href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
                   className="block w-full py-4 px-6 text-center text-white text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl"
                   style={{ 
                     background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})` 
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={e => { e.stopPropagation(); }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ 
