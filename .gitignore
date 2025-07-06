@@ -45,3 +45,6 @@ public/
 *.njsproj
 *.sln
 *.sw?
+
+# Git folder (should never be committed inside subfolders)
+.git/
