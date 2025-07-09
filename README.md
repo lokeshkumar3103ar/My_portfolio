@@ -2,7 +2,7 @@
 
 A modern, interactive portfolio website showcasing my work as an AI Prompt Engineer and Data Science Enthusiast.
 
-![Portfolio Preview](https://lokeshkumar3103ar.github.io/My_portfolio/)
+[Portfolio Preview](https://lokeshkumar3103ar.github.io/My_portfolio/)
 
 ## 🌟 Features
 
