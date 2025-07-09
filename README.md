@@ -2,7 +2,7 @@
 
 A modern, interactive portfolio website showcasing my work as an AI Prompt Engineer and Data Science Enthusiast.
 
-![Portfolio Preview](public/images/portfolio-preview.jpg)
+![Portfolio Preview](https://lokeshkumar3103ar.github.io/My_portfolio/)
 
 ## 🌟 Features
 
@@ -82,6 +82,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Contact
 
-Lokesh Kumar A R - [your-email@example.com](mailto:your-email@example.com)
+Lokesh Kumar A R - [lokeshkumar3103ar@gmail.com](mailto:lokeshkumar3103ar@gmail.com)
 
-Project Link: [https://github.com/yourusername/portfolio](https://github.com/yourusername/portfolio)
+Project Link: [https://github.com/lokeshkumar3103ar/portfolio](https://github.com/lokeshkumar3103ar/My_portfolio)
