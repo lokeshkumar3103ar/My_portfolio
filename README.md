@@ -1,6 +1,6 @@
 # Lokesh Kumar A R Portfolio
 
-A modern, interactive portfolio website showcasing my work as an AI Prompt Engineer and Data Science Enthusiast.
+A modern, interactive portfolio website showcasing my work as an AI/ML Engineer and Data Science Enthusiast.
 
 [Portfolio Preview](https://lokeshkumar3103ar.github.io/My_portfolio/)
 
