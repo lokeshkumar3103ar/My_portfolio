@@ -18,15 +18,15 @@ export default defineConfig({
       // Changed from injectManifest to generateSW strategy to avoid the manifest injection error
       strategies: 'generateSW',
       registerType: 'prompt',
-      includeAssets: ['vite.svg', 'robots.txt', '*.png', 'textures/**/*'],
+      includeAssets: ['vite.svg', 'robots.txt', '*.png', 'textures/**/*', 'Lokesh_Kumar_AR_Resume_2025.pdf'],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,ico,pdf}'],
         navigateFallback: 'index.html',
       },
       manifest: {
         name: 'Lokesh Kumar Portfolio',
         short_name: 'LK Portfolio',
-        description: 'AI Prompt Engineer | Data Science Enthusiast',
+        description: 'AI/ML Engineer | Creator of QritiQ',
         theme_color: '#ffffff',
         icons: [
           {

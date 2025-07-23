@@ -194,8 +194,8 @@ function fixPaths(directory) {
         // Fix direct asset references not using relative paths
         content = content.replace(/['"](?!\.\/|http|\.\.\/|\/)(assets\/[^'"]*)['"]/g, '"./assets/$1"');
 
-        // Fix resume.pdf path in JS files
-        content = content.replace(/['"]\/resume\.pdf['"]/g, '"./resume.pdf"');
+  // Fix specific resume PDF path in JS files
+  content = content.replace(/['"]\/Lokesh_Kumar_AR_Resume_2025\.pdf['"]/g, '"./Lokesh_Kumar_AR_Resume_2025.pdf"');
 
         // Fix texture file paths in vendor JS (likely Three.js)
         if (file.includes('vendor') && file.endsWith('.js')) {
@@ -334,7 +334,8 @@ function copyPublicAssets() {
     }
     
     // Copy other important files from public to dist root
-    const importantFiles = ['manifest.json', 'manifest.webmanifest', 'resume.pdf', '404.html'];
+  // Include the specific resume PDF in the copy list
+  const importantFiles = ['manifest.json', 'manifest.webmanifest', 'Lokesh_Kumar_AR_Resume_2025.pdf', '404.html'];
     importantFiles.forEach(file => {
       const src = path.join(publicDir, file);
       if (fs.existsSync(src)) {
