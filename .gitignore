@@ -23,14 +23,7 @@ lerna-debug.log*
 **/.cache/
 **/.turbo/
 
-# Ignore all public folders except for static assets
-public/
-!public/*.png
-!public/*.jpg
-!public/*.svg
-!public/*.webmanifest
-!public/*.json
-!public/*.pdf
+
 
 # Ignore npm package lock (optional, if you use yarn or pnpm)
 # package-lock.json
