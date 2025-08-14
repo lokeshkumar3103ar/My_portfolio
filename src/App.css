@@ -1,0 +1,115 @@
+/* Custom styles for specific components that can't be handled by Tailwind */
+
+/* Remove conflicting styles that interfere with our layout */
+#root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Responsive utilities for mobile optimization */
+.responsive-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Mobile-first responsive text scaling */
+.responsive-text {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.responsive-heading {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* Prevent horizontal scroll on mobile */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Keep animation keyframes */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation for React logo if needed */
+@media (prefers-reduced-motion: no-preference) {
+  .react-logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Resume button styles */
+.resume-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.resume-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+  z-index: 0;
+}
+
+.resume-btn:hover::before {
+  left: 100%;
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 768px) {
+  button, a[role="button"], .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Ensure text is readable on mobile */
+  .mobile-text {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+}
+
+.resume-btn .btn-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Blinking effect for AI Generalist Portfolio link */
+.blink-ai-link {
+  animation: blink 0.5s steps(2, start) 6;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+/* Highlight style for AI Generalist Portfolio button */
+.highlight-ai-btn {
+  box-shadow: 0 0 0 4px #a21caf, 0 0 16px 8px #6366f1;
+  outline: 2px solid #a21caf;
+  outline-offset: 2px;
+  animation: highlight-pulse 0.7s cubic-bezier(0.4,0,0.2,1) 3;
+}
+
+@keyframes highlight-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px #a21caf, 0 0 16px 8px #6366f1; }
+  50% { box-shadow: 0 0 0 8px #a21caf, 0 0 32px 16px #6366f1; }
+}
