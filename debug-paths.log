@@ -1,9 +1,9 @@
-GitHub Pages Path Fixing Debug Log - 2025-08-14T19:17:25.310Z
+GitHub Pages Path Fixing Debug Log - 2025-08-14T19:29:50.621Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Found main bundle file: main-CqspT-aJ.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-CqspT-aJ.js
+Found main bundle file: main-ixoyar7F.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-ixoyar7F.js
 Copied vite.svg from public to dist root
 Copied manifest.json to dist root
 Copied Lokesh_Kumar_AR_Resume_2025.pdf to dist root
