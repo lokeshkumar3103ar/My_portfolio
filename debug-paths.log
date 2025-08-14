@@ -1,9 +1,9 @@
-GitHub Pages Path Fixing Debug Log - 2025-08-14T11:27:04.711Z
+GitHub Pages Path Fixing Debug Log - 2025-08-14T19:05:18.904Z
 ====================================================
 
 Fixing asset paths for GitHub Pages deployment...
-Found main bundle file: main-BoNUEQPg.js
-Fixed JSX MIME type issue by replacing main.jsx reference with main-BoNUEQPg.js
+Found main bundle file: main-Dsww6b7T.js
+Fixed JSX MIME type issue by replacing main.jsx reference with main-Dsww6b7T.js
 WARNING: vite.svg not found in public folder! Please add it there.
 Updated paths in registerSW.js
 Updated paths in existing 404.html
