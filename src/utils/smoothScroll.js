@@ -22,11 +22,13 @@ export function initSmoothScroll() {
   if (lenis) return lenis;
 
   lenis = new Lenis({
-    duration: 1.6, // balanced duration for buttery feel
+  // Slightly faster global duration for a snappier feel
+  duration: 1.3, // was 1.6
     easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
     smoothWheel: true,
     smoothTouch: false,
-    touchMultiplier: 1.2,
+  // Increase touch multiplier a bit to speed up touch-driven scrolling (mobile)
+  touchMultiplier: 2.0, // was 1.2
     syncTouch: true,
     gestureOrientation: 'vertical'
   });
@@ -93,7 +95,8 @@ export function initSmoothScroll() {
     if (isEditable(target) || hasScrollableAncestor(target)) return;
 
     const height = window.innerHeight;
-    const arrowStep = Math.max(80, Math.min(160, Math.round(height * 0.12))); // adaptive step
+    // Slightly larger step for arrow keys for a speedier feel
+    const arrowStep = Math.max(110, Math.min(230, Math.round(height * 0.14))); // was 0.12, min 80 max 160
     const pageStep = Math.round(height * 0.85);
     const maxY = Math.max(0, document.documentElement.scrollHeight - height);
     const currentY = window.scrollY || document.documentElement.scrollTop || 0;
@@ -101,28 +104,28 @@ export function initSmoothScroll() {
     let handled = true;
     switch (e.key) {
       case 'ArrowDown':
-        lenis.scrollTo(Math.min(currentY + arrowStep, maxY));
+        lenis.scrollTo(Math.min(currentY + arrowStep, maxY), { duration: 1.05 });
         break;
       case 'ArrowUp':
-        lenis.scrollTo(Math.max(currentY - arrowStep, 0));
+        lenis.scrollTo(Math.max(currentY - arrowStep, 0), { duration: 1.05 });
         break;
       case 'PageDown':
-        lenis.scrollTo(Math.min(currentY + pageStep, maxY));
+        lenis.scrollTo(Math.min(currentY + pageStep, maxY), { duration: 1.05 });
         break;
       case 'PageUp':
-        lenis.scrollTo(Math.max(currentY - pageStep, 0));
+        lenis.scrollTo(Math.max(currentY - pageStep, 0), { duration: 1.05 });
         break;
       case 'Home':
-        lenis.scrollTo(0);
+        lenis.scrollTo(0, { duration: 1.05 });
         break;
       case 'End':
-        lenis.scrollTo(maxY);
+        lenis.scrollTo(maxY, { duration: 1.05 });
         break;
       case ' ': // Space
         if (e.shiftKey) {
-          lenis.scrollTo(Math.max(currentY - pageStep, 0));
+          lenis.scrollTo(Math.max(currentY - pageStep, 0), { duration: 1.05 });
         } else {
-          lenis.scrollTo(Math.min(currentY + pageStep, maxY));
+          lenis.scrollTo(Math.min(currentY + pageStep, maxY), { duration: 1.05 });
         }
         break;
       default:
