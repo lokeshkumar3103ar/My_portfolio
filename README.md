@@ -51,19 +51,6 @@ A modern, interactive portfolio website showcasing my work as an AI Prompt Engin
    npm run build
    ```
 
-## 📁 Project Structure
-
-```
-src/
-├── components/        # UI components
-│   ├── common/        # Shared components (Header, Footer)
-│   ├── home/          # Home page components
-│   ├── models/        # 3D models
-│   ├── projects/      # Project showcase components
-│   └── ...
-├── context/           # React context providers
-└── utils/             # Helper functions
-```
 
 ## 📱 Responsive Design
 
@@ -76,12 +63,3 @@ The portfolio is fully responsive and optimized for:
 
 This project uses GitHub Actions for continuous deployment to GitHub Pages.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📞 Contact
-
-Lokesh Kumar A R - [your-email@example.com](mailto:your-email@example.com)
-
-Project Link: [https://github.com/yourusername/portfolio](https://github.com/yourusername/portfolio)

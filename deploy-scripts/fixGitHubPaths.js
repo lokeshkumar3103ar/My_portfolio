@@ -197,14 +197,12 @@ function fixPaths(directory) {
   // Fix specific resume PDF path in JS files
   content = content.replace(/['"]\/Lokesh_Kumar_AR_Resume_2025\.pdf['"]/g, '"./Lokesh_Kumar_AR_Resume_2025.pdf"');
 
-        // Fix texture file paths in vendor JS (likely Three.js)
-        if (file.includes('vendor') && file.endsWith('.js')) {
+        // Fix texture file paths in any JS bundle (Three.js cube textures often appear as '/px.png', etc.)
+        if (file.endsWith('.js')) {
           const texturePaths = ['/px.png', '/nx.png', '/py.png', '/ny.png', '/pz.png', '/nz.png'];
           texturePaths.forEach(texturePath => {
-            content = content.replace(
-              new RegExp(`['"]${texturePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`, 'g'),
-              '"./textures' + texturePath + '"'
-            );
+            const escaped = texturePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            content = content.replace(new RegExp(`(["'])${escaped}(["'])`, 'g'), '$1./textures' + texturePath + '$2');
           });
         }
 
@@ -318,6 +316,17 @@ function copyPublicAssets() {
     if (!fs.existsSync(texturesDir)) {
       fs.mkdirSync(texturesDir, { recursive: true });
     }
+    // If there is a public/textures folder, copy its contents
+    const publicTexturesDir = path.join(publicDir, 'textures');
+    if (fs.existsSync(publicTexturesDir)) {
+      const texFiles = fs.readdirSync(publicTexturesDir);
+      texFiles.forEach(file => {
+        const src = path.join(publicTexturesDir, file);
+        const dest = path.join(texturesDir, file);
+        fs.copyFileSync(src, dest);
+        logDebug(`Copied textures/${file} to dist/textures/`);
+      });
+    }
     
     // Copy image files from public/images to dist/images
     const publicImagesDir = path.join(publicDir, 'images');
@@ -370,6 +379,24 @@ function copyPublicAssets() {
     fs.writeFileSync(swSrc, swContent);
     logDebug('Updated paths in registerSW.js');
   }
+}
+
+// Ensure cube texture placeholder files exist to avoid 404s if referenced at runtime
+function ensureCubeTexturePlaceholders() {
+  const texturesDir = path.join(buildDir, 'textures');
+  if (!fs.existsSync(texturesDir)) fs.mkdirSync(texturesDir, { recursive: true });
+
+  // 1x1 transparent PNG
+  const transparentPngBase64 =
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/aj0e7wAAAAASUVORK5CYII=';
+  const files = ['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'];
+  files.forEach(name => {
+    const dest = path.join(texturesDir, name);
+    if (!fs.existsSync(dest)) {
+      fs.writeFileSync(dest, Buffer.from(transparentPngBase64, 'base64'));
+      logDebug(`Created placeholder texture: textures/${name}`);
+    }
+  });
 }
 
 // Create a better 404.html if needed
@@ -501,6 +528,7 @@ fixPaths(buildDir);
 fixJSXReference();
 copyViteSvgToRoot();
 copyPublicAssets();
+ensureCubeTexturePlaceholders();
 ensure404Html();
 scanForPotential404Issues();
 

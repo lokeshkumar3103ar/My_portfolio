@@ -8,6 +8,34 @@
   text-align: left;
 }
 
+/* Native smooth scrolling (used when Lenis/GSAP is disabled) */
+html:not(.has-scroll-smooth) {
+  scroll-behavior: smooth;
+}
+
+/* Disable smooth scrolling for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* GSAP ScrollSmoother styles */
+[data-speed],
+.parallax-foreground,
+.parallax-background,
+.parallax-fast,
+.parallax-slow {
+  will-change: transform;
+}
+
+/* Force hardware acceleration for smoother animations */
+.gsap-3d {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 /* Responsive utilities for mobile optimization */
 .responsive-container {
   width: 100%;

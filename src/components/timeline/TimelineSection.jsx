@@ -6,9 +6,15 @@ import { ColorThemeContext } from '../../context/ColorThemeContext';
 const timelineData = {
   experience: [
     {
+      title: "Lead AI/ML Engineer",
+      company: "Imitate Labs (imitatelabs.ai)",
+      period: "07/2025 – Present",
+      description: `• Leading the AI/ML division at an innovative early-stage startup, architecting foundational infrastructure\n• Designing custom ML model transformers and hybrid CNN-ViT architectures for multimedia processing\n• Developing parameter-efficient fine-tuning techniques using LoRA for resource-constrained environments\n• Creating model evaluation frameworks and end-to-end AI workflows from data processing to optimization\n• Leading technical decision-making for AI/ML stack selection and establishing model training best practices`
+    },
+    {
       title: "AI Research and Development Intern",
       company: "Hindustan Institute of Technology and Science",
-      period: "05/2025 – Present",
+      period: "05/2025 – 07/2025",
       description: `• Designed and developed QritiQ, an AI-powered Self-Intro Evaluation platform analyzing communication effectiveness\n• Achieved 66% reduction in manual evaluation time while maintaining assessment depth and precision\n• Integrated Whisper ASR models with LLM systems for automated speech and presentation evaluation\n• Implemented local LLM deployment using Ollama and Mistral models achieving 80% cost reduction vs cloud APIs\n• Secured university financial investment for commercialization and multi-institutional deployment`
     },
     {

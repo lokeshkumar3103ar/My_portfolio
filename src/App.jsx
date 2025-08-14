@@ -9,10 +9,10 @@ import TimelineSection from './components/timeline/TimelineSection'
 import PromptEngineeringShowcase from './components/prompt/PromptEngineeringShowcase'
 import ProjectsSectionNew from './components/projects/ProjectsSectionNew'
 import ColorThemeSelector from './components/ui/ColorThemeSelector'
-import SmoothScroll from './components/transitions/SmoothScroll'
 import LoadingScreen from './components/transitions/LoadingScreen'
 import { initAnalytics, trackPageView } from './utils/analytics'
 import './App.css'
+import { initSmoothScroll, cleanupSmoothScroll } from './utils/smoothScroll'
 import { useEffect, useState } from 'react'
 import { motion, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion'
 
@@ -23,6 +23,9 @@ function App() {
   const [showMainContent, setShowMainContent] = useState(false);
   const [showDemoOverlay, setShowDemoOverlay] = useState(false);
 
+  // Enable parallax effects site-wide, but be more selective
+
+
   const handleLoadingComplete = () => {
     setIsLoading(false);
     // Delay showing main content for smooth transition
@@ -32,6 +35,9 @@ function App() {
   };
 
   useEffect(() => {
+  // Initialize buttery-smooth scrolling (Lenis + GSAP ScrollTrigger)
+  const lenis = initSmoothScroll();
+
     // Initialize analytics
     initAnalytics();
     
@@ -49,12 +55,11 @@ function App() {
     });
       // 2. Minimal resource preloading
     const preloadResources = () => {
-      // Preload only critical images
-      const imagesToPreload = [
-        { src: './images/prompt-systems.jpg', importance: 'high' }
-      ];
+      // No images to preload - removed prompt-systems.jpg and other unused images
+      const imagesToPreload = [];
       
-      // Simplified preloading with error handling
+      // Only process if there are images to preload
+      if (imagesToPreload.length === 0) return;
       imagesToPreload.forEach(({src, importance}) => {
         const img = new Image();
         if (importance === 'high') {
@@ -130,6 +135,8 @@ function App() {
     // Clean up event listeners when component unmounts
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
+      // Cleanup smooth scroll on unmount
+      cleanupSmoothScroll();
     };
     
   }, []);
@@ -218,18 +225,16 @@ function App() {
           {/* Main Content with Smooth Entrance */}
           <AnimatePresence>
             {showMainContent && (
-              <motion.div
-                className="min-h-screen relative overflow-hidden"
-                style={{ position: "relative" }}
-                variants={mainContentVariants}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-              >
-                <Header />
-                <SmoothScroll />
-
-                <motion.main className="relative">
+                <motion.div
+                  className="min-h-screen relative"
+                  style={{ position: "relative" }}
+                  variants={mainContentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                >
+                  <Header />
+                  <motion.main className="relative">
                   {/* Hero section with smooth entrance */}
                   <motion.section 
                     className="relative"

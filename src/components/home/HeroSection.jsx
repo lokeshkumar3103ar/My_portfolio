@@ -4,6 +4,7 @@ import { ColorThemeContext } from '../../context/ColorThemeContext';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import Parallax from '../utils/Parallax';
 import { gsap } from 'gsap';
+import { smoothScrollTo } from '../../utils/smoothScroll';
 import { FaLinkedin, FaGithub, FaEnvelope, FaPhone, FaTimes } from 'react-icons/fa';
 
 const HeroSection = () => {

@@ -15,13 +15,13 @@ export default defineConfig({
     react(),
     compression({ algorithm: 'gzip' }),
     VitePWA({
-      // Changed from injectManifest to generateSW strategy to avoid the manifest injection error
       strategies: 'generateSW',
       registerType: 'prompt',
       includeAssets: ['vite.svg', 'robots.txt', '*.png', 'textures/**/*', 'Lokesh_Kumar_AR_Resume_2025.pdf'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,ico,pdf}'],
         navigateFallback: 'index.html',
+        cleanupOutdatedCaches: true,
       },
       manifest: {
         name: 'Lokesh Kumar Portfolio',
@@ -30,18 +30,13 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: 'vite.svg',
-            sizes: '192x192',
-            type: 'image/svg+xml'
-          },
-          {
-            src: 'vite.svg',
-            sizes: '512x512',
-            type: 'image/svg+xml'
-          },
-          {
             src: 'pwa-192x192.png',
             sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
             type: 'image/png'
           }
         ]
@@ -73,9 +68,6 @@ export default defineConfig({
           if (id.includes('node_modules/framer-motion') || id.includes('node_modules/gsap')) {
             return 'animations';
           }
-          if (id.includes('node_modules/three')) {
-            return 'three';
-          }
           // Other dependencies will go in the main chunk
           return null;
         }
@@ -94,10 +86,15 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'three', 'framer-motion', 'gsap']
+    include: ['react', 'react-dom', 'framer-motion', 'gsap']
   },
   server: {
-    port: 3000,
+    port: 3001,
+    host: true,
     open: true,
+    // Disable browser caching of development assets
+    headers: {
+      'Cache-Control': 'no-store',
+    },
   },
 })

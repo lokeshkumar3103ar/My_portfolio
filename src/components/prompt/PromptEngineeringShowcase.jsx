@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { FaBrain, FaCode, FaCog, FaRegLightbulb, FaChartLine, FaRobot, FaRegClipboard, FaArrowDown } from 'react-icons/fa';
 import { HiOutlineTemplate, HiOutlineDocumentDuplicate } from 'react-icons/hi';
 import Parallax from '../utils/Parallax';
 import PromptEngineeringDeepDive from './PromptEngineeringDeepDive';
+import { smoothScrollTo } from '../../utils/smoothScroll';
 
 const promptSystems = [
   {
@@ -192,11 +193,10 @@ const PromptEngineeringShowcase = () => {
     // Scroll to deep dive section when shown
     if (!showDeepDive) {
       setTimeout(() => {
-        deepDiveRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (deepDiveRef.current) smoothScrollTo(deepDiveRef.current, { offset: 70 });
       }, 100);
     } else {
-      // Scroll back to main section
-      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (sectionRef.current) smoothScrollTo(sectionRef.current, { offset: 70 });
     }
   };
 

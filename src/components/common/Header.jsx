@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeContext } from '../../context/ThemeContext';
 import { ColorThemeContext } from '../../context/ColorThemeContext';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import { smoothScrollTo } from '../../utils/smoothScroll';
+import FluidGlass from '../graphics/FluidGlass';
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
@@ -62,21 +64,46 @@ const Header = () => {
         mobileMenuOpen 
           ? 'z-50 py-3 sm:py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700'
           : scrolled 
-            ? 'z-50 py-2 sm:py-3 bg-gray-50/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
-            : 'z-50 py-3 sm:py-4 lg:py-5 bg-transparent'
+            ? 'z-50 py-2 sm:py-3 border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
+            : 'z-50 py-3 sm:py-4 lg:py-5'
       }`}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
       style={{ 
         willChange: "transform, opacity",
+        // Let 3D glass show through; fallback blur only when menu open
+        backdropFilter: mobileMenuOpen ? 'saturate(120%) blur(10px)' : undefined,
+        WebkitBackdropFilter: mobileMenuOpen ? 'saturate(120%) blur(10px)' : undefined,
       }}
     >
+      {/* Header-only 3D glass bar background */}
+      <div className="absolute inset-0 pointer-events-none -z-10" style={{ height: '100%' }}>
+        <FluidGlass
+          fullScreen={false}
+          mode="bar"
+          barProps={{ height: 0.78, depth: 0.3, radius: 0.28, smoothness: 12, yOffset: 0 }}
+          materialProps={{
+            transmission: 1,
+            ior: 1.03,
+            thickness: 0.5,
+            roughness: 0.01,
+            chromaticAberration: 0.0,
+            anisotropy: 0.005,
+            envMapIntensity: 0.25,
+            attenuationDistance: 500,
+            attenuationColor: '#ffffff',
+          }}
+          floatProps={{ amplitudeX: 0, amplitudeY: 0, speed: 0, rotationAmp: 0 }}
+          floatEnabled={false}
+          style={{ borderRadius: '9999px' }}
+        />
+      </div>
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Logo/Name with theme color - Responsive sizing */}
         <motion.a 
           href="#"
-          className="text-base sm:text-lg md:text-xl font-medium text-gray-900 dark:text-white flex items-center flex-shrink-0"
+          className="text-base sm:text-lg md:text-xl font-medium text-gray-900 dark:text-white lg:text-white flex items-center flex-shrink-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -108,22 +135,15 @@ const Header = () => {
                 e.preventDefault();
                 const element = document.getElementById(item.id);
                 if (element) {
-                  const headerHeight = 80; // Account for fixed header
-                  const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-                  const offsetPosition = elementPosition - headerHeight;
-                  
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                  });
+                  const headerHeight = 80;
+                  smoothScrollTo(element, { offset: headerHeight });
                 }
               }}
               className={`text-xs lg:text-sm xl:text-sm tracking-wide font-medium transition-all relative ${
                 activeSection === item.id
-                  ? '' 
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  ? 'text-white'
+                  : 'text-white/70 hover:text-white'
               }`}
-              style={activeSection === item.id ? { color: currentColors.primary } : {}}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ 
@@ -181,7 +201,7 @@ const Header = () => {
           </div>
           <motion.a
             href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
-            className="hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium text-gray-900 dark:text-white hover:text-white dark:hover:text-white transition-colors relative group flex-shrink-0"
+            className="hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium text-white hover:text-white transition-colors relative group flex-shrink-0"
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0 }}
@@ -301,13 +321,7 @@ const Header = () => {
                             const element = document.getElementById(item.id);
                             if (element) {
                               const headerHeight = 80;
-                              const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-                              const offsetPosition = elementPosition - headerHeight;
-                              
-                              window.scrollTo({
-                                top: offsetPosition,
-                                behavior: 'smooth'
-                              });
+                              smoothScrollTo(element, { offset: headerHeight });
                             }
                           }, 200);
                         }}

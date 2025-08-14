@@ -2,7 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom animations and styles */
+/* GSAP/Lenis Smooth Scrolling Styles */
+html.has-scroll-smooth {
+  /* prevent double scrollbars when Lenis controls scrolling */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+html.has-scroll-dragging {
+  user-select: none;
+}
+
+#smooth-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#smooth-content {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Custom Parallax Classes */
+.parallax-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-foreground-advanced {
+  will-change: transform;
+}
+
+.parallax-background-advanced {
+  will-change: transform;
+}
+
+/* Optionally add more custom styles */
 @keyframes float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
@@ -201,8 +239,9 @@
 }
 
 /* Smooth scrolling */
+/* Let Lenis drive smooth scrolling; native smooth is fallback only */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 /* Animation classes */
@@ -330,7 +369,6 @@ body {
 
 html {
   /* Improve scroll performance */
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeSpeed;
 }
