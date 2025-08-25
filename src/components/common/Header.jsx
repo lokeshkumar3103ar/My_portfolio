@@ -4,7 +4,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { ColorThemeContext } from '../../context/ColorThemeContext';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { smoothScrollTo } from '../../utils/smoothScroll';
-import FluidGlass from '../graphics/FluidGlass';
+
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
@@ -77,28 +77,7 @@ const Header = () => {
         WebkitBackdropFilter: mobileMenuOpen ? 'saturate(120%) blur(10px)' : undefined,
       }}
     >
-      {/* Header-only 3D glass bar background */}
-      <div className="absolute inset-0 pointer-events-none -z-10" style={{ height: '100%' }}>
-        <FluidGlass
-          fullScreen={false}
-          mode="bar"
-          barProps={{ height: 0.78, depth: 0.3, radius: 0.28, smoothness: 12, yOffset: 0 }}
-          materialProps={{
-            transmission: 1,
-            ior: 1.03,
-            thickness: 0.5,
-            roughness: 0.01,
-            chromaticAberration: 0.0,
-            anisotropy: 0.005,
-            envMapIntensity: 0.25,
-            attenuationDistance: 500,
-            attenuationColor: '#ffffff',
-          }}
-          floatProps={{ amplitudeX: 0, amplitudeY: 0, speed: 0, rotationAmp: 0 }}
-          floatEnabled={false}
-          style={{ borderRadius: '9999px' }}
-        />
-      </div>
+
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Logo/Name with theme color - Responsive sizing */}
         <motion.a 
@@ -121,7 +100,7 @@ const Header = () => {
               style={{ backgroundColor: currentColors.primary }}
             ></span>
           </span>
-          <span className="font-medium tracking-tight">Lokesh Kumar</span>
+          <span className={`font-medium tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Lokesh Kumar</span>
           <span style={{ color: currentColors.primary }} className="ml-1">A R</span>
         </motion.a>
 
@@ -141,8 +120,8 @@ const Header = () => {
               }}
               className={`text-xs lg:text-sm xl:text-sm tracking-wide font-medium transition-all relative ${
                 activeSection === item.id
-                  ? 'text-white'
-                  : 'text-white/70 hover:text-white'
+                  ? (isDarkMode ? 'text-white' : 'text-gray-900')
+                  : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900')
               }`}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -201,7 +180,7 @@ const Header = () => {
           </div>
           <motion.a
             href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
-            className="hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium text-white hover:text-white transition-colors relative group flex-shrink-0"
+            className={`hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium transition-colors relative group flex-shrink-0 ${isDarkMode ? 'text-white hover:text-white' : 'text-gray-900 hover:text-gray-700'}`}
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0 }}
@@ -374,7 +353,7 @@ const Header = () => {
                 </div>
                 <motion.a
                   href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
-                  className="block w-full py-4 px-6 text-center text-white text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl"
+                  className={`block w-full py-4 px-6 text-center text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}
                   style={{ 
                     background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})` 
                   }}

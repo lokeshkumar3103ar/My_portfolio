@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 const skills = [
@@ -247,7 +247,7 @@ const NeuralNetworkField = () => {
           const isPulsing = activePulse === connection.id;
           return (
             <g key={connection.id}>
-              <motion.line
+              <line
                 x1={fromNode.x}
                 y1={fromNode.y}
                 x2={toNode.x}
@@ -255,9 +255,6 @@ const NeuralNetworkField = () => {
                 stroke={isActive ? '#3b82f6' : inactiveLineColor}
                 strokeWidth={isActive ? 2 : 1}
                 strokeOpacity={isActive ? 0.8 : 0.7}
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1, delay: Math.random() * 0.5 }}
               />
               {isPulsing && (
                 <motion.line
@@ -278,6 +275,8 @@ const NeuralNetworkField = () => {
       </svg>
     );
   };
+    // Memoized SVG for connections
+    const connectionsSvg = useMemo(() => renderConnections(), [networkData.connections, hoveredNode, activePulse]);
 
   // Responsive container height with better breakpoint handling
   const getContainerHeight = () => {
@@ -315,8 +314,8 @@ const NeuralNetworkField = () => {
         ))}
       </div>
 
-      {/* Render connections */}
-      {renderConnections()}
+  {/* Render connections (memoized) */}
+  {connectionsSvg}
 
       {/* Render nodes */}
       {networkData.nodes.length > 0 ? (
