@@ -35,60 +35,60 @@ function App() {
   };
 
   useEffect(() => {
-  // Initialize buttery-smooth scrolling (Lenis + GSAP ScrollTrigger)
-  const lenis = initSmoothScroll();
+    // Initialize buttery-smooth scrolling (Lenis + GSAP ScrollTrigger)
+    const lenis = initSmoothScroll();
 
     // Initialize analytics
     initAnalytics();
-    
+
     // Track page view on route change
     const handleRouteChange = () => {
       trackPageView(window.location.pathname);
     };
-    
+
     window.addEventListener('popstate', handleRouteChange);
-    
+
     // Apply performance optimizations when component mounts
     // 1. Add will-change hints for elements that will animate
     document.querySelectorAll('.ultra-smooth, .hover-lift').forEach(el => {
       el.style.willChange = 'transform';
     });
-      // 2. Minimal resource preloading
+    // 2. Minimal resource preloading
     const preloadResources = () => {
       // No images to preload - removed prompt-systems.jpg and other unused images
       const imagesToPreload = [];
-      
+
       // Only process if there are images to preload
       if (imagesToPreload.length === 0) return;
-      imagesToPreload.forEach(({src, importance}) => {
+      imagesToPreload.forEach(({ src, importance }) => {
         const img = new Image();
         if (importance === 'high') {
           img.setAttribute('fetchpriority', 'high');
         }
-        
+
         // Add error handling to prevent interruptions
         img.onerror = () => {
           // Silently handle image loading errors
           // No console output to keep production clean
         };
-        
+
         img.onload = () => {
           // Image loaded successfully - silently continue
         };
-        
+
         img.src = src;
       });
     };
-    
+
     // Execute after initial render
     setTimeout(preloadResources, 1000);
-    
+
     // 3. Disable animations for users who prefer reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
       document.documentElement.classList.add('reduce-motion');
     }
-    
+
     // 4. Initialize intersection observer for lazy loading
     const lazyLoadImages = () => {
       const imgObserver = new IntersectionObserver((entries, observer) => {
@@ -107,21 +107,21 @@ function App() {
         rootMargin: '50px 0px',
         threshold: 0.1
       });
-      
+
       document.querySelectorAll('img[data-src]').forEach(img => {
         imgObserver.observe(img);
       });
     };
-    
+
     lazyLoadImages();
-    
+
     // 5. Global error handling to maintain smooth UX
     window.addEventListener('unhandledrejection', (event) => {
       // Silently handle unhandled promise rejections
       // This prevents console errors from disrupting the user experience
       event.preventDefault();
     });
-    
+
     window.addEventListener('error', (event) => {
       // Silently handle uncaught errors
       // Only log in development mode
@@ -131,14 +131,14 @@ function App() {
       // Prevent default error handling that might disrupt UX
       event.preventDefault();
     });
-    
+
     // Clean up event listeners when component unmounts
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
       // Cleanup smooth scroll on unmount
       cleanupSmoothScroll();
     };
-    
+
   }, []);
 
   // Show demo overlay after main content appears
@@ -163,7 +163,7 @@ function App() {
 
   // Main content animation variants
   const mainContentVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       scale: 0.95,
       filter: 'blur(20px)',
@@ -196,8 +196,8 @@ function App() {
   // Modern minimal section divider component that respects color theme
   const SectionDivider = ({ invert }) => (
     <div className={`relative h-24 ${invert ? 'bg-gray-50 dark:bg-gray-950' : 'bg-white dark:bg-gray-900'}`}>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-[1px]" 
-           style={{ backgroundColor: 'var(--color-primary)' }}></div>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-[1px]"
+        style={{ backgroundColor: 'var(--color-primary)' }}></div>
     </div>
   );
 
@@ -222,31 +222,35 @@ function App() {
             )}
           </AnimatePresence>
 
+          {/* Header - Moved outside main content wrapper to fix positioning context */}
+          <AnimatePresence>
+            {showMainContent && <Header />}
+          </AnimatePresence>
+
           {/* Main Content with Smooth Entrance */}
           <AnimatePresence>
             {showMainContent && (
-                <motion.div
-                  className="min-h-screen relative"
-                  style={{ position: "relative" }}
-                  variants={mainContentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                >
-                  <Header />
-                  <motion.main className="relative">
+              <motion.div
+                className="min-h-screen relative"
+                style={{ position: "relative" }}
+                variants={mainContentVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+              >
+                <motion.main className="relative">
                   {/* Hero section with smooth entrance */}
-                  <motion.section 
+                  <motion.section
                     className="relative"
                     variants={{
                       hidden: { opacity: 0, scale: 0.98, y: 20 },
-                      visible: { 
-                        opacity: 1, 
-                        scale: 1, 
+                      visible: {
+                        opacity: 1,
+                        scale: 1,
                         y: 0,
-                        transition: { 
-                          duration: 1, 
-                          ease: [0.16, 1, 0.3, 1] 
+                        transition: {
+                          duration: 1,
+                          ease: [0.16, 1, 0.3, 1]
                         }
                       }
                     }}
@@ -280,9 +284,9 @@ function App() {
                     </AnimatePresence>
                     <HeroSection />
                   </motion.section>
-                  
+
                   <SectionDivider />
-                  
+
                   {/* Expertise section */}
                   <motion.section
                     id="expertise"
@@ -295,9 +299,9 @@ function App() {
                   >
                     <ExpertiseSection />
                   </motion.section>
-                  
+
                   <SectionDivider />
-                    {/* Skills section */}
+                  {/* Skills section */}
                   <motion.section
                     id="skills"
                     className="relative bg-gray-50 dark:bg-gray-950 cv-auto"
@@ -309,9 +313,9 @@ function App() {
                   >
                     <SkillsSection />
                   </motion.section>
-                  
+
                   <SectionDivider />
-                    {/* Prompt Engineering Showcase section */}
+                  {/* Prompt Engineering Showcase section */}
                   <motion.section
                     id="prompt-engineering"
                     className="relative cv-auto"
@@ -323,9 +327,9 @@ function App() {
                   >
                     <PromptEngineeringShowcase />
                   </motion.section>
-                  
+
                   <SectionDivider />
-                  
+
                   {/* Projects section */}
                   <motion.section
                     id="projects"
@@ -338,9 +342,9 @@ function App() {
                   >
                     <ProjectsSectionNew />
                   </motion.section>
-                  
+
                   <SectionDivider />
-                  
+
                   {/* Timeline section */}
                   <motion.section
                     id="timeline"

@@ -18,15 +18,15 @@ const Header = () => {
   useEffect(() => {
     // Use requestAnimationFrame for smoother scrolling effects
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           setScrolled(window.scrollY > 20);
-            // Determine which section is currently in view
+          // Determine which section is currently in view
           const sections = ['skills', 'expertise', 'prompt-engineering', 'projects', 'timeline'];
           let currentSection = 'home';
-          
+
           for (const section of sections) {
             const element = document.getElementById(section);
             if (element) {
@@ -37,15 +37,15 @@ const Header = () => {
               }
             }
           }
-          
+
           setActiveSection(currentSection);
           ticking = false;
         });
-        
+
         ticking = true;
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -59,187 +59,184 @@ const Header = () => {
   ];
 
   return (
-    <motion.header 
-      className={`fixed w-full transition-all duration-500 ${
-        mobileMenuOpen 
-          ? 'z-50 py-3 sm:py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700'
-          : scrolled 
-            ? 'z-50 py-2 sm:py-3 border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm' 
-            : 'z-50 py-3 sm:py-4 lg:py-5'
-      }`}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-      style={{ 
-        willChange: "transform, opacity",
-        // Let 3D glass show through; fallback blur only when menu open
-        backdropFilter: mobileMenuOpen ? 'saturate(120%) blur(10px)' : undefined,
-        WebkitBackdropFilter: mobileMenuOpen ? 'saturate(120%) blur(10px)' : undefined,
-      }}
-    >
+    <>
+      <motion.header
+        className={`fixed top-4 left-0 right-0 mx-auto z-50 transition-all duration-500 rounded-2xl border ${mobileMenuOpen
+            ? 'w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] xl:w-full max-w-7xl bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl border-gray-200 dark:border-gray-700 shadow-2xl'
+            : scrolled
+              ? 'w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] xl:w-full max-w-6xl py-2 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50 shadow-lg'
+              : 'w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] xl:w-full max-w-7xl py-3 bg-white/30 dark:bg-gray-900/30 backdrop-blur-md border-white/10 dark:border-gray-700/30 shadow-md'
+          }`}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          willChange: "transform, opacity, width, padding",
+        }}
+      >
 
-      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-        {/* Logo/Name with theme color - Responsive sizing */}
-        <motion.a 
-          href="#"
-          className="text-base sm:text-lg md:text-xl font-medium text-gray-900 dark:text-white lg:text-white flex items-center flex-shrink-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          {/* Aesthetic icon accent with theme color - hide on very small screens */}
-          <span 
-            className="hidden sm:flex w-5 md:w-6 h-5 md:h-6 mr-2 md:mr-3 items-center justify-center rounded-full border-2 opacity-80"
-            style={{ 
-              borderColor: currentColors.primary,
-              background: `linear-gradient(135deg, ${currentColors.primary}20, ${currentColors.secondary}20)`
-            }}
-          >
-            <span 
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: currentColors.primary }}
-            ></span>
-          </span>
-          <span className={`font-medium tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Lokesh Kumar</span>
-          <span style={{ color: currentColors.primary }} className="ml-1">A R</span>
-        </motion.a>
-
-        {/* Desktop Navigation - with theme colors and better spacing */}
-        <nav className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-          {navItems.map((item, index) => (
-            <motion.a 
-              key={item.id}
-              href={`#${item.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                const element = document.getElementById(item.id);
-                if (element) {
-                  const headerHeight = 80;
-                  smoothScrollTo(element, { offset: headerHeight });
-                }
-              }}
-              className={`text-xs lg:text-sm xl:text-sm tracking-wide font-medium transition-all relative ${
-                activeSection === item.id
-                  ? (isDarkMode ? 'text-white' : 'text-gray-900')
-                  : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900')
-              }`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                delay: 0.3 + (0.1 * index),
-                duration: 0.5,
-                ease: [0.25, 1, 0.5, 1]
-              }}
-            >
-              {item.label}
-              {activeSection === item.id && (
-                <motion.div 
-                  className="absolute -bottom-1 left-0 right-0 h-px"
-                  style={{ backgroundColor: currentColors.primary }}
-                  layoutId="activeNavIndicator"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-            </motion.a>
-          ))}
-        </nav>
-        
-        {/* Right section with theme toggle and resume button - improved spacing */}
-        <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-6">
-          <motion.button
-            onClick={toggleTheme}
-            className="p-2 focus:outline-none relative flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
-            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ delay: 0.5 }}
-          >
-            {isDarkMode ? (
-              <FaSun className="w-4 h-4" style={{ color: currentColors.secondary }} />
-            ) : (
-              <FaMoon className="w-4 h-4" style={{ color: currentColors.primary }} />
-            )}
-          </motion.button>
-          {/* AI Generalist Portfolio Button & Description (Desktop) */}
-          <div className="hidden lg:flex flex-col items-end mr-2">
-            <button
-              data-ai-portfolio-btn
-              onClick={() => setShowAIPortfolioOverlay(true)
-}
-              className="py-2 px-4 rounded-lg font-semibold text-white shadow-md transition-all duration-200 text-xs xl:text-sm"
-              style={{
-                background: `linear-gradient(90deg, ${currentColors.primary}, ${currentColors.secondary})`,
-                boxShadow: `0 2px 8px 0 ${currentColors.primary}40`
-              }}
-            >
-              My AI Generalist Portfolio
-            </button>
-          </div>
+        <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center gap-4 lg:gap-8">
+          {/* Logo/Name with theme color - Responsive sizing */}
           <motion.a
-            href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
-            className={`hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium transition-colors relative group flex-shrink-0 ${isDarkMode ? 'text-white hover:text-white' : 'text-gray-900 hover:text-gray-700'}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            className="text-base sm:text-lg md:text-xl font-medium text-gray-900 dark:text-white lg:text-white flex items-center flex-shrink-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            onClick={e => { e.stopPropagation(); }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <span className="relative z-10">Resume</span>
-            <span 
-              className="absolute bottom-0 left-0 w-full h-px transition-all duration-300 group-hover:h-full"
-              style={{ 
-                background: 'gray', 
-                backgroundImage: `linear-gradient(to right, ${currentColors.primary}, ${currentColors.secondary})`,
-                opacity: 0.1
+            {/* Aesthetic icon accent with theme color - hide on very small screens */}
+            <span
+              className="hidden sm:flex w-5 md:w-6 h-5 md:h-6 mr-2 md:mr-3 items-center justify-center rounded-full border-2 opacity-80"
+              style={{
+                borderColor: currentColors.primary,
+                background: `linear-gradient(135deg, ${currentColors.primary}20, ${currentColors.secondary}20)`
               }}
-            ></span>
+            >
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: currentColors.primary }}
+              ></span>
+            </span>
+            <span className={`font-medium tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Lokesh Kumar</span>
+            <span style={{ color: currentColors.primary }} className="ml-1">A R</span>
           </motion.a>
-          
-          {/* Mobile menu button with theme colors - show on lg and below */}
-          <motion.button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden bg-transparent border-none flex-shrink-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            whileTap={{ scale: 0.92 }}
-            transition={{ delay: 0.4 }}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            <div className="w-6 flex flex-col gap-[6px] items-end">
-              <motion.span 
-                className="h-[1px] block" 
-                style={{ background: isDarkMode ? '#fff' : '#000' }}
-                animate={mobileMenuOpen ? 
-                  { rotate: 45, y: 7, width: '100%', backgroundColor: currentColors.primary } : 
-                  { rotate: 0, width: '100%' }}
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span 
-                className="h-[1px] block" 
-                style={{ background: isDarkMode ? '#fff' : '#000' }}
-                animate={mobileMenuOpen ? 
-                  { opacity: 0, width: 0 } : 
-                  { opacity: 1, width: '75%' }}
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span 
-                className="h-[1px] block" 
-                style={{ background: isDarkMode ? '#fff' : '#000' }}
-                animate={mobileMenuOpen ? 
-                  { rotate: -45, y: -7, width: '100%', backgroundColor: currentColors.primary } : 
-                  { rotate: 0, width: '50%' }}
-                transition={{ duration: 0.2 }}
-              />
+
+          {/* Desktop Navigation - with theme colors and better spacing */}
+          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-8">
+            {navItems.map((item, index) => (
+              <motion.a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById(item.id);
+                  if (element) {
+                    const headerHeight = 80;
+                    smoothScrollTo(element, { offset: headerHeight });
+                  }
+                }}
+                className={`text-xs lg:text-sm xl:text-sm tracking-wide font-medium transition-all relative ${activeSection === item.id
+                    ? (isDarkMode ? 'text-white' : 'text-gray-900')
+                    : (isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900')
+                  }`}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: 0.3 + (0.1 * index),
+                  duration: 0.5,
+                  ease: [0.25, 1, 0.5, 1]
+                }}
+              >
+                {item.label}
+                {activeSection === item.id && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-px"
+                    style={{ backgroundColor: currentColors.primary }}
+                    layoutId="activeNavIndicator"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.a>
+            ))}
+          </nav>
+
+          {/* Right section with theme toggle and resume button - improved spacing */}
+          <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-6">
+            <motion.button
+              onClick={toggleTheme}
+              className="p-2 focus:outline-none relative flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ delay: 0.5 }}
+            >
+              {isDarkMode ? (
+                <FaSun className="w-4 h-4" style={{ color: currentColors.secondary }} />
+              ) : (
+                <FaMoon className="w-4 h-4" style={{ color: currentColors.primary }} />
+              )}
+            </motion.button>
+            {/* AI Generalist Portfolio Button & Description (Desktop) */}
+            <div className="hidden lg:flex flex-col items-end mr-2">
+              <button
+                data-ai-portfolio-btn
+                onClick={() => setShowAIPortfolioOverlay(true)
+                }
+                className="py-2 px-4 rounded-lg font-semibold text-white shadow-md transition-all duration-200 text-xs xl:text-sm"
+                style={{
+                  background: `linear-gradient(90deg, ${currentColors.primary}, ${currentColors.secondary})`,
+                  boxShadow: `0 2px 8px 0 ${currentColors.primary}40`
+                }}
+              >
+                My AI Generalist Portfolio
+              </button>
             </div>
-          </motion.button>
+            <motion.a
+              href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
+              className={`hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium transition-colors relative group flex-shrink-0 ${isDarkMode ? 'text-white hover:text-white' : 'text-gray-900 hover:text-gray-700'}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              onClick={e => { e.stopPropagation(); }}
+            >
+              <span className="relative z-10">Resume</span>
+              <span
+                className="absolute bottom-0 left-0 w-full h-px transition-all duration-300 group-hover:h-full"
+                style={{
+                  background: 'gray',
+                  backgroundImage: `linear-gradient(to right, ${currentColors.primary}, ${currentColors.secondary})`,
+                  opacity: 0.1
+                }}
+              ></span>
+            </motion.a>
+
+            {/* Mobile menu button with theme colors - show on lg and below */}
+            <motion.button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden bg-transparent border-none flex-shrink-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ delay: 0.4 }}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <div className="w-6 flex flex-col gap-[6px] items-end">
+                <motion.span
+                  className="h-[1px] block"
+                  style={{ background: isDarkMode ? '#fff' : '#000' }}
+                  animate={mobileMenuOpen ?
+                    { rotate: 45, y: 7, width: '100%', backgroundColor: currentColors.primary } :
+                    { rotate: 0, width: '100%' }}
+                  transition={{ duration: 0.2 }}
+                />
+                <motion.span
+                  className="h-[1px] block"
+                  style={{ background: isDarkMode ? '#fff' : '#000' }}
+                  animate={mobileMenuOpen ?
+                    { opacity: 0, width: 0 } :
+                    { opacity: 1, width: '75%' }}
+                  transition={{ duration: 0.2 }}
+                />
+                <motion.span
+                  className="h-[1px] block"
+                  style={{ background: isDarkMode ? '#fff' : '#000' }}
+                  animate={mobileMenuOpen ?
+                    { rotate: -45, y: -7, width: '100%', backgroundColor: currentColors.primary } :
+                    { rotate: 0, width: '50%' }}
+                  transition={{ duration: 0.2 }}
+                />
+              </div>
+            </motion.button>
+          </div>
         </div>
-      </div>
-      
+      </motion.header>
+
       {/* Mobile menu - Full screen height coverage */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -256,7 +253,7 @@ const Header = () => {
               {/* Header area */}
               <div className="flex justify-between items-center px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex-shrink-0">
                 <div className="flex items-center">
-                  <span 
+                  <span
                     className="w-4 h-px mr-3"
                     style={{ backgroundColor: currentColors.primary }}
                   />
@@ -264,7 +261,7 @@ const Header = () => {
                     Lokesh Kumar <span style={{ color: currentColors.primary }}>A R</span>
                   </span>
                 </div>
-                
+
                 {/* Close button */}
                 <button
                   onClick={() => setMobileMenuOpen(false)}
@@ -285,11 +282,10 @@ const Header = () => {
                       <motion.a
                         key={item.id}
                         href={`#${item.id}`}
-                        className={`block text-xl font-medium py-6 px-4 rounded-lg transition-all duration-200 ${
-                          activeSection === item.id 
-                            ? 'bg-gray-100 dark:bg-gray-800' 
+                        className={`block text-xl font-medium py-6 px-4 rounded-lg transition-all duration-200 ${activeSection === item.id
+                            ? 'bg-gray-100 dark:bg-gray-800'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
-                        }`}
+                          }`}
                         style={activeSection === item.id ? { color: currentColors.primary } : {
                           color: isDarkMode ? '#e5e7eb' : '#374151'
                         }}
@@ -306,7 +302,7 @@ const Header = () => {
                         }}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ 
+                        transition={{
                           delay: 0.05 * index,
                           duration: 0.3,
                           ease: "easeOut"
@@ -314,7 +310,7 @@ const Header = () => {
                       >
                         <div className="flex items-center">
                           {activeSection === item.id && (
-                            <motion.div 
+                            <motion.div
                               className="w-1 h-6 rounded-full mr-3"
                               style={{ backgroundColor: currentColors.primary }}
                               layoutId="mobileActiveIndicator"
@@ -354,15 +350,15 @@ const Header = () => {
                 <motion.a
                   href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
                   className={`block w-full py-4 px-6 text-center text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}
-                  style={{ 
-                    background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})` 
+                  style={{
+                    background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})`
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={e => { e.stopPropagation(); }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ 
+                  transition={{
                     delay: 0.2,
                     duration: 0.3,
                     ease: "easeOut"
@@ -411,7 +407,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 };
 
