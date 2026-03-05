@@ -175,7 +175,7 @@ const Header = () => {
               </button>
             </div>
             <motion.a
-              href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
+              href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2026.pdf'}
               className={`hidden lg:flex py-2 px-3 xl:px-5 text-xs xl:text-sm font-medium transition-colors relative group flex-shrink-0 ${isDarkMode ? 'text-white hover:text-white' : 'text-gray-900 hover:text-gray-700'}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -348,7 +348,7 @@ const Header = () => {
                   </button>
                 </div>
                 <motion.a
-                  href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2025.pdf'}
+                  href={import.meta.env.BASE_URL + 'Lokesh_Kumar_AR_Resume_2026.pdf'}
                   className={`block w-full py-4 px-6 text-center text-lg font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}
                   style={{
                     background: `linear-gradient(135deg, ${currentColors.primary}, ${currentColors.secondary})`

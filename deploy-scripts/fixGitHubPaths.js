@@ -195,7 +195,7 @@ function fixPaths(directory) {
         content = content.replace(/['"](?!\.\/|http|\.\.\/|\/)(assets\/[^'"]*)['"]/g, '"./assets/$1"');
 
   // Fix specific resume PDF path in JS files
-  content = content.replace(/['"]\/Lokesh_Kumar_AR_Resume_2025\.pdf['"]/g, '"./Lokesh_Kumar_AR_Resume_2025.pdf"');
+  content = content.replace(/['"]\/Lokesh_Kumar_AR_Resume_2026\.pdf['"]/g, '"./Lokesh_Kumar_AR_Resume_2026.pdf"');
 
         // Fix texture file paths in any JS bundle (Three.js cube textures often appear as '/px.png', etc.)
         if (file.endsWith('.js')) {
@@ -344,7 +344,7 @@ function copyPublicAssets() {
     
     // Copy other important files from public to dist root
   // Include the specific resume PDF in the copy list
-  const importantFiles = ['manifest.json', 'manifest.webmanifest', 'Lokesh_Kumar_AR_Resume_2025.pdf', '404.html'];
+  const importantFiles = ['manifest.json', 'manifest.webmanifest', 'Lokesh_Kumar_AR_Resume_2026.pdf', '404.html'];
     importantFiles.forEach(file => {
       const src = path.join(publicDir, file);
       if (fs.existsSync(src)) {

@@ -17,7 +17,7 @@ export default defineConfig({
     VitePWA({
       strategies: 'generateSW',
       registerType: 'prompt',
-      includeAssets: ['vite.svg', 'robots.txt', '*.png', 'textures/**/*', 'Lokesh_Kumar_AR_Resume_2025.pdf'],
+      includeAssets: ['vite.svg', 'robots.txt', '*.png', 'textures/**/*', 'Lokesh_Kumar_AR_Resume_2026.pdf'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,ico,pdf}'],
         navigateFallback: 'index.html',
